@@ -1,0 +1,17 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "ANTLRStudio", "ANTLRStudio\ANTLRStudio.fsproj", "{81940932-3287-41C6-B55B-CB5F7DD59BAB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{81940932-3287-41C6-B55B-CB5F7DD59BAB}.Debug|x86.ActiveCfg = Debug|x86
+		{81940932-3287-41C6-B55B-CB5F7DD59BAB}.Debug|x86.Build.0 = Debug|x86
+		{81940932-3287-41C6-B55B-CB5F7DD59BAB}.Release|x86.ActiveCfg = Release|x86
+		{81940932-3287-41C6-B55B-CB5F7DD59BAB}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+EndGlobal
