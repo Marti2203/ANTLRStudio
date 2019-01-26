@@ -3,9 +3,9 @@ open System.Reflection
 open System.Runtime.CompilerServices
 
 [<assembly: AssemblyTitle("ANTLRStudio")>]
-[<assembly: AssemblyDescription("")>]
+[<assembly: AssemblyDescription("Main Project for ANTLRStudio")>]
 [<assembly: AssemblyConfiguration("")>]
-[<assembly: AssemblyCompany("")>]
+[<assembly: AssemblyCompany("NONE")>]
 [<assembly: AssemblyProduct("")>]
 [<assembly: AssemblyCopyright("")>]
 [<assembly: AssemblyTrademark("")>]

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from /home/martin/Projects/ANTLRStudio/ANTLRStudio/Parser/ANTLRv4Parser.g4 by ANTLR 4.7.1
+// Generated from /home/martin/Projects/ANTLRStudio/Parser/ANTLRv4Parser.g4 by ANTLR 4.7.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -19,6 +19,7 @@
 // Ambiguous reference in cref attribute
 #pragma warning disable 419
 
+namespace ANTLRStudio.Parser {
 using Antlr4.Runtime.Misc;
 using IParseTreeListener = Antlr4.Runtime.Tree.IParseTreeListener;
 using IToken = Antlr4.Runtime.IToken;
@@ -671,3 +672,4 @@ public interface IANTLRv4ParserListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitIdentifier([NotNull] ANTLRv4Parser.IdentifierContext context);
 }
+} // namespace ANTLRStudio.Parser

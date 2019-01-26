@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "ANTLRStudio", "ANTLRStudio\ANTLRStudio.fsproj", "{81940932-3287-41C6-B55B-CB5F7DD59BAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio.Parser", "Parser\ANTLRStudio.Parser.csproj", "{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -13,5 +15,9 @@ Global
 		{81940932-3287-41C6-B55B-CB5F7DD59BAB}.Debug|x86.Build.0 = Debug|x86
 		{81940932-3287-41C6-B55B-CB5F7DD59BAB}.Release|x86.ActiveCfg = Release|x86
 		{81940932-3287-41C6-B55B-CB5F7DD59BAB}.Release|x86.Build.0 = Release|x86
+		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Debug|x86.Build.0 = Debug|Any CPU
+		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Release|x86.ActiveCfg = Release|Any CPU
+		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

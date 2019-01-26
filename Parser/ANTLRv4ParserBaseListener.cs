@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from /home/martin/Projects/ANTLRStudio/ANTLRStudio/Parser/ANTLRv4Parser.g4 by ANTLR 4.7.1
+// Generated from /home/martin/Projects/ANTLRStudio/Parser/ANTLRv4Parser.g4 by ANTLR 4.7.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -19,6 +19,7 @@
 // Ambiguous reference in cref attribute
 #pragma warning disable 419
 
+namespace ANTLRStudio.Parser {
 
 using Antlr4.Runtime.Misc;
 using IErrorNode = Antlr4.Runtime.Tree.IErrorNode;
@@ -816,3 +817,4 @@ public partial class ANTLRv4ParserBaseListener : IANTLRv4ParserListener {
 	/// <remarks>The default implementation does nothing.</remarks>
 	public virtual void VisitErrorNode([NotNull] IErrorNode node) { }
 }
+} // namespace ANTLRStudio.Parser

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generated from /home/martin/Projects/ANTLRStudio/ANTLRStudio/Parser/ANTLRv4Lexer.g4 by ANTLR 4.7.1
+// Generated from /home/martin/Projects/ANTLRStudio/Parser/ANTLRv4Lexer.g4 by ANTLR 4.7.1
 
 // Unreachable code detected
 #pragma warning disable 0162
@@ -19,6 +19,7 @@
 // Ambiguous reference in cref attribute
 #pragma warning disable 419
 
+namespace ANTLRStudio.Parser {
 using System;
 using System.IO;
 using System.Text;
@@ -980,3 +981,4 @@ public partial class ANTLRv4Lexer : LexerAdaptor {
 
 
 }
+} // namespace ANTLRStudio.Parser
