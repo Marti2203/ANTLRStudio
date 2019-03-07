@@ -1,78 +1,100 @@
 ﻿module DiagramTest
 open RailwayPortPy
-let t v = Choice2Of2 v
+let text v = Choice2Of2 v
+let items vs = Diagram vs
+let itemsTwo (a,b) = items [a;b]
+let itemsThree (a,b,c) = items[a;b;c] 
+let inline item (v:'a :> DiagramItem)= Choice1Of2 (v :> DiagramItem)
+let nonterm v = NonTerminal(v)
+let nontermItem v = (nonterm >> item) v
+let term v = Terminal(v)
+let zeroMore v = ZeroOrMore(v,None,false)
+let zeroMoreItem v = (zeroMore >> item) v
+let oneMore v = OneOrMore(v)
+let oneMoreRepeat v r = OneOrMore(v,r)
+let oneMoreRepeatItem v r = oneMoreRepeat v r |> item 
+let oneMoreItem v = (oneMore >> item) v
+let choice i vs = Choice(i,vs)
+let choiceItem i vs = ((choice i) >> item) vs
+let choiceItemZ vs = choiceItem 0 vs
+let sequence vs = Sequence(vs)
+let sequenceItem vs = (sequence >> item) vs 
+let comment v = Comment(v)
+let commentItem v = (comment >> item) v 
+let optional v skip = Optional(v,false)
+let optionalItem v skip = (optional v skip) |> item
 let test writer = 
-        add("comment", Diagram( [t "/*"
-                                 ZeroOrMore(Choice1Of2(NonTerminal "anything but * followed by /" :> DiagramItem),None,false) 
-                                 :> DiagramItem |> Choice1Of2
-                                 t "*/"
-                                 ]), writer)
+        add("comment", items [text "/*"
+                              "anything but * followed by /" |> nontermItem |> zeroMoreItem
+                              text "*/"
+                              ], writer)
 
-        add("newline", Diagram([Choice1Of2(Choice(0, 
-                                                    [t "\\n"
-                                                     t "\\r\\n"
-                                                     t "\\r"
-                                                     t "\\f"]):> DiagramItem)]),writer)
+        add("newline", items [choiceItemZ [text"\\n"
+                                           text"\\r\\n"
+                                           text"\\r"
+                                           text"\\f"]],writer)
 
-        add("whitespace", Diagram([Choice1Of2(Choice(0, [Choice2Of2("space")
-                                                         Choice2Of2("\\t")
-                                                         Choice1Of2(NonTerminal("newline") :> DiagramItem)]):> DiagramItem)]),writer)
+        add("whitespace", items [choiceItemZ [text"space"
+                                              text"\\t"
+                                              nontermItem "newline"]],writer)
 
-        add("hex digit", Diagram([Choice1Of2(NonTerminal("0-9 a-f or A-F"):> DiagramItem)]),writer)
+        add("hex digit", items[nontermItem "0-9 a-f or A-F"],writer)
 
-        //add("escape", Diagram([Choice2Of2 "\\"
-                               //Choice1Of2(Choice(0,[Choice1Of2 NonTerminal "not newline or hex digit"
-                                              //      Choice1Of2(Sequence([Choice1Of1 OneOrMore(NonTerminal("hex digit"), Comment("1-6 times"))), 
-                                              //Optional(NonTerminal("whitespace"), "skip")])))]]),writer)
+        add("escape", items [text "\\"
+                             choiceItemZ [nontermItem"not newline or hex digit"
+                                          sequenceItem [oneMoreRepeatItem <| nontermItem "hex digit" <| commentItem "1-6 times" 
+                                                        optionalItem <| nonterm "whitespace" <| true]]],writer)
 
-        add("<whitespace-token>", Diagram([OneOrMore(NonTerminal("whitespace") :> DiagramItem |> Choice1Of2) 
-                                           :> DiagramItem |> Choice1Of2]),writer )
+        add("<whitespace-token>", items ["whitespace" |> nontermItem |> oneMoreItem],writer)
 
-        add("ws*", Diagram([ZeroOrMore(NonTerminal("<whitespace-token>") :> DiagramItem |> Choice1Of2,None,false)
-                            :> DiagramItem |> Choice1Of2]),writer)
+        add("ws*", items["<whitespace-token>" |> nontermItem |> zeroMoreItem],writer)
 
-        //add("<ident-token>", Diagram( Choice(0, Skip(), "-"),
-        //                              Choice(0, NonTerminal("a-z A-Z _ or non-ASCII"), NonTerminal("escape")),
-        //                              ZeroOrMore(Choice(0,NonTerminal("a-z A-Z 0-9 _ - or non-ASCII"), NonTerminal("escape")))))
+        add("<ident-token>", items[choiceItemZ [Skip() |> item ; text "-"]
+                                   choiceItemZ [nontermItem "a-z A-Z _ or non-ASCII"; nontermItem "escape"]
+                                   zeroMoreItem <| choiceItemZ[nontermItem "a-z A-Z 0-9 _ - or non-ASCII"; nontermItem "escape" ]],writer)
 
-        //add("<function-token>", Diagram( NonTerminal("<ident-token>"), "("))
+        add("<function-token>", items[ nontermItem "<ident-token>"; text "("],writer)
 
-        //add("<at-keyword-token>", Diagram( "@", NonTerminal("<ident-token>")))
+        add("<at-keyword-token>", itemsTwo(text "@", nontermItem "<ident-token>"), writer)
 
-        //add("<hash-token>", Diagram( "#", OneOrMore(Choice(0, NonTerminal("a-z A-Z 0-9 _ - or non-ASCII"), NonTerminal("escape")))))
+        add("<hash-token>", itemsTwo( text "#", [nontermItem "a-z A-Z 0-9 _ - or non-ASCII"
+                                                 nontermItem "escape"] |>  choiceItemZ |> oneMoreItem),writer)
 
-        //add("<string-token>", Diagram( Choice(0,
-        //                                Sequence(
-        //                                    """,
-        //                                    ZeroOrMore(
-        //                                        Choice(0,
-        //                                            NonTerminal("not " \\ or newline"),
-        //                                            NonTerminal("escape"),
-        //                                            Sequence("\\", NonTerminal("newline")))),
-        //                                    """),
-        //                                Sequence("\"",
-        //                                            ZeroOrMore(
-        //                                                Choice(0,
-        //                                                    NonTerminal("not ' \\ or newline"),
-        //                                                    NonTerminal("escape"),
-        //                                                    Sequence("\\", NonTerminal("newline")))),
-        //                                            "\""))))
+        //add("<string-token>", items[ choiceItemZ [
+                                        //sequenceItem [ text "\""
+                                        //               [
+                                        //               nontermItem "not \" \\ or newline"
+                                        //               nontermItem "escape"
+                                        //               sequenceItem [text "\\" ; nontermItem "newline"]
+                                        //               ] |> choiceItemZ |> zeroMoreItem
+                                        //               text "\""
+                                        //             ]
+                                        ////sequenceItem [ text "'"
+                                                    ////   [
+                                                    ////    nontermItem "not ' \\ or newline"
+                                                    ////    nontermItem "escape"
+                                                    ////    sequenceItem [text "\\" ; nontermItem "newline"]
+                                                    ////   ] |> choiceItemZ |> zeroMoreItem 
+                                                    ////   text"'" ]
+                                                    ////]
+                                                    //]],writer)
+        add("<url-token>", items [
+            nontermItem "<ident-token \"url\">"
+            text "("
+            nontermItem "ws*"
+            optionalItem <| sequence [
+                choiceItemZ[nontermItem "url-unquoted"
+                            nontermItem "STRING"]
+                nontermItem "ws*"
+            ] <| false
+            text ")"],writer)
 
-        //add("<url-token>", Diagram(
-        //    NonTerminal("<ident-token "url">"),
-        //    "(",
-        //    NonTerminal("ws*"),
-        //    Optional(Sequence(
-        //        Choice(0, NonTerminal("url-unquoted"), NonTerminal("STRING")),
-        //        NonTerminal("ws*"))),
-        //    ")"))
-
-        //add("url-unquoted", Diagram(OneOrMore(
+        //add("url-unquoted", items(OneOrMore(
         //    Choice(0,
         //        NonTerminal("not \" ' ( ) \\ whitespace or non-printable"),
         //        NonTerminal("escape")))))
 
-        //add("<number-token>", Diagram(
+        //add("<number-token>", items(
         //    Choice(1, "+", Skip(), "-"),
         //    Choice(0,
         //        Sequence(
@@ -90,13 +112,13 @@ let test writer =
         //            Choice(1, "+", Skip(), "-"),
         //            OneOrMore(NonTerminal("digit"))))))
 
-        //add("<dimension-token>", Diagram(
+        //add("<dimension-token>", items(
         //    NonTerminal("<number-token>"), NonTerminal("<ident-token>")))
 
-        //add("<percentage-token>", Diagram(
+        //add("<percentage-token>", items(
         //    NonTerminal("<number-token>"), "%"))
 
-        //add("<unicode-range-token>", Diagram(
+        //add("<unicode-range-token>", items(
         //    Choice(0,
         //        "U",
         //        "u"),
@@ -113,22 +135,21 @@ let test writer =
 
         //NonTerminal = NonTerminal
 
-        //add("Stylesheet", Diagram(ZeroOrMore(Choice(3,
+        //add("Stylesheet", items(ZeroOrMore(Choice(3,
         //    NonTerminal("<CDO-token>"), NonTerminal("<CDC-token>"), NonTerminal("<whitespace-token>"),
         //    NonTerminal("Qualified rule"), NonTerminal("At-rule")))))
 
-        //add("Rule list", Diagram(ZeroOrMore(Choice(1,
+        //add("Rule list", items(ZeroOrMore(Choice(1,
         //    NonTerminal("<whitespace-token>"), NonTerminal("Qualified rule"), NonTerminal("At-rule")))))
 
-        //add("At-rule", Diagram(
+        //add("At-rule", items(
         //    NonTerminal("<at-keyword-token>"), ZeroOrMore(NonTerminal("Component value")),
         //    Choice(0, NonTerminal("{} block"), "")))
 
-        //add("Qualified rule", Diagram(
-        //    ZeroOrMore(NonTerminal("Component value")),
-        //    NonTerminal("{} block")))
+        add("Qualified rule", items[ "Component value" |> nontermItem |> zeroMoreItem
+                                     "{} block" |> nontermItem],writer)
 
-        //add("Declaration list", Diagram(
+        //add("Declaration list", items(
         //    NonTerminal("ws*"),
         //    Choice(0,
         //        Sequence(
@@ -138,36 +159,39 @@ let test writer =
         //            NonTerminal("At-rule"),
         //            NonTerminal("Declaration list")))))
 
-        //add("Declaration", Diagram(
-        //    NonTerminal("<ident-token>"), NonTerminal("ws*"), ":",
-        //    ZeroOrMore(NonTerminal("Component value")), Optional(NonTerminal("!important"))))
+        add("Declaration", items [
+            nontermItem "<ident-token>"
+            nontermItem "ws*"
+            text ":"
+            ZeroOrMore(nontermItem "Component value", Some("!important" |> nonterm |> optionalItem <| false) ,false) |> item
+        ],writer)
 
-        //add("!important", Diagram(
-        //    "!", NonTerminal("ws*"), NonTerminal("<ident-token "important">"), NonTerminal("ws*")))
+        add("!important", items[ text "!";nontermItem "ws*"; nontermItem "<ident-token \"important\">";nontermItem "ws*"],writer)
 
-        //add("Component value", Diagram(Choice(0,
-        //    NonTerminal("Preserved token"),
-        //    NonTerminal("{} block"),
-        //    NonTerminal("() block"),
-        //    NonTerminal("[] block"),
-        //    NonTerminal("Function block"))))
+        add("Component value", items[choiceItemZ [
+            "Preserved token" |> nontermItem
+            "{} block" |> nontermItem
+            "() block" |> nontermItem
+            "[] block" |> nontermItem
+            "Function block" |> nontermItem
+        ]],writer)
 
 
-        //add("{} block", Diagram("{", ZeroOrMore(NonTerminal("Component value")), "}"))
-        //add("() block", Diagram("(", ZeroOrMore(NonTerminal("Component value")), ")"))
-        //add("[] block", Diagram("[", ZeroOrMore(NonTerminal("Component value")), "]"))
+        add("{} block", items[text "{"; "Component value" |> nontermItem |> zeroMoreItem; text "}"],writer)
+        add("() block", items[text "("; "Component value" |> nontermItem |> zeroMoreItem; text ")"],writer)
+        add("[] block", items[text "["; "Component value" |> nontermItem |> zeroMoreItem; text "]"],writer)
 
-        //add("Function block", Diagram(
+        //add("Function block", items(
         //    NonTerminal("<function-token>"),
         //    ZeroOrMore(NonTerminal("Component value")),
         //    ")"))
 
-        //add("glob pattern", Diagram(
+        //add("glob pattern", items(
         //    AlternatingSequence(
         //        NonTerminal("ident"),
         //        "*")))
 
-        //add("SQL", Diagram(
+        //add("SQL", items(
         //    Stack(
         //        Sequence(
         //            "SELECT",

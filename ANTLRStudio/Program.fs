@@ -5,6 +5,8 @@ open System;
 open Eto;
 open Eto.Forms;
 open Eto.Drawing;
+let RadioMenuItem = Menu.RadioMenuItem
+let CheckMenuItem = Menu.CheckMenuItem
 let insertMenus (app:Application) (form:Form) =
     let menu = new MenuBar()
     let menus = [
@@ -12,7 +14,30 @@ let insertMenus (app:Application) (form:Form) =
                     [
                     ActionMenuItem("Open") |> action (fun _ -> Console.WriteLine("HI!"))
                     ActionMenuItem("Quit") |> action (fun _ -> app.Quit())
+                    ]) 
+                SubMenu("Language",[
+                                    RadioMenuItem("Languages","C#") |> action (fun _ -> Console.WriteLine("HI!"))
+                                    RadioMenuItem("Languages","Java") |> action (fun _ -> Console.WriteLine("HI!"))
+                                    RadioMenuItem("Languages","JavaScript") |> action (fun _ -> Console.WriteLine("HI!"))
+                                    RadioMenuItem("Languages","C++") |> action (fun _ -> Console.WriteLine("HI!"))
+                                    RadioMenuItem("Languages","Python 2") |> action (fun _ -> Console.WriteLine("HI!"))
+                                    RadioMenuItem("Languages","Python 3") |> action (fun _ -> Console.WriteLine("HI!"))
+                                    RadioMenuItem("Languages","Go") |> action (fun _ -> Console.WriteLine("HI!"))
+                                    RadioMenuItem("Languages","Swift") |> action (fun _ -> Console.WriteLine("HI!"))
                     ])
+                SubMenu("Options",[
+                    CheckMenuItem("ATN")
+                    CheckMenuItem("Long Messages")
+                    CheckMenuItem("Listener") |> check
+                    CheckMenuItem("Visitor")
+                    CheckMenuItem("Generate Dependecies")
+                    CheckMenuItem("Treat Errors as warings")
+                    CheckMenuItem("Launch StringTemplate visualizer")
+                    CheckMenuItem("Wait StringTemplate visualizer before contiunuing")
+                    CheckMenuItem("Force ATN Simulation")
+                    CheckMenuItem("Dump Logging info")
+                ])
+                ActionMenuItem("Generate") |> action (fun _ -> Console.WriteLine("HI!"))
                 ]
     menus |> Seq.iter (menu.Items.Add << makeMenu)
     form.Menu <- menu
