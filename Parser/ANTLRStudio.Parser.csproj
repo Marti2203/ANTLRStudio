@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Parser</RootNamespace>
     <AssemblyName>Parser</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,27 +28,41 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="Antlr4.Runtime.Standard">
+      <HintPath>..\packages\Antlr4.Runtime.Standard.4.7.2\lib\net35\Antlr4.Runtime.Standard.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Parser.cs" />
+    <Compile Include="LexBasic.cs" />
+    <Compile Include="ANTLRv4ParserListener.cs" />
+    <Compile Include="ANTLRv4Parser.cs" />
+    <Compile Include="ANTLRv4Lexer.cs" />
+    <Compile Include="LexerAdaptor.cs" />
+    <Compile Include="Properties\ANTLRv4ParserBaseVisitor.cs" />
+    <Compile Include="Properties\ANTLRv4ParserVisitor.cs" />
+    <Compile Include="ANTLRv4ParserBaseVisitor.cs" />
+    <Compile Include="ANTLRv4ParserVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LexBasic.g4" />
     <None Include="ANTLRv4Parser.g4" />
     <None Include="ANTLRv4Lexer.g4" />
     <None Include="LexBasic.tokens" />
-    <None Include="LexBasic.cs" />
     <None Include="ANTLRv4Parser.tokens" />
     <None Include="ANTLRv4ParserBaseListener.cs" />
-    <None Include="ANTLRv4ParserListener.cs" />
-    <None Include="ANTLRv4Parser.cs" />
     <None Include="LexBasic.interp" />
     <None Include="ANTLRv4Parser.interp" />
     <None Include="ANTLRv4Lexer.tokens" />
-    <None Include="ANTLRv4Lexer.cs" />
     <None Include="ANTLRv4Lexer.interp" />
-    <None Include="LexerAdaptor.cs" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ANTLRStudio\ANTLRStudio.fsproj">
+      <Project>{81940932-3287-41C6-B55B-CB5F7DD59BAB}</Project>
+      <Name>ANTLRStudio</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

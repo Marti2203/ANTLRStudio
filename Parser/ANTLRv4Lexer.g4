@@ -29,10 +29,10 @@
  *  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /**
- *	A grammar for ANTLR v4 implemented using v4 syntax
+ *   A grammar for ANTLR v4 implemented using v4 syntax
  *
- *	Modified 2015.06.16 gbr
- *	-- update for compatibility with Antlr v4.5
+ *   Modified 2015.06.16 gbr
+ *   -- update for compatibility with Antlr v4.5
  */
 lexer grammar ANTLRv4Lexer;
 
@@ -95,7 +95,7 @@ BEGIN_ARGUMENT
    // Actions
 
 BEGIN_ACTION
-   : LBrace -> pushMode (Action)
+   : LBrace -> pushMode (ActionM)
    ;
    // -------------------------
    // Keywords
@@ -339,9 +339,9 @@ ARGUMENT_CONTENT
    // that they are delimited by ' or " and so consume these
    // in their own alts so as not to inadvertantly match {}.
 
-mode Action;
+mode ActionM;
 NESTED_ACTION
-   : LBrace -> type (ACTION_CONTENT) , pushMode (Action)
+   : LBrace -> type (ACTION_CONTENT) , pushMode (ActionM)
    ;
 
 ACTION_ESCAPE

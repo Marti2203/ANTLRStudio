@@ -1,18 +1,21 @@
 ﻿namespace GrammarGrammar
 {
-
+    using System.IO;
     using Antlr4.Runtime;
     using Antlr4.Runtime.Misc;
+    using ANTLRStudio.Parser;
 
 #pragma warning disable CA1012 // Abstract types should not have constructors
     public abstract class LexerAdaptor : Lexer
 #pragma warning restore CA1012 // But Lexer demands it
     {
-        public LexerAdaptor(ICharStream input)
+        protected LexerAdaptor(ICharStream input)
             : base(input)
         {
         }
-
+        protected LexerAdaptor(ICharStream input, TextWriter output, TextWriter errorOutput)
+        : base(input, output, errorOutput)
+        { }
         /**
          * Track whether we are inside of a rule and whether it is lexical parser. _currentRuleType==TokenConstants.InvalidType
          * means that we are outside of a rule. At the first sign of a rule name reference and _currentRuleType==invalid, we
@@ -25,7 +28,7 @@
          * The whole point of this state information is to distinguish between [..arg actions..] and [charsets]. Char sets
          * can only occur in lexical rules and arg actions cannot occur.
          */
-        private int _currentRuleType = TokenConstants.InvalidType;
+        private int _currentRuleType;
 
         public int getCurrentRuleType()
         {
@@ -53,7 +56,7 @@
         protected void handleEndArgument()
         {
             PopMode();
-            if (_modeStack.Count > 0)
+            if (ModeStack.Count > 0)
             {
                 setCurrentRuleType(ANTLRv4Lexer.ARGUMENT_CONTENT);
             }
@@ -62,7 +65,7 @@
         protected void handleEndAction()
         {
             PopMode();
-            if (_modeStack.Count > 0)
+            if (ModeStack.Count > 0)
             {
                 setCurrentRuleType(ANTLRv4Lexer.ACTION_CONTENT);
             }
@@ -71,24 +74,24 @@
 
         public override IToken NextToken()
         {
-            if (_type == ANTLRv4Lexer.ID)
+            if (Type == ANTLRv4Lexer.ID)
             {
-                string firstChar = _input.GetText(Interval.Of(_tokenStartCharIndex, _tokenStartCharIndex));
-                if (char.IsUpper(firstChar[0]))
+                //string firstChar = Text[0];// (Interval.Of(TokenStartCharIndex, TokenStartCharIndex));
+                if (char.IsUpper(Text[0]))
                 {
-                    _type = ANTLRv4Lexer.TOKEN_REF;
+                    Type = ANTLRv4Lexer.TOKEN_REF;
                 }
                 else
                 {
-                    _type = ANTLRv4Lexer.RULE_REF;
+                    Type = ANTLRv4Lexer.RULE_REF;
                 }
 
                 if (_currentRuleType == TokenConstants.InvalidType)
                 { // if outside of rule def
-                    _currentRuleType = _type; // set to inside lexer or parser rule
+                    _currentRuleType = Type; // set to inside lexer or parser rule
                 }
             }
-            else if (_type == ANTLRv4Lexer.SEMI)
+            else if (Type == ANTLRv4Lexer.SEMI)
             { // exit rule def
                 _currentRuleType = TokenConstants.InvalidType;
             }
