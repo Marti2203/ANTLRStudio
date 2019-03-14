@@ -9,15 +9,15 @@ type TCell =
 | EmptyElement
 | TableEl of Table
 and TRow =
-| Row of TCell list
-| StretchedRow of TCell list
+| Row of TCell seq
+| StretchedRow of TCell seq
 | Spacing of Size
 | Pad of Padding
-and Table = Tbl of TRow list
+and Table = Tbl of TRow seq
 let rec makeLayout (Tbl t) =
     let ret = new TableLayout()
     for r in t  do
-        let makeTd (tds:TCell list) =
+        let makeTd (tds:TCell seq) =
             let row = new TableRow()
             for td in tds do
                 match td with
@@ -37,7 +37,7 @@ type Menu =
     | ActionMenuItem of string
     | RadioMenuItem of string*string
     | CheckMenuItem of string
-    | SubMenu of string*Menu list
+    | SubMenu of string*Menu seq
     | Action of Menu*(MenuItem -> unit)
     | Check of Menu*bool
     | Shortcut of Menu*Keys

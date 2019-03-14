@@ -46,7 +46,7 @@ type DiagramItem(name,?attributes,?text) =
 
         abstract format : float32 * float32 * float32 -> DiagramItem
         default self.format (x,y,width) = self
-        member self.addTo(parent:DiagramItem) =
+        member self.addTo(parent:#DiagramItem) =
             parent.children.Add(Choice1Of2 self)
             self
 
