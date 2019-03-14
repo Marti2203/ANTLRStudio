@@ -21,96 +21,98 @@ let sequence vs = Sequence(vs)
 let sequenceItem vs = (sequence >> item) vs 
 let comment v = Comment(v)
 let commentItem v = (comment >> item) v 
-let optional v skip = Optional(v,false)
+let optional v skip = Optional(v,skip)
 let optionalItem v skip = (optional v skip) |> item
 let test writer = 
-        add("comment", items [text "/*"
-                              "anything but * followed by /" |> nontermItem |> zeroMoreItem
-                              text "*/"
-                              ], writer)
+        //add("comment", items [text "/*"
+        //                      "anything but * followed by /" |> nontermItem |> zeroMoreItem
+        //                      text "*/"
+        //                      ], writer)
 
-        add("newline", items [choiceItemZ [text"\\n"
-                                           text"\\r\\n"
-                                           text"\\r"
-                                           text"\\f"]],writer)
+        //add("newline", items [choiceItemZ [text"\\n"
+        //                                   text"\\r\\n"
+        //                                   text"\\r"
+        //                                   text"\\f"]],writer)
 
-        add("whitespace", items [choiceItemZ [text"space"
-                                              text"\\t"
-                                              nontermItem "newline"]],writer)
+        //add("whitespace", items [choiceItemZ [text"space"
+        //                                      text"\\t"
+        //                                      nontermItem "newline"]],writer)
 
-        add("hex digit", items[nontermItem "0-9 a-f or A-F"],writer)
+        //add("hex digit", items[nontermItem "0-9 a-f or A-F"],writer)
 
         add("escape", items [text "\\"
                              choiceItemZ [nontermItem"not newline or hex digit"
                                           sequenceItem [oneMoreRepeatItem <| nontermItem "hex digit" <| commentItem "1-6 times" 
                                                         optionalItem <| nonterm "whitespace" <| true]]],writer)
 
-        add("<whitespace-token>", items ["whitespace" |> nontermItem |> oneMoreItem],writer)
+        //add("<whitespace-token>", items ["whitespace" |> nontermItem |> oneMoreItem],writer)
 
-        add("ws*", items["<whitespace-token>" |> nontermItem |> zeroMoreItem],writer)
+        //add("ws*", items["<whitespace-token>" |> nontermItem |> zeroMoreItem],writer)
 
-        add("<ident-token>", items[choiceItemZ [Skip() |> item ; text "-"]
-                                   choiceItemZ [nontermItem "a-z A-Z _ or non-ASCII"; nontermItem "escape"]
-                                   zeroMoreItem <| choiceItemZ[nontermItem "a-z A-Z 0-9 _ - or non-ASCII"; nontermItem "escape" ]],writer)
+        //add("<ident-token>", items[choiceItemZ [Skip() |> item ; text "-"]
+                                   //choiceItemZ [nontermItem "a-z A-Z _ or non-ASCII"; nontermItem "escape"]
+                                   //zeroMoreItem <| choiceItemZ[nontermItem "a-z A-Z 0-9 _ - or non-ASCII"; nontermItem "escape" ]],writer)
 
-        add("<function-token>", items[ nontermItem "<ident-token>"; text "("],writer)
+        //add("<function-token>", items[ nontermItem "<ident-token>"; text "("],writer)
 
-        add("<at-keyword-token>", itemsTwo(text "@", nontermItem "<ident-token>"), writer)
+        //add("<at-keyword-token>", itemsTwo(text "@", nontermItem "<ident-token>"), writer)
 
-        add("<hash-token>", itemsTwo( text "#", [nontermItem "a-z A-Z 0-9 _ - or non-ASCII"
-                                                 nontermItem "escape"] |>  choiceItemZ |> oneMoreItem),writer)
+        //add("<hash-token>", itemsTwo( text "#", [nontermItem "a-z A-Z 0-9 _ - or non-ASCII"
+                                                 //nontermItem "escape"] |>  choiceItemZ |> oneMoreItem),writer)
 
-        //add("<string-token>", items[ choiceItemZ [
-                                        //sequenceItem [ text "\""
-                                        //               [
-                                        //               nontermItem "not \" \\ or newline"
-                                        //               nontermItem "escape"
-                                        //               sequenceItem [text "\\" ; nontermItem "newline"]
-                                        //               ] |> choiceItemZ |> zeroMoreItem
-                                        //               text "\""
-                                        //             ]
-                                        ////sequenceItem [ text "'"
-                                                    ////   [
-                                                    ////    nontermItem "not ' \\ or newline"
-                                                    ////    nontermItem "escape"
-                                                    ////    sequenceItem [text "\\" ; nontermItem "newline"]
-                                                    ////   ] |> choiceItemZ |> zeroMoreItem 
-                                                    ////   text"'" ]
-                                                    ////]
-                                                    //]],writer)
+        add("<string-token>", items[ choiceItemZ [
+                                        sequenceItem [ text "\""
+                                                       [
+                                                       nontermItem "not \" \\ or newline"
+                                                       nontermItem "escape"
+                                                       sequenceItem [text "\\" ; nontermItem "newline"]
+                                                       ] 
+                                                       |> choiceItemZ |> zeroMoreItem
+                                                       text "\""
+                                                     ]
+                                        sequenceItem [ text "'"
+                                                       [
+                                                        nontermItem "not ' \\ or newline"
+                                                        nontermItem "escape"
+                                                        sequenceItem [text "\\" ; nontermItem "newline"]
+                                                       ] 
+                                                       |> choiceItemZ |> zeroMoreItem 
+                                                       text"'" 
+                                                     ]
+                                                    ]],writer)
         add("<url-token>", items [
             nontermItem "<ident-token \"url\">"
             text "("
             nontermItem "ws*"
             optionalItem <| sequence [
-                choiceItemZ[nontermItem "url-unquoted"
-                            nontermItem "STRING"]
-                nontermItem "ws*"
-            ] <| false
+                                       choiceItemZ[nontermItem "url-unquoted";nontermItem "STRING"]
+                                       nontermItem "ws*"
+                                     ] <| false
             text ")"],writer)
 
-        //add("url-unquoted", items(OneOrMore(
-        //    Choice(0,
-        //        NonTerminal("not \" ' ( ) \\ whitespace or non-printable"),
-        //        NonTerminal("escape")))))
+        //add("url-unquoted", items [oneMoreItem <| choiceItemZ[ nontermItem "not \" ' ( ) \\ whitespace or non-printable";nontermItem "escape"]],writer)
 
-        //add("<number-token>", items(
-        //    Choice(1, "+", Skip(), "-"),
-        //    Choice(0,
-        //        Sequence(
-        //            OneOrMore(NonTerminal("digit")),
-        //            ".",
-        //            OneOrMore(NonTerminal("digit"))),
-        //        OneOrMore(NonTerminal("digit")),
-        //        Sequence(
-        //            ".",
-        //            OneOrMore(NonTerminal("digit")))),
-        //    Choice(0,
-        //        Skip(),
-        //        Sequence(
-        //            Choice(0, "e", "E"),
-        //            Choice(1, "+", Skip(), "-"),
-        //            OneOrMore(NonTerminal("digit"))))))
+        add("<number-token>", items[
+            choiceItem 1 [text "+"; item <| Skip(); text "-"]
+            choiceItemZ [sequenceItem [
+                                   item <| OneOrMore(nontermItem "digit")
+                                   text "."
+                                   item <| OneOrMore(nontermItem "digit")
+                                   ]
+                         oneMoreItem (nontermItem "digit")
+                         sequenceItem [
+                                    text "."
+                                    item <| OneOrMore(nontermItem "digit")]
+                        ]
+            choiceItemZ [
+                         item <| Skip()
+                         sequenceItem[
+                                      choiceItemZ [text "e";text "E"]
+                                      choiceItem 1 [text "+";item <| Skip();text "-"]
+                                      oneMoreItem <| nontermItem "digit"
+                                      ]
+                        ]
+        ],writer)
 
         //add("<dimension-token>", items(
         //    NonTerminal("<number-token>"), NonTerminal("<ident-token>")))
@@ -146,8 +148,8 @@ let test writer =
         //    NonTerminal("<at-keyword-token>"), ZeroOrMore(NonTerminal("Component value")),
         //    Choice(0, NonTerminal("{} block"), "")))
 
-        add("Qualified rule", items[ "Component value" |> nontermItem |> zeroMoreItem
-                                     "{} block" |> nontermItem],writer)
+        //add("Qualified rule", items[ "Component value" |> nontermItem |> zeroMoreItem
+                                     //"{} block" |> nontermItem],writer)
 
         //add("Declaration list", items(
         //    NonTerminal("ws*"),
@@ -159,27 +161,27 @@ let test writer =
         //            NonTerminal("At-rule"),
         //            NonTerminal("Declaration list")))))
 
-        add("Declaration", items [
-            nontermItem "<ident-token>"
-            nontermItem "ws*"
-            text ":"
-            ZeroOrMore(nontermItem "Component value", Some("!important" |> nonterm |> optionalItem <| false) ,false) |> item
-        ],writer)
+        //add("Declaration", items [
+        //    nontermItem "<ident-token>"
+        //    nontermItem "ws*"
+        //    text ":"
+        //    ZeroOrMore(nontermItem "Component value", Some("!important" |> nonterm |> optionalItem <| false) ,false) |> item
+        //],writer)
 
-        add("!important", items[ text "!";nontermItem "ws*"; nontermItem "<ident-token \"important\">";nontermItem "ws*"],writer)
+        //add("!important", items[ text "!";nontermItem "ws*"; nontermItem "<ident-token \"important\">";nontermItem "ws*"],writer)
 
-        add("Component value", items[choiceItemZ [
-            "Preserved token" |> nontermItem
-            "{} block" |> nontermItem
-            "() block" |> nontermItem
-            "[] block" |> nontermItem
-            "Function block" |> nontermItem
-        ]],writer)
+        //add("Component value", items[choiceItemZ [
+        //    "Preserved token" |> nontermItem
+        //    "{} block" |> nontermItem
+        //    "() block" |> nontermItem
+        //    "[] block" |> nontermItem
+        //    "Function block" |> nontermItem
+        //]],writer)
 
 
-        add("{} block", items[text "{"; "Component value" |> nontermItem |> zeroMoreItem; text "}"],writer)
-        add("() block", items[text "("; "Component value" |> nontermItem |> zeroMoreItem; text ")"],writer)
-        add("[] block", items[text "["; "Component value" |> nontermItem |> zeroMoreItem; text "]"],writer)
+        //add("{} block", items[text "{"; "Component value" |> nontermItem |> zeroMoreItem; text "}"],writer)
+        //add("() block", items[text "("; "Component value" |> nontermItem |> zeroMoreItem; text ")"],writer)
+        //add("[] block", items[text "["; "Component value" |> nontermItem |> zeroMoreItem; text "]"],writer)
 
         //add("Function block", items(
         //    NonTerminal("<function-token>"),
