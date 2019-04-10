@@ -5,6 +5,8 @@ Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "ANTLRStudio", "ANTLRStudio\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio.Parser", "Parser\ANTLRStudio.Parser.csproj", "{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}"
 EndProject
+Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "ANTLRStudio.Diagrams", "ANTLRStudio.Diagrams\ANTLRStudio.Diagrams.fsproj", "{3E18CBC1-4E96-4141-8728-0571671A315C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -19,5 +21,9 @@ Global
 		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Debug|x86.Build.0 = Debug|Any CPU
 		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Release|x86.ActiveCfg = Release|Any CPU
 		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Release|x86.Build.0 = Release|Any CPU
+		{3E18CBC1-4E96-4141-8728-0571671A315C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3E18CBC1-4E96-4141-8728-0571671A315C}.Debug|x86.Build.0 = Debug|Any CPU
+		{3E18CBC1-4E96-4141-8728-0571671A315C}.Release|x86.ActiveCfg = Release|Any CPU
+		{3E18CBC1-4E96-4141-8728-0571671A315C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

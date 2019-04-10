@@ -41,34 +41,42 @@ let transform () =
     String.Join(" ", Seq.concat [strings;flags])
 let antlrLocation = "./antlr-4.7.2-complete.jar"
 let generate _ =
-    printfn "Generate"
-    use p = new Diagnostics.Process()
     let arguments = sprintf "%s \"%s\" %s" 
                     <| "java -jar"
                     <| antlrLocation 
                     <| transform ()
-    p.StartInfo.WorkingDirectory <- Directory.GetCurrentDirectory()
-    p.StartInfo.FileName <- "/bin/bash"
-    p.StartInfo.Arguments <- sprintf "-c \"%s\"" arguments
-    p.StartInfo.UseShellExecute <- false
-    p.StartInfo.RedirectStandardOutput <- true
-    p.StartInfo.CreateNoWindow <- true
+    let startInfo = new Diagnostics.ProcessStartInfo(WorkingDirectory = Directory.GetCurrentDirectory(),
+                                                     FileName = "/bin/bash",
+                                                     Arguments = sprintf "-c \"%s\"" arguments,
+                                                     UseShellExecute = false,
+                                                     RedirectStandardOutput = true,
+                                                     CreateNoWindow = true)
+    use p = new Diagnostics.Process(StartInfo = startInfo)
     p.Start () |> ignore
     p.WaitForExit()
     printfn "%s" <| p.StandardOutput.ReadToEnd()
+
+let mutable webView : WebView = null
 let readGrammar name =
+    use writer = new System.IO.StringWriter()
     printfn "%s" name
     file <- name
+    (ANTLRStudio.Parser.AntlrParser.ParseFile file).writeSvg(writer)
+    webView.LoadHtml(writer.ToString())
+    ()
+    
 let openGrammar (form:Form) =
     let dir = Directory.GetCurrentDirectory() // Eto changes the directory?!
-    let dialog = new OpenFileDialog()
-    dialog.MultiSelect <- false
-    dialog.Title <- "Select Grammar"
-    dialog.CheckFileExists <- true
+    use dialog = new OpenFileDialog(MultiSelect = false,
+                                    Title = "Select Grammar",
+                                    CheckFileExists = true,
+                                    Directory = new Uri(Environment.GetFolderPath(Environment.SpecialFolder.Desktop)))
+    let mutable fileName = null
     match dialog.ShowDialog(form.ParentWindow) with
     | DialogResult.Ok -> if dialog.FileName <> null then
-                            readGrammar dialog.FileName
-    | v -> printf "%O" v
+                            fileName <- dialog.FileName
+    | v -> printf "User pressed %O" v
+    if fileName <> null then readGrammar fileName
     Directory.SetCurrentDirectory(dir) // Eto changes the directory?!
 let insertMenus (app:Application) (form:Form) =
     let transformCheckItem option =
@@ -96,20 +104,18 @@ let insertMenus (app:Application) (form:Form) =
     form
 
 let railwayForm (app:Application) (form:Form) = 
-    use writer = new System.IO.StringWriter()
-    let web = new WebView()
-    DiagramTest.test <| Some(writer :> System.IO.TextWriter)
-    web.LoadHtml(writer.ToString())
-    form.Content <- web
+    openGrammar form
+    form.Content <- webView
     form
+
 [<EntryPoint>]
 let main argv =
     let progName = "ANTLRStudio"
     Console.Title <- progName
     use app = new Application ()
+    webView <- new WebView()
     app.UnhandledException.Add(fun _ -> ())
-    use form = new Form (Title = progName)
-    form.Size <- Size(Screen.PrimaryScreen.Bounds.Size)
+    use form = new Form (Title = progName, Size =Size(Screen.PrimaryScreen.Bounds.Size))
 
     railwayForm app form
         |> insertMenus app 

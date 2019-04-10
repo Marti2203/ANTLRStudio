@@ -16,7 +16,7 @@ let CHAR_WIDTH = 8.5f //# width of each monospace character. play until you find
 let COMMENT_CHAR_WIDTH = 7.f //# comments are in smaller text by default
 
 
-let e text =
+let Escape text =
      Regex.Replace(text,"[*_\`\[\]<&]",MatchEvaluator(fun m -> sprintf "&#%i" <| int m.Value.[0]))
      
 
@@ -56,14 +56,14 @@ type DiagramItem(name,?attributes,?text) =
                 writer.Write(sprintf "<%s" name)
                 self.attrs
                 |> Seq.sortBy (fun x -> x.Key)
-                |> Seq.iter (fun x -> writer.Write(sprintf" %s=\"%s\"" x.Key <| e x.Value))
+                |> Seq.iter (fun x -> writer.Write(sprintf" %s=\"%s\"" x.Key <| Escape x.Value))
                 writer.Write(">")
                 if Seq.contains name <| ["g"; "svg"] then
                     writer.Write("\n")
                 self.children
                 |> Seq.iter(fun child -> match child with
                                          | Choice1Of2 c -> c.writeSvg(writer)
-                                         | Choice2Of2 x -> writer.Write(e x))
+                                         | Choice2Of2 x -> writer.Write(Escape x))
                 writer.Write(sprintf "</%s>" name)
 and DiString = Choice<DiagramItem,string>
 
@@ -1054,9 +1054,9 @@ type Comment(text:string,?href:string ,?title:string) as self=
         | None -> ()
         self :> DiagramItem
 
-        
-let add(name, diagram: DiagramItem, writer:TextWriter option)=
-    let writer = defaultArg writer System.Console.Out
-    writer.Write(sprintf "<h1>%s</h1>\n" <| e(name))
+
+let add(name, diagram: DiagramItem, writer: TextWriter option)=
+    let writer : TextWriter = defaultArg writer System.Console.Out 
+    writer.Write(sprintf "<h1>%s</h1>\n" <| Escape(name))
     diagram.writeSvg(writer)
     writer.Write("\n")

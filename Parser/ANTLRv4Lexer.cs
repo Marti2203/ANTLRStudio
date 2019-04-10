@@ -27,39 +27,40 @@ using Antlr4.Runtime.Atn;
 using Antlr4.Runtime.Misc;
 using GrammarGrammar;
 using DFA = Antlr4.Runtime.Dfa.DFA;
-
-[System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.7.2")]
-[System.CLSCompliant(false)]
-public partial class ANTLRv4Lexer : LexerAdaptor
+namespace ANTLRStudio.Parser
 {
-    protected static DFA[] decisionToDFA;
-    protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
-    public const int
-        TOKEN_REF = 1, RULE_REF = 2, LEXER_CHAR_SET = 3, DOC_COMMENT = 4, BLOCK_COMMENT = 5,
-        LINE_COMMENT = 6, INT = 7, STRING_LITERAL = 8, UNTERMINATED_STRING_LITERAL = 9,
-        BEGIN_ARGUMENT = 10, BEGIN_ACTION = 11, OPTIONS = 12, TOKENS = 13, CHANNELS = 14,
-        IMPORT = 15, FRAGMENT = 16, LEXER = 17, PARSER = 18, GRAMMAR = 19, PROTECTED = 20,
-        PUBLIC = 21, PRIVATE = 22, RETURNS = 23, LOCALS = 24, THROWS = 25, CATCH = 26, FINALLY = 27,
-        MODE = 28, COLON = 29, COLONCOLON = 30, COMMA = 31, SEMI = 32, LPAREN = 33, RPAREN = 34,
-        LBRACE = 35, RBRACE = 36, RARROW = 37, LT = 38, GT = 39, ASSIGN = 40, QUESTION = 41,
-        STAR = 42, PLUS_ASSIGN = 43, PLUS = 44, OR = 45, DOLLAR = 46, RANGE = 47, DOT = 48,
-        AT = 49, POUND = 50, NOT = 51, ID = 52, WS = 53, ERRCHAR = 54, END_ARGUMENT = 55, UNTERMINATED_ARGUMENT = 56,
-        ARGUMENT_CONTENT = 57, END_ACTION = 58, UNTERMINATED_ACTION = 59, ACTION_CONTENT = 60,
-        UNTERMINATED_CHAR_SET = 61;
-    public const int
-        OFF_CHANNEL = 2, COMMENT = 3;
-    public const int
-        Argument = 1, ActionM = 2, Options = 3, Tokens = 4, Channels = 5, LexerCharSet = 6;
-    public static string[] channelNames = {
+    [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.7.2")]
+    [System.CLSCompliant(false)]
+    public partial class ANTLRv4Lexer : LexerAdaptor
+    {
+        protected static DFA[] decisionToDFA;
+        protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
+        public const int
+            TOKEN_REF = 1, RULE_REF = 2, LEXER_CHAR_SET = 3, DOC_COMMENT = 4, BLOCK_COMMENT = 5,
+            LINE_COMMENT = 6, INT = 7, STRING_LITERAL = 8, UNTERMINATED_STRING_LITERAL = 9,
+            BEGIN_ARGUMENT = 10, BEGIN_ACTION = 11, OPTIONS = 12, TOKENS = 13, CHANNELS = 14,
+            IMPORT = 15, FRAGMENT = 16, LEXER = 17, PARSER = 18, GRAMMAR = 19, PROTECTED = 20,
+            PUBLIC = 21, PRIVATE = 22, RETURNS = 23, LOCALS = 24, THROWS = 25, CATCH = 26, FINALLY = 27,
+            MODE = 28, COLON = 29, COLONCOLON = 30, COMMA = 31, SEMI = 32, LPAREN = 33, RPAREN = 34,
+            LBRACE = 35, RBRACE = 36, RARROW = 37, LT = 38, GT = 39, ASSIGN = 40, QUESTION = 41,
+            STAR = 42, PLUS_ASSIGN = 43, PLUS = 44, OR = 45, DOLLAR = 46, RANGE = 47, DOT = 48,
+            AT = 49, POUND = 50, NOT = 51, ID = 52, WS = 53, ERRCHAR = 54, END_ARGUMENT = 55, UNTERMINATED_ARGUMENT = 56,
+            ARGUMENT_CONTENT = 57, END_ACTION = 58, UNTERMINATED_ACTION = 59, ACTION_CONTENT = 60,
+            UNTERMINATED_CHAR_SET = 61;
+        public const int
+            OFF_CHANNEL = 2, COMMENT = 3;
+        public const int
+            Argument = 1, ActionM = 2, Options = 3, Tokens = 4, Channels = 5, LexerCharSet = 6;
+        public static string[] channelNames = {
         "DEFAULT_TOKEN_CHANNEL", "HIDDEN", "OFF_CHANNEL", "COMMENT"
     };
 
-    public static string[] modeNames = {
+        public static string[] modeNames = {
         "DEFAULT_MODE", "Argument", "ActionM", "Options", "Tokens", "Channels",
         "LexerCharSet"
     };
 
-    public static readonly string[] ruleNames = {
+        public static readonly string[] ruleNames = {
         "DOC_COMMENT", "BLOCK_COMMENT", "LINE_COMMENT", "INT", "STRING_LITERAL",
         "UNTERMINATED_STRING_LITERAL", "BEGIN_ARGUMENT", "BEGIN_ACTION", "OPTIONS",
         "TOKENS", "CHANNELS", "IMPORT", "FRAGMENT", "LEXER", "PARSER", "GRAMMAR",
@@ -89,22 +90,22 @@ public partial class ANTLRv4Lexer : LexerAdaptor
     };
 
 
-    public ANTLRv4Lexer(ICharStream input)
-    : this(input, Console.Out, Console.Error) { }
+        public ANTLRv4Lexer(ICharStream input)
+        : this(input, Console.Out, Console.Error) { }
 
-    public ANTLRv4Lexer(ICharStream input, TextWriter output, TextWriter errorOutput)
-    : base(input, output, errorOutput)
-    {
-        Interpreter = new LexerATNSimulator(this, _ATN, decisionToDFA, sharedContextCache);
-    }
+        public ANTLRv4Lexer(ICharStream input, TextWriter output, TextWriter errorOutput)
+        : base(input, output, errorOutput)
+        {
+            Interpreter = new LexerATNSimulator(this, _ATN, decisionToDFA, sharedContextCache);
+        }
 
-    private static readonly string[] _LiteralNames = {
+        private static readonly string[] _LiteralNames = {
         null, null, null, null, null, null, null, null, null, null, null, null,
         "'options'", "'tokens'", "'channels'", "'import'", "'fragment'", "'lexer'",
         "'parser'", "'grammar'", "'protected'", "'public'", "'private'", "'returns'",
         "'locals'", "'throws'", "'catch'", "'finally'", "'mode'"
     };
-    private static readonly string[] _SymbolicNames = {
+        private static readonly string[] _SymbolicNames = {
         null, "TOKEN_REF", "RULE_REF", "LEXER_CHAR_SET", "DOC_COMMENT", "BLOCK_COMMENT",
         "LINE_COMMENT", "INT", "STRING_LITERAL", "UNTERMINATED_STRING_LITERAL",
         "BEGIN_ARGUMENT", "BEGIN_ACTION", "OPTIONS", "TOKENS", "CHANNELS", "IMPORT",
@@ -116,67 +117,67 @@ public partial class ANTLRv4Lexer : LexerAdaptor
         "UNTERMINATED_ARGUMENT", "ARGUMENT_CONTENT", "END_ACTION", "UNTERMINATED_ACTION",
         "ACTION_CONTENT", "UNTERMINATED_CHAR_SET"
     };
-    public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
+        public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
-    [NotNull]
-    public override IVocabulary Vocabulary
-    {
-        get
+        [NotNull]
+        public override IVocabulary Vocabulary
         {
-            return DefaultVocabulary;
+            get
+            {
+                return DefaultVocabulary;
+            }
         }
-    }
 
-    public override string GrammarFileName { get { return "ANTLRv4Lexer.g4"; } }
+        public override string GrammarFileName { get { return "ANTLRv4Lexer.g4"; } }
 
-    public override string[] RuleNames { get { return ruleNames; } }
+        public override string[] RuleNames { get { return ruleNames; } }
 
-    public override string[] ChannelNames { get { return channelNames; } }
+        public override string[] ChannelNames { get { return channelNames; } }
 
-    public override string[] ModeNames { get { return modeNames; } }
+        public override string[] ModeNames { get { return modeNames; } }
 
-    public override string SerializedAtn { get { return new string(_serializedATN); } }
+        public override string SerializedAtn { get { return new string(_serializedATN); } }
 
-    static ANTLRv4Lexer()
-    {
-        decisionToDFA = new DFA[_ATN.NumberOfDecisions];
-        for (int i = 0; i < _ATN.NumberOfDecisions; i++)
+        static ANTLRv4Lexer()
         {
-            decisionToDFA[i] = new DFA(_ATN.GetDecisionState(i), i);
+            decisionToDFA = new DFA[_ATN.NumberOfDecisions];
+            for (int i = 0; i < _ATN.NumberOfDecisions; i++)
+            {
+                decisionToDFA[i] = new DFA(_ATN.GetDecisionState(i), i);
+            }
         }
-    }
-    public override void Action(RuleContext _localctx, int ruleIndex, int actionIndex)
-    {
-        switch (ruleIndex)
+        public override void Action(RuleContext _localctx, int ruleIndex, int actionIndex)
         {
-            case 6: BEGIN_ARGUMENT_action(_localctx, actionIndex); break;
-            case 104: END_ARGUMENT_action(_localctx, actionIndex); break;
-            case 114: END_ACTION_action(_localctx, actionIndex); break;
+            switch (ruleIndex)
+            {
+                case 6: BEGIN_ARGUMENT_action(_localctx, actionIndex); break;
+                case 104: END_ARGUMENT_action(_localctx, actionIndex); break;
+                case 114: END_ACTION_action(_localctx, actionIndex); break;
+            }
         }
-    }
-    private void BEGIN_ARGUMENT_action(RuleContext _localctx, int actionIndex)
-    {
-        switch (actionIndex)
+        private void BEGIN_ARGUMENT_action(RuleContext _localctx, int actionIndex)
         {
-            case 0: handleBeginArgument(); break;
+            switch (actionIndex)
+            {
+                case 0: HandleBeginArgument(); break;
+            }
         }
-    }
-    private void END_ARGUMENT_action(RuleContext _localctx, int actionIndex)
-    {
-        switch (actionIndex)
+        private void END_ARGUMENT_action(RuleContext _localctx, int actionIndex)
         {
-            case 1: handleEndArgument(); break;
+            switch (actionIndex)
+            {
+                case 1: HandleEndArgument(); break;
+            }
         }
-    }
-    private void END_ACTION_action(RuleContext _localctx, int actionIndex)
-    {
-        switch (actionIndex)
+        private void END_ACTION_action(RuleContext _localctx, int actionIndex)
         {
-            case 2: handleEndAction(); break;
+            switch (actionIndex)
+            {
+                case 2: HandleEndAction(); break;
+            }
         }
-    }
 
-    private static char[] _serializedATN = {
+        private static char[] _serializedATN = {
         '\x3', '\x608B', '\xA72A', '\x8133', '\xB9ED', '\x417C', '\x3BE7', '\x7786',
         '\x5964', '\x2', '?', '\x3C6', '\b', '\x1', '\b', '\x1', '\b', '\x1',
         '\b', '\x1', '\b', '\x1', '\b', '\x1', '\b', '\x1', '\x4', '\x2', '\t',
@@ -987,8 +988,9 @@ public partial class ANTLRv4Lexer : LexerAdaptor
         '\x5', '\x2', '\x2',
     };
 
-    public static readonly ATN _ATN =
-        new ATNDeserializer().Deserialize(_serializedATN);
+        public static readonly ATN _ATN =
+            new ATNDeserializer().Deserialize(_serializedATN);
 
 
+    }
 }

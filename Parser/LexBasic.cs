@@ -26,24 +26,25 @@ using Antlr4.Runtime;
 using Antlr4.Runtime.Atn;
 using Antlr4.Runtime.Misc;
 using DFA = Antlr4.Runtime.Dfa.DFA;
-
-[System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.7.2")]
-[System.CLSCompliant(false)]
-public partial class LexBasic : Lexer
+namespace ANTLRStudio.Parser
 {
-    protected static DFA[] decisionToDFA;
-    protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
-    //	public const int
-    //;
-    public static string[] channelNames = {
+    [System.CodeDom.Compiler.GeneratedCode("ANTLR", "4.7.2")]
+    [System.CLSCompliant(false)]
+    public partial class LexBasic : Lexer
+    {
+        protected static DFA[] decisionToDFA;
+        protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
+        //	public const int
+        //;
+        public static string[] channelNames = {
         "DEFAULT_TOKEN_CHANNEL", "HIDDEN"
     };
 
-    public static string[] modeNames = {
+        public static string[] modeNames = {
         "DEFAULT_MODE"
     };
 
-    public static readonly string[] ruleNames = {
+        public static readonly string[] ruleNames = {
         "Ws", "Hws", "Vws", "BlockComment", "DocComment", "LineComment", "EscSeq",
         "EscAny", "UnicodeEsc", "DecimalNumeral", "HexDigit", "DecDigit", "BoolLiteral",
         "CharLiteral", "SQuoteLiteral", "DQuoteLiteral", "USQuoteLiteral", "NameChar",
@@ -54,49 +55,49 @@ public partial class LexBasic : Lexer
     };
 
 
-    public LexBasic(ICharStream input)
-    : this(input, Console.Out, Console.Error) { }
+        public LexBasic(ICharStream input)
+        : this(input, Console.Out, Console.Error) { }
 
-    public LexBasic(ICharStream input, TextWriter output, TextWriter errorOutput)
-    : base(input, output, errorOutput)
-    {
-        Interpreter = new LexerATNSimulator(this, _ATN, decisionToDFA, sharedContextCache);
-    }
-
-    private static readonly string[] _LiteralNames = {
-    };
-    private static readonly string[] _SymbolicNames = {
-    };
-    public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
-
-    [NotNull]
-    public override IVocabulary Vocabulary
-    {
-        get
+        public LexBasic(ICharStream input, TextWriter output, TextWriter errorOutput)
+        : base(input, output, errorOutput)
         {
-            return DefaultVocabulary;
+            Interpreter = new LexerATNSimulator(this, _ATN, decisionToDFA, sharedContextCache);
         }
-    }
 
-    public override string GrammarFileName { get { return "LexBasic.g4"; } }
+        private static readonly string[] _LiteralNames = {
+    };
+        private static readonly string[] _SymbolicNames = {
+    };
+        public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
-    public override string[] RuleNames { get { return ruleNames; } }
-
-    public override string[] ChannelNames { get { return channelNames; } }
-
-    public override string[] ModeNames { get { return modeNames; } }
-
-    public override string SerializedAtn { get { return new string(_serializedATN); } }
-
-    static LexBasic()
-    {
-        decisionToDFA = new DFA[_ATN.NumberOfDecisions];
-        for (int i = 0; i < _ATN.NumberOfDecisions; i++)
+        [NotNull]
+        public override IVocabulary Vocabulary
         {
-            decisionToDFA[i] = new DFA(_ATN.GetDecisionState(i), i);
+            get
+            {
+                return DefaultVocabulary;
+            }
         }
-    }
-    private static char[] _serializedATN = {
+
+        public override string GrammarFileName { get { return "LexBasic.g4"; } }
+
+        public override string[] RuleNames { get { return ruleNames; } }
+
+        public override string[] ChannelNames { get { return channelNames; } }
+
+        public override string[] ModeNames { get { return modeNames; } }
+
+        public override string SerializedAtn { get { return new string(_serializedATN); } }
+
+        static LexBasic()
+        {
+            decisionToDFA = new DFA[_ATN.NumberOfDecisions];
+            for (int i = 0; i < _ATN.NumberOfDecisions; i++)
+            {
+                decisionToDFA[i] = new DFA(_ATN.GetDecisionState(i), i);
+            }
+        }
+        private static char[] _serializedATN = {
         '\x3', '\x608B', '\xA72A', '\x8133', '\xB9ED', '\x417C', '\x3BE7', '\x7786',
         '\x5964', '\x2', '\x2', '\x130', '\b', '\x1', '\x4', '\x2', '\t', '\x2',
         '\x4', '\x3', '\t', '\x3', '\x4', '\x4', '\t', '\x4', '\x4', '\x5', '\t',
@@ -345,8 +346,9 @@ public partial class LexBasic : Lexer
         '\xEA', '\x2',
     };
 
-    public static readonly ATN _ATN =
-        new ATNDeserializer().Deserialize(_serializedATN);
+        public static readonly ATN _ATN =
+            new ATNDeserializer().Deserialize(_serializedATN);
 
 
+    }
 }

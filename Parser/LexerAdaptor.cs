@@ -1,4 +1,6 @@
-﻿namespace GrammarGrammar
+﻿using System;
+using System.Reflection;
+namespace GrammarGrammar
 {
     using System.IO;
     using Antlr4.Runtime;
@@ -9,13 +11,19 @@
     public abstract class LexerAdaptor : Lexer
 #pragma warning restore CA1012 // But Lexer demands it
     {
+        readonly ICharStream stream;
+        readonly FieldInfo tokenInput = typeof(CommonToken).GetField("_type", BindingFlags.NonPublic | BindingFlags.Instance);
         protected LexerAdaptor(ICharStream input)
-            : base(input)
+             : base(input, Console.Out, Console.Error)
         {
+            stream = input;
         }
+
         protected LexerAdaptor(ICharStream input, TextWriter output, TextWriter errorOutput)
-        : base(input, output, errorOutput)
-        { }
+             : base(input, output, errorOutput)
+        {
+            stream = input;
+        }
         /**
          * Track whether we are inside of a rule and whether it is lexical parser. _currentRuleType==TokenConstants.InvalidType
          * means that we are outside of a rule. At the first sign of a rule name reference and _currentRuleType==invalid, we
@@ -28,21 +36,11 @@
          * The whole point of this state information is to distinguish between [..arg actions..] and [charsets]. Char sets
          * can only occur in lexical rules and arg actions cannot occur.
          */
-        private int _currentRuleType;
+        private int CurrentRuleType { get; set; } = TokenConstants.InvalidType;
 
-        public int getCurrentRuleType()
+        protected void HandleBeginArgument()
         {
-            return _currentRuleType;
-        }
-
-        public void setCurrentRuleType(int ruleType)
-        {
-            this._currentRuleType = ruleType;
-        }
-
-        protected void handleBeginArgument()
-        {
-            if (inLexerRule())
+            if (InLexerRule())
             {
                 PushMode(ANTLRv4Lexer.LexerCharSet);
                 More();
@@ -53,61 +51,66 @@
             }
         }
 
-        protected void handleEndArgument()
+        protected void HandleEndArgument()
         {
             PopMode();
             if (ModeStack.Count > 0)
             {
-                setCurrentRuleType(ANTLRv4Lexer.ARGUMENT_CONTENT);
+                CurrentRuleType = (ANTLRv4Lexer.ARGUMENT_CONTENT);
             }
         }
 
-        protected void handleEndAction()
+        protected void HandleEndAction()
         {
             PopMode();
             if (ModeStack.Count > 0)
             {
-                setCurrentRuleType(ANTLRv4Lexer.ACTION_CONTENT);
+                CurrentRuleType = (ANTLRv4Lexer.ACTION_CONTENT);
             }
         }
 
 
         public override IToken NextToken()
         {
+            var token = base.NextToken();
             if (Type == ANTLRv4Lexer.ID)
             {
-                //string firstChar = Text[0];// (Interval.Of(TokenStartCharIndex, TokenStartCharIndex));
-                if (char.IsUpper(Text[0]))
+                char firstChar = stream.GetText(Interval.Of(TokenStartCharIndex, TokenStartCharIndex))[0];
+                if (char.IsUpper(firstChar))
                 {
                     Type = ANTLRv4Lexer.TOKEN_REF;
+                    tokenInput.SetValue(token, ANTLRv4Lexer.TOKEN_REF);
                 }
-                else
+                if (char.IsLower(firstChar))
                 {
+
                     Type = ANTLRv4Lexer.RULE_REF;
+                    tokenInput.SetValue(token, ANTLRv4Lexer.RULE_REF);
                 }
 
-                if (_currentRuleType == TokenConstants.InvalidType)
+                if (CurrentRuleType == TokenConstants.InvalidType)
                 { // if outside of rule def
-                    _currentRuleType = Type; // set to inside lexer or parser rule
+                    CurrentRuleType = Type; // set to inside lexer or parser rule
                 }
             }
             else if (Type == ANTLRv4Lexer.SEMI)
             { // exit rule def
-                _currentRuleType = TokenConstants.InvalidType;
+                CurrentRuleType = TokenConstants.InvalidType;
             }
 
-            return base.NextToken();
+            return token;
         }
 
-        private bool inLexerRule()
+        private bool InLexerRule()
         {
-            return _currentRuleType == ANTLRv4Lexer.TOKEN_REF;
+            return CurrentRuleType == ANTLRv4Lexer.TOKEN_REF;
         }
 
 
-        private bool inParserRule()
+        private bool InParserRule()
         { // not used, but added for clarity
-            return _currentRuleType == ANTLRv4Lexer.RULE_REF;
+            return CurrentRuleType == ANTLRv4Lexer.RULE_REF;
         }
+
     }
 }

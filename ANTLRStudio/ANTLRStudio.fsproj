@@ -114,11 +114,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Utils.fs" />
-    <Compile Include="RailwayDiagram.fs" />
     <Compile Include="DiagramTest.fs" />
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Program.fs" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ANTLRStudio.Diagrams\ANTLRStudio.Diagrams.fsproj">
+      <Project>{3E18CBC1-4E96-4141-8728-0571671A315C}</Project>
+      <Name>ANTLRStudio.Diagrams</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Parser\ANTLRStudio.Parser.csproj">
+      <Project>{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}</Project>
+      <Name>ANTLRStudio.Parser</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(FSharpTargetsPath)" />
   <Import Project="..\packages\Eto.Forms.2.4.1\build\Eto.Forms.targets" Condition="Exists('..\packages\Eto.Forms.2.4.1\build\Eto.Forms.targets')" />
