@@ -38,34 +38,38 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Parser.cs" />
-    <Compile Include="LexBasic.cs" />
-    <Compile Include="ANTLRv4Parser.cs" />
-    <Compile Include="ANTLRv4Lexer.cs" />
-    <Compile Include="LexerAdaptor.cs" />
-    <Compile Include="ANTLRv4ParserBaseListener.cs" />
-    <Compile Include="ANTLRv4ParserListener.cs" />
-    <Compile Include="ANTLRv4ParserBaseVisitor.cs" />
-    <Compile Include="ANTLRv4ParserVisitor.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="SingletonDiagramVisitor.cs" />
+    <Compile Include="ListDiagramVisitor.cs" />
+    <Compile Include="GrammarFiles\ANTLRv4Lexer.cs" />
+    <Compile Include="GrammarFiles\LexBasic.cs" />
+    <Compile Include="GrammarFiles\LexerAdaptor.cs" />
+    <Compile Include="GrammarFiles\ANTLRv4Parser.cs" />
+    <Compile Include="GrammarFiles\ANTLRv4ParserBaseListener.cs" />
+    <Compile Include="GrammarFiles\ANTLRv4ParserBaseVisitor.cs" />
+    <Compile Include="GrammarFiles\ANTLRv4ParserListener.cs" />
+    <Compile Include="GrammarFiles\ANTLRv4ParserVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="LexBasic.g4" />
-    <None Include="ANTLRv4Parser.g4" />
-    <None Include="ANTLRv4Lexer.g4" />
-    <None Include="LexBasic.tokens" />
-    <None Include="ANTLRv4Parser.tokens" />
-    <None Include="LexBasic.interp" />
-    <None Include="ANTLRv4Parser.interp" />
-    <None Include="ANTLRv4Lexer.tokens" />
-    <None Include="ANTLRv4Lexer.interp" />
     <None Include="packages.config" />
+    <None Include="GrammarFiles\ANTLRv4Lexer.g4" />
+    <None Include="GrammarFiles\ANTLRv4Lexer.interp" />
+    <None Include="GrammarFiles\ANTLRv4Lexer.tokens" />
+    <None Include="GrammarFiles\LexBasic.g4" />
+    <None Include="GrammarFiles\LexBasic.interp" />
+    <None Include="GrammarFiles\LexBasic.tokens" />
+    <None Include="GrammarFiles\ANTLRv4Parser.g4" />
+    <None Include="GrammarFiles\ANTLRv4Parser.interp" />
+    <None Include="GrammarFiles\ANTLRv4Parser.tokens" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ANTLRStudio.Diagrams\ANTLRStudio.Diagrams.fsproj">
       <Project>{3E18CBC1-4E96-4141-8728-0571671A315C}</Project>
       <Name>ANTLRStudio.Diagrams</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="GrammarFiles\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

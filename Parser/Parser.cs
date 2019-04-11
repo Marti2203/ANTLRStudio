@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using Antlr4.Runtime;
-using Antlr4.Runtime.Tree;
+﻿using Antlr4.Runtime;
 using static RailwayPortPy;
-using System;
-using Antlr4.Runtime.Misc;
 
 namespace ANTLRStudio.Parser
 {

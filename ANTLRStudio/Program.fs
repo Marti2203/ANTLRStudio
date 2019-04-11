@@ -6,7 +6,6 @@ open Eto.Forms;
 open Eto.Drawing;
 open System.IO;
 open System.Text;
-open System.Reflection;
 let RadioMenuItem = Menu.RadioMenuItem
 let CheckMenuItem = Menu.CheckMenuItem
 
@@ -49,16 +48,15 @@ let antlrLocation = Path.Combine(cwd, currentAntlr)
 
 let buildSvgHtml(svg : string)=
     //an SVG document will otherwise not show on Windows
-    let document = new StringBuilder()
-    document.Append("<html>")
-            .Append("<head>")
-            .Append("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=9\"/>")
-            .Append("</head>")
-            .Append("<body>")
-            .Append(svg)
-            .Append("</body>")
-            .Append("</html>")
-            .ToString()
+    (new StringBuilder()).Append("<html>")
+                         .Append("<head>")
+                         .Append("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=9\"/>")
+                         .Append("</head>")
+                         .Append("<body>")
+                         .Append(svg)
+                         .Append("</body>")
+                         .Append("</html>")
+                         .ToString()
 let startJavaProgram(jarLocation: string, programArguments: string) =
     let javaProcessArguments =
         sprintf "-jar \"%s\" %s"

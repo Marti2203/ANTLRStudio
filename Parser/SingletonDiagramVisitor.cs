@@ -8,10 +8,10 @@ namespace ANTLRStudio.Parser
     public class SingletonDiagramVisitor : ANTLRv4ParserBaseVisitor<DiagramItem>
     {
         protected override DiagramItem DefaultResult
-        => new NonTerminal("DEFAULT RESULT", FSharpOption<string>.None, FSharpOption<string>.None);
+        => new NonTerminal("DEFAULT RESULT", noneString, noneString);
 
         private readonly FSharpOption<string> noneString = FSharpOption<string>.None;
-        private Comment CreateComment(string v) => new Comment(v, FSharpOption<string>.None, FSharpOption<string>.None);
+        private Comment CreateComment(string v) => new Comment(v, noneString, noneString);
         public override DiagramItem VisitGrammarSpec([NotNull] ANTLRv4Parser.GrammarSpecContext context)
         {
             var comments = context.DOC_COMMENT()
