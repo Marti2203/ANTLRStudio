@@ -7,7 +7,6 @@ open Eto.Drawing;
 open System.IO;
 open System.Text;
 open System.Reflection;
-open System.Linq;
 let RadioMenuItem = Menu.RadioMenuItem
 let CheckMenuItem = Menu.CheckMenuItem
 
@@ -42,9 +41,10 @@ let transform () =
     let strings = [file; (if language <> null then sprintf "-Dlanguage=%s" language else String.Empty)]
     String.Join(" ", Seq.concat [strings;flags])
 
-let cwd = Path.GetDirectoryName(Assembly.GetCallingAssembly().Location)
-let currentAntlr = Directory.GetFiles(cwd) |> Array.find(fun file -> file.EndsWith("-complete.jar") 
-                                                                     && file.StartsWith("antlr"))
+let cwd = Directory.GetCurrentDirectory()
+let currentAntlr = Directory.GetFiles(cwd) |> Array.find(fun file -> printfn "%s" file
+                                                                     file.EndsWith("-complete.jar") 
+                                                                        && file.Contains("antlr"))
 let antlrLocation = Path.Combine(cwd, currentAntlr)
 
 let buildSvgHtml(svg : string)=
