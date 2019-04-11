@@ -16,8 +16,8 @@ let CHAR_WIDTH = 8.5f //# width of each monospace character. play until you find
 let COMMENT_CHAR_WIDTH = 7.f //# comments are in smaller text by default
 
 
-let Escape text =
-     Regex.Replace(text,"[*_\`\[\]<&]",MatchEvaluator(fun m -> sprintf "&#%i" <| int m.Value.[0]))
+let Escape text = 
+     Regex.Replace(text,"[*_\`\[\]<&]",MatchEvaluator(fun m -> sprintf "&#%i;" <| int m.Value.[0]))
      
 
 let determineGaps(outer:float32, inner:float32) =

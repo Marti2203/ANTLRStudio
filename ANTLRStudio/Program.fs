@@ -2,10 +2,11 @@
 // See the 'F# Tutorial' project for more help.
 module Main
 open System;
-open Eto;
 open Eto.Forms;
 open Eto.Drawing;
 open System.IO;
+open System.Text;
+open System.Reflection;
 let RadioMenuItem = Menu.RadioMenuItem
 let CheckMenuItem = Menu.CheckMenuItem
 
@@ -39,22 +40,43 @@ let transform () =
                 |> Seq.toList 
     let strings = [file; (if language <> null then sprintf "-Dlanguage=%s" language else String.Empty)]
     String.Join(" ", Seq.concat [strings;flags])
-let antlrLocation = "./antlr-4.7.2-complete.jar"
-let generate _ =
-    let arguments = sprintf "%s \"%s\" %s" 
-                    <| "java -jar"
-                    <| antlrLocation 
-                    <| transform ()
+
+let antlrLocation = Path.Combine(Path.GetDirectoryName(Assembly.GetCallingAssembly().Location), "antlr-4.7.2-complete.jar")
+
+let buildSvgHtml(svg : string)=
+    //an SVG will otherwise not show on Windows.
+    let document = new StringBuilder()
+    document.Append("<html>")
+            .Append("<head>")
+            .Append("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=9\"/>")
+            .Append("</head>")
+            .Append("<body>")
+            .Append(svg)
+            .Append("</body>")
+            .Append("</html>")
+            .ToString()
+let startJavaProgram(jarLocation: string, programArguments: string) =
+    let javaProcessArguments =
+        sprintf "-jar \"%s\" %s"
+        <| antlrLocation
+        <| programArguments
+
     let startInfo = new Diagnostics.ProcessStartInfo(WorkingDirectory = Directory.GetCurrentDirectory(),
-                                                     FileName = "/bin/bash",
-                                                     Arguments = sprintf "-c \"%s\"" arguments,
+                                                     FileName = "java",
+                                                     Arguments = javaProcessArguments,
                                                      UseShellExecute = false,
-                                                     RedirectStandardOutput = true,
+                                                     RedirectStandardOutput=true,
                                                      CreateNoWindow = true)
-    use p = new Diagnostics.Process(StartInfo = startInfo)
-    p.Start () |> ignore
-    p.WaitForExit()
-    printfn "%s" <| p.StandardOutput.ReadToEnd()
+
+    let osProcess = Diagnostics.Process.Start(startInfo);
+    osProcess
+
+let generate _ =
+    let antlrArguments = transform ()
+    use antlrJavaProcess = startJavaProgram (antlrLocation, antlrArguments)
+    antlrJavaProcess.WaitForExit();
+    let processOutput = antlrJavaProcess.StandardOutput.ReadToEnd()
+    printfn "%s" <| processOutput
 
 let mutable webView : WebView = null
 let readGrammar name =
@@ -62,8 +84,7 @@ let readGrammar name =
     printfn "%s" name
     file <- name
     (ANTLRStudio.Parser.AntlrParser.ParseFile file).writeSvg(writer)
-    webView.LoadHtml(writer.ToString())
-    ()
+    writer.ToString() |> buildSvgHtml |> webView.LoadHtml
     
 let openGrammar (form:Form) =
     let dir = Directory.GetCurrentDirectory() // Eto changes the directory?!
@@ -108,6 +129,7 @@ let railwayForm (app:Application) (form:Form) =
     form.Content <- webView
     form
 
+[<STAThread>] // For Windows
 [<EntryPoint>]
 let main argv =
     let progName = "ANTLRStudio"

@@ -15,7 +15,7 @@ namespace ANTLRStudio.Parser
             CommonTokenStream stream = new CommonTokenStream(lexer);
             ANTLRv4Parser parser = new ANTLRv4Parser(stream);
             var tree = parser.grammarSpec();
-            DiagramVisitor visitor = new DiagramVisitor();
+            SingletonDiagramVisitor visitor = new SingletonDiagramVisitor();
             return visitor.VisitGrammarSpec(tree) as Diagram;
         }
     }

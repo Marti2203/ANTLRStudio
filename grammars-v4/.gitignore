@@ -1,0 +1,18 @@
+**/.DS_Store
+/**/.project
+/**/.classpath
+/**/.settings/
+/**/target
+/**/bin
+
+# Visual Studio Generated
+.antlr
+.fetch_time_cache
+/.vs
+.vscode/
+.gradle/
+
+#IntelliJ Idea project files
+.idea/
+*.iml
+/**/gen

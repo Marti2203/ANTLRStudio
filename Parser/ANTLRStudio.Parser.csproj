@@ -46,8 +46,8 @@
     <Compile Include="ANTLRv4ParserListener.cs" />
     <Compile Include="ANTLRv4ParserBaseVisitor.cs" />
     <Compile Include="ANTLRv4ParserVisitor.cs" />
-    <Compile Include="DiagramVisitor.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="SingletonDiagramVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LexBasic.g4" />
