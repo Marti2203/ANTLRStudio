@@ -1,11 +1,15 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "ANTLRStudio", "ANTLRStudio\ANTLRStudio.fsproj", "{81940932-3287-41C6-B55B-CB5F7DD59BAB}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ANTLRStudio", "ANTLRStudio\ANTLRStudio.fsproj", "{81940932-3287-41C6-B55B-CB5F7DD59BAB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio.Parser", "Parser\ANTLRStudio.Parser.csproj", "{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}"
 EndProject
-Project("{f2a71f9b-5d33-465a-a702-920d77279786}") = "ANTLRStudio.Diagrams", "ANTLRStudio.Diagrams\ANTLRStudio.Diagrams.fsproj", "{3E18CBC1-4E96-4141-8728-0571671A315C}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ANTLRStudio.Diagrams", "ANTLRStudio.Diagrams\ANTLRStudio.Diagrams.fsproj", "{3E18CBC1-4E96-4141-8728-0571671A315C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio.TreeLayout", "ANTLRStudio.TreeLayout\ANTLRStudio.TreeLayout.csproj", "{F632B167-6587-48A6-B8FA-5B9EA4FA2441}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio.TreeLayout.Example", "ANTLRStudio.TreeLayout.Example\ANTLRStudio.TreeLayout.Example.csproj", "{64E2AA29-834F-457D-A4A5-B898376AE677}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,5 +29,13 @@ Global
 		{3E18CBC1-4E96-4141-8728-0571671A315C}.Debug|x86.Build.0 = Debug|Any CPU
 		{3E18CBC1-4E96-4141-8728-0571671A315C}.Release|x86.ActiveCfg = Release|Any CPU
 		{3E18CBC1-4E96-4141-8728-0571671A315C}.Release|x86.Build.0 = Release|Any CPU
+		{F632B167-6587-48A6-B8FA-5B9EA4FA2441}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F632B167-6587-48A6-B8FA-5B9EA4FA2441}.Debug|x86.Build.0 = Debug|Any CPU
+		{F632B167-6587-48A6-B8FA-5B9EA4FA2441}.Release|x86.ActiveCfg = Release|Any CPU
+		{F632B167-6587-48A6-B8FA-5B9EA4FA2441}.Release|x86.Build.0 = Release|Any CPU
+		{64E2AA29-834F-457D-A4A5-B898376AE677}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{64E2AA29-834F-457D-A4A5-B898376AE677}.Debug|x86.Build.0 = Debug|Any CPU
+		{64E2AA29-834F-457D-A4A5-B898376AE677}.Release|x86.ActiveCfg = Release|Any CPU
+		{64E2AA29-834F-457D-A4A5-B898376AE677}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

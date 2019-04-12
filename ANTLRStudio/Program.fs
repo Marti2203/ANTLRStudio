@@ -1,11 +1,12 @@
-﻿// Learn more about F# at http://fsharp.org
-// See the 'F# Tutorial' project for more help.
-module Main
+﻿module Main
 open System;
 open Eto.Forms;
 open Eto.Drawing;
 open System.IO;
 open System.Text;
+open ANTLRStudio.TreeLayout;
+open ANTLRStudio.TreeLayout.Utilities;
+open ANTLRStudio.TreeLayout.Example;
 let RadioMenuItem = Menu.RadioMenuItem
 let CheckMenuItem = Menu.CheckMenuItem
 
@@ -41,9 +42,7 @@ let transform () =
     String.Join(" ", Seq.concat [strings;flags])
 
 let cwd = Directory.GetCurrentDirectory()
-let currentAntlr = Directory.GetFiles(cwd) |> Array.find(fun file -> printfn "%s" file
-                                                                     file.EndsWith("-complete.jar") 
-                                                                        && file.Contains("antlr"))
+let currentAntlr = Directory.GetFiles(cwd) |> Array.find(fun file -> file.EndsWith("-complete.jar") && file.Contains("antlr"))
 let antlrLocation = Path.Combine(cwd, currentAntlr)
 
 let buildSvgHtml(svg : string)=
@@ -130,6 +129,22 @@ let railwayForm (app:Application) (form:Form) =
     openGrammar form
     form.Content <- webView
     form
+let treeForm (app:Application) (form:Form) =
+    let tree = SampleTreeFactory.ASTTree()
+    let gapBetweenLevels = 50.f
+    let gapBetweenNodes = 10.f
+    let configuration = new DefaultConfiguration<TextInBox>(gapBetweenLevels, gapBetweenNodes, Configuration<TextInBox>.Location.Left)
+
+                // create the NodeExtentProvider for TextInBox nodes
+    let nodeExtentProvider = new TextInBoxNodeExtentProvider()
+
+    // create the layout
+    let treeLayout = new TreeLayout<TextInBox>(tree, nodeExtentProvider, configuration)
+
+    // Create a panel that draws the nodes and edges and show the panel
+    let panel = new TextInBoxTreePane(treeLayout)
+    form.Content <- panel
+    form
 
 [<STAThread>] // For Windows
 [<EntryPoint>]
@@ -141,7 +156,8 @@ let main argv =
     app.UnhandledException.Add(fun _ -> ())
     use form = new Form (Title = progName, Size =Size(Screen.PrimaryScreen.Bounds.Size))
 
-    railwayForm app form
+    treeForm app form
+    //railwayForm app form
         |> insertMenus app 
         |> app.Run
     0

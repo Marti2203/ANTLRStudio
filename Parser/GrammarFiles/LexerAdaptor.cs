@@ -9,8 +9,9 @@ namespace GrammarGrammar
 
 #pragma warning disable CA1012 // Abstract types should not have constructors
     public abstract class LexerAdaptor : Lexer
-#pragma warning restore CA1012 // But Lexer demands it
+#pragma warning restore CA1012 // But Lexer demands it - old 
     {
+        // I copy a reference to the stream, so It can be used as a Char Stream, not as a IISStream
         readonly ICharStream stream;
         readonly FieldInfo tokenInput = typeof(CommonToken).GetField("_type", BindingFlags.NonPublic | BindingFlags.Instance);
         protected LexerAdaptor(ICharStream input)
@@ -38,9 +39,9 @@ namespace GrammarGrammar
          */
         private int CurrentRuleType { get; set; } = TokenConstants.InvalidType;
 
-        protected void HandleBeginArgument()
+        protected void handleBeginArgument()
         {
-            if (InLexerRule())
+            if (InLexerRule)
             {
                 PushMode(ANTLRv4Lexer.LexerCharSet);
                 More();
@@ -51,7 +52,7 @@ namespace GrammarGrammar
             }
         }
 
-        protected void HandleEndArgument()
+        protected void handleEndArgument()
         {
             PopMode();
             if (ModeStack.Count > 0)
@@ -60,7 +61,7 @@ namespace GrammarGrammar
             }
         }
 
-        protected void HandleEndAction()
+        protected void handleEndAction()
         {
             PopMode();
             if (ModeStack.Count > 0)
@@ -101,16 +102,10 @@ namespace GrammarGrammar
             return token;
         }
 
-        private bool InLexerRule()
-        {
-            return CurrentRuleType == ANTLRv4Lexer.TOKEN_REF;
-        }
+        private bool InLexerRule => CurrentRuleType == ANTLRv4Lexer.TOKEN_REF;
 
 
-        private bool InParserRule()
-        { // not used, but added for clarity
-            return CurrentRuleType == ANTLRv4Lexer.RULE_REF;
-        }
+        private bool InParserRule => CurrentRuleType == ANTLRv4Lexer.RULE_REF;
 
     }
 }

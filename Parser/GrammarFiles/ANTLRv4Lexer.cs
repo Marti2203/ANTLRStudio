@@ -159,21 +159,21 @@ namespace ANTLRStudio.Parser
         {
             switch (actionIndex)
             {
-                case 0: HandleBeginArgument(); break;
+                case 0: handleBeginArgument(); break;
             }
         }
         private void END_ARGUMENT_action(RuleContext _localctx, int actionIndex)
         {
             switch (actionIndex)
             {
-                case 1: HandleEndArgument(); break;
+                case 1: handleEndArgument(); break;
             }
         }
         private void END_ACTION_action(RuleContext _localctx, int actionIndex)
         {
             switch (actionIndex)
             {
-                case 2: HandleEndAction(); break;
+                case 2: handleEndAction(); break;
             }
         }
 

@@ -128,6 +128,14 @@
       <Project>{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}</Project>
       <Name>ANTLRStudio.Parser</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ANTLRStudio.TreeLayout\ANTLRStudio.TreeLayout.csproj">
+      <Project>{F632B167-6587-48A6-B8FA-5B9EA4FA2441}</Project>
+      <Name>ANTLRStudio.TreeLayout</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ANTLRStudio.TreeLayout.Example\ANTLRStudio.TreeLayout.Example.csproj">
+      <Project>{64E2AA29-834F-457D-A4A5-B898376AE677}</Project>
+      <Name>ANTLRStudio.TreeLayout.Example</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(FSharpTargetsPath)" />
   <Import Project="..\packages\Eto.Forms.2.4.1\build\Eto.Forms.targets" Condition="Exists('..\packages\Eto.Forms.2.4.1\build\Eto.Forms.targets')" />
