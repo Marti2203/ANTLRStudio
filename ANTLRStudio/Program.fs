@@ -90,7 +90,28 @@ let readGrammar name =
                                        diagram.writeSvg(writer)
                                        writer.Write("\n") )
     writer.ToString() |> buildSvgHtml |> webView.LoadHtml
-    
+
+
+let mutable addedMenus = false
+let addMenus (form:Form) (menuItems: MenuItem seq) =
+    menuItems |> Seq.iter form.Menu.Items.Add
+
+let specificMenus =
+    let transformCheckItem option =
+        let item = CheckMenuItem(option.Name)
+                   |> action (fun _ -> option.Value <- not option.Value )
+        if not option.Value 
+            then item 
+        else (item |> check)
+    [
+    SubMenu("Language", languages 
+                        |> Seq.map(fun (name,value) -> RadioMenuItem("Languages",name) 
+                                                       |> action (fun _ -> language <- value)))
+    SubMenu("Options",  options |> Seq.map transformCheckItem)
+    ActionMenuItem("Generate")  |> action generate
+    ] 
+    |> Seq.map makeMenu
+
 let openGrammar (form:Form) =
     let dir = Directory.GetCurrentDirectory() // Eto changes the directory?!
     use dialog = new OpenFileDialog(MultiSelect = false,
@@ -102,29 +123,21 @@ let openGrammar (form:Form) =
     match dialog.ShowDialog(form.ParentWindow) with
     | DialogResult.Ok -> if dialog.FileName <> null then
                             fileName <- dialog.FileName
+                            if not addedMenus then
+                                addedMenus <- true
+                                addMenus form specificMenus
     | v -> printf "User pressed %O" v
     if fileName <> null then readGrammar fileName
     Directory.SetCurrentDirectory(dir) // Eto changes the directory?!
-let insertMenus (app:Application) (form:Form) =
-    let transformCheckItem option =
-        let item = CheckMenuItem(option.Name)
-                   |> action (fun _ -> option.Value <- not option.Value )
-        if not option.Value 
-            then item 
-        else (item |> check)
 
+let setupInitialMenus (app:Application) (form:Form) =
     let menu = new MenuBar()
     let menus = [
                 SubMenu("File",
                     [
                     ActionMenuItem("Open") |> action (fun _ -> openGrammar form)                                         
                     ActionMenuItem("Quit") |> action (fun _ -> app.Quit())
-                    ]) 
-                SubMenu("Language", languages 
-                                    |> Seq.map(fun (name,value) -> RadioMenuItem("Languages",name) 
-                                                                   |> action (fun _ -> language <- value)))
-                SubMenu("Options",  options |> Seq.map transformCheckItem)
-                ActionMenuItem("Generate")  |> action generate
+                    ])
                 ]
     menus |> Seq.iter (menu.Items.Add << makeMenu)
     form.Menu <- menu
@@ -162,7 +175,7 @@ let main argv =
     use form = new Form (Title = progName, Size =Size(Screen.PrimaryScreen.Bounds.Size))
 
     //treeForm app form
-    railwayForm app form
-        |> insertMenus app 
+    setupInitialMenus app form
+        |> railwayForm app
         |> app.Run
     0
