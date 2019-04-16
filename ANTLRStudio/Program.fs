@@ -97,6 +97,7 @@ let openGrammar (form:Form) =
                                     Title = "Select Grammar",
                                     CheckFileExists = true,
                                     Directory = new Uri(Environment.GetFolderPath(Environment.SpecialFolder.Desktop)))
+    dialog.Filters.Add(new FileFilter("ANTLR Files (.g4)",".g4"))
     let mutable fileName = null
     match dialog.ShowDialog(form.ParentWindow) with
     | DialogResult.Ok -> if dialog.FileName <> null then
