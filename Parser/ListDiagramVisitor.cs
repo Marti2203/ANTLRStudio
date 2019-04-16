@@ -3,12 +3,11 @@ using Antlr4.Runtime.Misc;
 using static RailwayPortPy;
 using Microsoft.FSharp.Core;
 using System.Linq;
-using ANTLRStudio.Parser;
 using System.Collections.Generic;
 using Item = System.ValueTuple<string, RailwayPortPy.Diagram>;
 using ItemSequence = System.Collections.Generic.IEnumerable<(string Name, RailwayPortPy.Diagram Diagram)>;
 using Antlr4.Runtime;
-namespace Parser
+namespace ANTLRStudio.Parser
 {
     public class ListDiagramVisitor : ANTLRv4ParserBaseVisitor<ItemSequence>
     {
@@ -31,10 +30,10 @@ namespace Parser
             {
                 string type = decl.grammarType().LEXER() != null ? "Lexer" : decl.grammarType().PARSER() != null ? "Parser" : "Combined";
                 string name = decl.identifier().GetText();
-                return $"{type} Grammar {name }";
+                return $"{type} Grammar {name}";
             }
             string grammarName = VisitGrammarDecl(context.grammarDecl());
-            var comments = context.DOC_COMMENT().Select(x => x.GetText()).Select(CreateComment).Select(x => ("Grammar Comment", DiagramOf(x)));
+            var comments = context.DOC_COMMENT().Select(x => x.GetText()).Select(CreateComment).Select(x => ($"{grammarName} Comment", DiagramOf(x)));
             //var prequel = context.prequelConstruct(); NOT YET
             var rules = context.rules().ruleSpec().SelectMany(VisitRuleSpec);
             var modeSpecs = context.modeSpec().SelectMany(VisitModeSpec);
@@ -43,15 +42,115 @@ namespace Parser
         }
 
 
+        private static Terminal TerminalWithClass(string text, string cssClass)
+        {
+            var item = new Terminal(text, noneString, noneString);
+            item.attrs["class"] = cssClass;
+            return item;
+        }
         private static void CheckAdd(ParserRuleContext context, string cssClass, List<DiagramItem> items)
         {
             if (context != null)
             {
-                var item = new Terminal(context.GetText(), noneString, noneString);
-                item.attrs["class"] = cssClass;
-                items.Add(item);
+                items.Add(TerminalWithClass(context.GetText(), cssClass));
             }
         }
+        private static DiagramItem EBNFSuffix(ANTLRv4Parser.EbnfSuffixContext ebnfSuffix, DiagramItem element)
+        {
+            if (ebnfSuffix == null)
+                return element;
+            switch (ebnfSuffix.GetText())
+            {
+                case "?":
+                    return Optional(element, false);
+                case "*":
+                    return ZeroOrMore(FSharpChoice<DiagramItem, string>.NewChoice1Of2(element),
+                                      FSharpOption<FSharpChoice<DiagramItem, string>>.None, false);
+                case "+":
+                    return new OneOrMore(FSharpChoice<DiagramItem, string>.NewChoice1Of2(element),
+                                         FSharpOption<FSharpChoice<DiagramItem, string>>.None);
+            }
+            throw new InvalidOperationException("WTF?!");
+        }
+        private DiagramItem Transform(ANTLRv4Parser.LabeledAltContext context)
+        {
+            var identifier = context.identifier()?.GetText() ?? string.Empty;
+            var alternative = context.alternative();
+            if (string.IsNullOrEmpty(alternative.GetText()))
+            {
+                return new Terminal($"{(string.IsNullOrEmpty(identifier) ? string.Empty : identifier + " = ")} emptyString", noneString, noneString);
+            }
+            return new Sequence(alternative.element().Select(Transform).Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2));
+        }
+        private DiagramItem Transform(ANTLRv4Parser.ElementContext context)
+        {
+            if (context.labeledElement() != null)
+                return EBNFSuffix(context.ebnfSuffix(), Transform(context.labeledElement()));
+
+            if (context.atom() != null)
+                return Transform(context.atom());
+
+            if (context.ebnf() != null)
+                return EBNFSuffix(context.ebnf().blockSuffix()?.ebnfSuffix(), Transform(context.ebnf().block()));
+
+            if (context.actionBlock() != null)
+                return TerminalWithClass(context.actionBlock().GetText(), "actionBlocks");
+
+            throw new NotImplementedException();
+        }
+        private DiagramItem Transform(ANTLRv4Parser.LabeledElementContext context)
+        => new Sequence(new DiagramItem[]
+                        {
+                        new Terminal($"{context.identifier()} {context.ASSIGN()?.GetText() ?? context.PLUS_ASSIGN()?.GetText() }", noneString, noneString),
+                        context.atom() != null ? Transform(context.atom()) : Transform(context.block())
+                        }.Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2));
+        private DiagramItem Transform(ANTLRv4Parser.AtomContext context)
+        {
+
+            if (context.terminal() != null)
+                return new Terminal(context.terminal().TOKEN_REF()?.GetText() ?? context.terminal().STRING_LITERAL().GetText(), noneString, noneString);
+            if (context.ruleref() != null)
+            {
+                List<Terminal> terminals = new List<Terminal>(2) { new Terminal(context.ruleref().RULE_REF().GetText(), noneString, noneString) };
+                if (context.ruleref().argActionBlock() != null)
+                    terminals.Add(TerminalWithClass(context.ruleref().argActionBlock().GetText(), "argActionBlocks"));
+                return new Sequence(terminals.Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2));
+            }
+            if (context.notSet() != null)
+                return new Sequence(new DiagramItem[] { TerminalWithClass("NOT", "nots"),
+                                    context.notSet().setElement() == null ? Transform(context.notSet().blockSet()) : Transform(context.notSet().setElement()) }
+                                    .Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2));
+            if (context.DOT() != null)
+                return new Terminal("Anything", noneString, noneString);
+            throw new NotImplementedException();
+        }
+
+        private DiagramItem Transform(ANTLRv4Parser.BlockContext context)
+        => new Sequence(context.ruleAction()
+                               .Select(x => x.GetText())
+                               .Select(x => TerminalWithClass(x, "ruleActions"))
+                               .Append(Transform(context.altList()))
+                               .Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2));
+
+
+        private DiagramItem Transform(ANTLRv4Parser.AltListContext context)
+        => context.alternative().Length == 1
+                ? Transform(context.alternative()[0])
+                : new Choice(0, context.alternative().Select(Transform).Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2));
+
+        private DiagramItem Transform(ANTLRv4Parser.AlternativeContext context)
+        => context.element().Length == 1
+                ? Transform(context.element()[0])
+                : new Choice(0, context.element().Select(Transform).Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2));
+
+        private DiagramItem Transform(ANTLRv4Parser.BlockSetContext context)
+        => context.setElement().Length == 1
+                ? Transform(context.setElement()[0])
+                : new Choice(0, context.setElement().Select(Transform).Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2));
+
+        //TODO May need to rework this
+        private DiagramItem Transform(ANTLRv4Parser.SetElementContext context)
+        => new Terminal(context.GetText(), noneString, noneString);
         public override ItemSequence VisitParserRuleSpec([NotNull] ANTLRv4Parser.ParserRuleSpecContext context)
         {
             var displayName = context.ruleModifiers()?.GetText() + context.RULE_REF();
@@ -67,9 +166,9 @@ namespace Parser
 
             var alternatives = context.ruleBlock().ruleAltList().labeledAlt();
             if (alternatives.Length == 1)
-                items.Add(new Terminal(alternatives[0].GetText(), noneString, noneString));
+                items.Add(Transform(alternatives[0]));
             else
-                items.Add(HorizontalChoice(alternatives.Select(x => x.GetText()).Select(FSharpChoice<DiagramItem, string>.NewChoice2Of2)));
+                items.Add(new Choice(0, alternatives.Select(Transform).Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2)));
 
             if (context.exceptionGroup() != null)
             {
@@ -81,8 +180,7 @@ namespace Parser
             CheckAdd(context.ruleReturns()?.argActionBlock(), "returns", items);
 
 
-            return comments.Concat(SequenceOf(displayName, new Diagram(items.Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2), FSharpOption<ComplexityType>.None, noneString)))
-                           ;
+            return comments.Concat(SequenceOf(displayName, new Sequence(items.Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2))));
         }
 
         public override ItemSequence VisitModeSpec([NotNull] ANTLRv4Parser.ModeSpecContext context)
@@ -90,8 +188,86 @@ namespace Parser
            .Concat(context.lexerRuleSpec().SelectMany(VisitLexerRuleSpec))
            .Concat(SequenceOf($"End Mode {context.identifier().GetText()}", new Skip()));
 
+        public override ItemSequence VisitLexerRuleSpec([NotNull] ANTLRv4Parser.LexerRuleSpecContext context)
+        {
+            var displayName = context.FRAGMENT()?.GetText() + context.TOKEN_REF();
+            var comments = context.DOC_COMMENT().Select(x => x.GetText()).Select(CreateComment).Select(x => ($"{context.TOKEN_REF().GetText()} Comment", DiagramOf(x)));
+            return comments.Concat(SequenceOf(displayName, Transform(context.lexerRuleBlock().lexerAltList())));
+        }
+
+        private DiagramItem Transform(ANTLRv4Parser.LexerAltListContext context)
+        => context.lexerAlt().Length == 1
+                ? Transform(context.lexerAlt()[0])
+                : new Choice(0, context.lexerAlt().Select(Transform).Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2));
+
+        private DiagramItem Transform(ANTLRv4Parser.LexerAltContext context)
+        {
+            var lexerElements = context.lexerElements().lexerElement().Select(Transform).Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2);
+
+            if (context.lexerCommands() != null)
+                return new Sequence(lexerElements.Append(FSharpChoice<DiagramItem, string>.NewChoice1Of2(TerminalWithClass("->", "rightArrows")))
+                                                 .Concat(context.lexerCommands()
+                                                                .lexerCommand()
+                                                                .Select(x => TerminalWithClass(x.GetText(), "lexerCommands"))
+                                                                             .Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2)));
+            return new Sequence(lexerElements);
+        }
+
+        private DiagramItem Transform(ANTLRv4Parser.LexerElementContext context)
+        {
+            if (context.labeledLexerElement() != null)
+                return EBNFSuffix(context.ebnfSuffix(), Transform(context.labeledLexerElement()));
+            if (context.lexerAtom() != null)
+                return EBNFSuffix(context.ebnfSuffix(), Transform(context.lexerAtom()));
+            if (context.lexerBlock() != null)
+                return EBNFSuffix(context.ebnfSuffix(), Transform(context.lexerBlock()));
+            if (context.actionBlock() != null)
+                return TerminalWithClass(context.actionBlock().GetText() + (context.QUESTION()?.GetText() ?? string.Empty), "actionBlocks");
+            throw new InvalidOperationException("WTF?!");
+        }
+
+        private DiagramItem Transform(ANTLRv4Parser.LexerBlockContext context)
+        {
+            if (context.lexerAltList().lexerAlt().Length == 1)
+                return Transform(context.lexerAltList().lexerAlt()[0]);
+            return new Choice(0, context.lexerAltList().lexerAlt().Select(Transform).Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2));
+        }
+
+        private DiagramItem Transform(ANTLRv4Parser.LexerAtomContext context)
+        {
+            if (context.terminal() != null)
+                return new Terminal(context.terminal().TOKEN_REF()?.GetText() ?? context.terminal().STRING_LITERAL().GetText(), noneString, noneString);
+            if (context.LEXER_CHAR_SET() != null)
+            {
+                return new Terminal(context.LEXER_CHAR_SET().GetText(), noneString, noneString);
+            }
+            if (context.notSet() != null)
+                return new Sequence(new DiagramItem[] { TerminalWithClass("NOT", "nots"),
+                                    context.notSet().setElement() == null ? Transform(context.notSet().blockSet()) : Transform(context.notSet().setElement()) }
+                                    .Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2));
+            if (context.DOT() != null)
+                return new Terminal("Anything", noneString, noneString);
+            if (context.characterRange() != null)
+            {
+                char start = char.Parse(context.characterRange().STRING_LITERAL()[0].GetText().Split('\'')[1]);
+                char end = char.Parse(context.characterRange().STRING_LITERAL()[1].GetText().Split('\'')[1]);
+                return new Choice(0, Enumerable.Range(start, end + 1)
+                                               .Select(x => new string((char)x, 1))
+                                               .Select(x => new Terminal(x, noneString, noneString))
+                                               .Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2));
+            }
+            throw new InvalidOperationException("WTF?!?!");
+        }
+
+        private DiagramItem Transform(ANTLRv4Parser.LabeledLexerElementContext context)
+        => new Sequence(new DiagramItem[]
+                        {
+                        new Terminal($"{context.identifier()} {context.ASSIGN()?.GetText() ?? context.PLUS_ASSIGN()?.GetText() }", noneString, noneString),
+                        context.lexerAtom() != null ? Transform(context.lexerAtom()) : Transform(context.lexerBlock())
+                        }.Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2));
+
         public override ItemSequence VisitRuleSpec([NotNull] ANTLRv4Parser.RuleSpecContext context)
-        => context.lexerRuleSpec() == null ? VisitLexerRuleSpec(context.lexerRuleSpec()) : VisitParserRuleSpec(context.parserRuleSpec());
+        => context.lexerRuleSpec() != null ? VisitLexerRuleSpec(context.lexerRuleSpec()) : VisitParserRuleSpec(context.parserRuleSpec());
 
     }
 }

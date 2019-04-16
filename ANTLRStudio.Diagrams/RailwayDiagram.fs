@@ -16,7 +16,7 @@ let CHAR_WIDTH = 8.5f //# width of each monospace character. play until you find
 let COMMENT_CHAR_WIDTH = 7.f //# comments are in smaller text by default
 
 
-let Escape text = 
+let public escape text = 
      Regex.Replace(text,"[*_\`\[\]<&]",MatchEvaluator(fun m -> sprintf "&#%i;" <| int m.Value.[0]))
      
 
@@ -56,14 +56,14 @@ type DiagramItem(name,?attributes,?text) =
                 writer.Write(sprintf "<%s" name)
                 self.attrs
                 |> Seq.sortBy (fun x -> x.Key)
-                |> Seq.iter (fun x -> writer.Write(sprintf" %s=\"%s\"" x.Key <| Escape x.Value))
+                |> Seq.iter (fun x -> writer.Write(sprintf" %s=\"%s\"" x.Key <| escape x.Value))
                 writer.Write(">")
                 if Seq.contains name <| ["g"; "svg"] then
                     writer.Write("\n")
                 self.children
                 |> Seq.iter(fun child -> match child with
                                          | Choice1Of2 c -> c.writeSvg(writer)
-                                         | Choice2Of2 x -> writer.Write(Escape x))
+                                         | Choice2Of2 x -> writer.Write(escape x))
                 writer.Write(sprintf "</%s>" name)
 and DiString = Choice<DiagramItem,string>
 
@@ -828,11 +828,11 @@ type MultipleChoice(defaultChoice:int,choiceType:ChoiceType,items: DiString seq)
 
 type HorizontalChoiceImpl(items: DiString seq) as self =
     inherit DiagramItem( "g")
-
-    let allButLast = self.items |> Seq.take (self.items.Count - 1) 
-    let middles = self.items |> Seq.skip 1
-    let first = self.items.[0]
-    let last = self.items |> Seq.last
+    let it = ResizeArray(items |> Seq.map wrap)
+    let allButLast = it |> Seq.take (items |> Seq.length |> fun x -> x - 1) 
+    let middles = it |> Seq.skip 1
+    let first = it.[0]
+    let last = it |> Seq.last
     let upperTrack = [AR*2.f;VS;(allButLast |> Seq.map(fun x -> x.up) |> Seq.max) + VS] |> Seq.max
 
     let mutable lowerTrackContainer = 0.f
@@ -855,7 +855,7 @@ type HorizontalChoiceImpl(items: DiString seq) as self =
         self.down <- max self.lowerTrack (first.height + first.down)
         addDebug(self)
 
-    member val items: ResizeArray<DiagramItem> = ResizeArray(items |> Seq.map wrap) with get
+    member val items: ResizeArray<DiagramItem> = it with get
 
     member val lowerTrack = 0.f with get,set     
                                               
@@ -1057,6 +1057,6 @@ type Comment(text:string,?href:string ,?title:string) as self=
 
 let add(name, diagram: DiagramItem, writer: TextWriter option)=
     let writer : TextWriter = defaultArg writer System.Console.Out 
-    writer.Write(sprintf "<h1>%s</h1>\n" <| Escape(name))
+    writer.Write(sprintf "<h1>%s</h1>\n" <| escape(name))
     diagram.writeSvg(writer)
     writer.Write("\n")

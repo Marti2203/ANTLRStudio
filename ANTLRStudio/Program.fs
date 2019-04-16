@@ -84,7 +84,11 @@ let readGrammar name =
     use writer = new System.IO.StringWriter()
     printfn "%s" name
     file <- name
-    (ANTLRStudio.Parser.AntlrParser.ParseFile file).writeSvg(writer)
+    (ANTLRStudio.Parser.AntlrParser.ParseFile file)
+    |> Seq.map (fun x -> x.ToTuple())
+    |> Seq.iter (fun (name,diagram) -> writer.Write(sprintf "<h1>%s</h1>\n" <| RailwayPortPy.escape(name))
+                                       diagram.writeSvg(writer)
+                                       writer.Write("\n") )
     writer.ToString() |> buildSvgHtml |> webView.LoadHtml
     
 let openGrammar (form:Form) =
@@ -156,8 +160,8 @@ let main argv =
     app.UnhandledException.Add(fun _ -> ())
     use form = new Form (Title = progName, Size =Size(Screen.PrimaryScreen.Bounds.Size))
 
-    treeForm app form
-    //railwayForm app form
+    //treeForm app form
+    railwayForm app form
         |> insertMenus app 
         |> app.Run
     0
