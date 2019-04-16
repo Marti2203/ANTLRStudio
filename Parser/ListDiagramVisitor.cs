@@ -101,7 +101,7 @@ namespace ANTLRStudio.Parser
         private DiagramItem Transform(ANTLRv4Parser.LabeledElementContext context)
         => new Sequence(new DiagramItem[]
                         {
-                        new Terminal($"{context.identifier()} {context.ASSIGN()?.GetText() ?? context.PLUS_ASSIGN()?.GetText() }", noneString, noneString),
+                        new Terminal($"{context.identifier().GetText()} {context.ASSIGN()?.GetText() ?? context.PLUS_ASSIGN()?.GetText() }", noneString, noneString),
                         context.atom() != null ? Transform(context.atom()) : Transform(context.block())
                         }.Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2));
         private DiagramItem Transform(ANTLRv4Parser.AtomContext context)
@@ -262,7 +262,7 @@ namespace ANTLRStudio.Parser
         private DiagramItem Transform(ANTLRv4Parser.LabeledLexerElementContext context)
         => new Sequence(new DiagramItem[]
                         {
-                        new Terminal($"{context.identifier()} {context.ASSIGN()?.GetText() ?? context.PLUS_ASSIGN()?.GetText() }", noneString, noneString),
+                        new Terminal($"{context.identifier().GetText()} {context.ASSIGN()?.GetText() ?? context.PLUS_ASSIGN()?.GetText() }", noneString, noneString),
                         context.lexerAtom() != null ? Transform(context.lexerAtom()) : Transform(context.lexerBlock())
                         }.Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2));
 
