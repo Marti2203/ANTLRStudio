@@ -113,7 +113,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models.fs" />
+    <Compile Include="State.fs" />
     <Compile Include="Utils.fs" />
+    <Compile Include="AntlrTools.fs" />
+    <Compile Include="FormElements.fs" />
+    <Compile Include="MenuOperations.fs" />
     <Compile Include="DiagramTest.fs" />
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Program.fs" />
