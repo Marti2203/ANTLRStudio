@@ -69,8 +69,9 @@ namespace ANTLRStudio.Parser
                 case "+":
                     return new OneOrMore(FSharpChoice<DiagramItem, string>.NewChoice1Of2(element),
                                          FSharpOption<FSharpChoice<DiagramItem, string>>.None);
+                default:
+                    throw new InvalidOperationException("WTF?!");
             }
-            throw new InvalidOperationException("WTF?!");
         }
         private DiagramItem Transform(ANTLRv4Parser.LabeledAltContext context)
         {

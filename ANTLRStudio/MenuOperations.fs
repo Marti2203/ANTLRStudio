@@ -3,6 +3,7 @@ open Eto.Forms;
 open Models;
 open State;
 open AntlrTools;
+open FormElements;
 let RadioMenuItem = Menu.RadioMenuItem
 let CheckMenuItem = Menu.CheckMenuItem
 let mutable addedMenus = false
@@ -42,8 +43,8 @@ let setupInitialMenus (app:Application) (form:Form) =
     let menus = [
                 SubMenu("File",
                     [
-                    ActionMenuItem("Open") |> action (fun _ -> railwayForm app form )
-                    ActionMenuItem("Close")|> action (fun _ -> ())                                         
+                    ActionMenuItem("Open") |> action (fun _ -> railwayForm app form  |> ignore)
+                    //ActionMenuItem("Close")|> action (fun _ -> ())
                     ActionMenuItem("Quit") |> action (fun _ -> app.Quit())
                     ])
                 ]

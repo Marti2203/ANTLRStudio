@@ -11,11 +11,11 @@ let main argv =
     let progName = "ANTLRStudio"
     Console.Title <- progName
     use app = new Application ()
-    app.UnhandledException.Add(fun _ -> ())
+    app.UnhandledException.Add(fun e -> printfn "%A" e.ExceptionObject)
     use form = new Form (Title = progName, Size = Size(Screen.PrimaryScreen.Bounds.Size))
 
-    //treeForm app form
     setupInitialMenus app form
-        |> railwayForm app
+        //|> treeForm app
+        //|> railwayForm app
         |> app.Run
     0

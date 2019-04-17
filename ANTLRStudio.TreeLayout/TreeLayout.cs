@@ -5,6 +5,7 @@ using System.Text;
 using ANTLRStudio.TreeLayout.Interfaces;
 using ANTLRStudio.TreeLayout.Utilities.Internal;
 using Eto.Drawing;
+using System.Linq;
 
 namespace ANTLRStudio.TreeLayout
 {
@@ -22,7 +23,7 @@ namespace ANTLRStudio.TreeLayout
      *  
      * @param <TreeNode> Type of elements used as nodes in the tree
      */
-    public class TreeLayout<TreeNode>
+    public class TreeLayout<TreeNode> where TreeNode : class
     {
         /**
          * Returns the Tree the layout is created for.
@@ -38,20 +39,12 @@ namespace ANTLRStudio.TreeLayout
          */
         public INodeExtentProvider<TreeNode> NodeExtentProvider { get; }
 
-        private float NodeHeight(TreeNode node)
-        {
-            return NodeExtentProvider.Height(node);
-        }
+        private float NodeHeight(TreeNode node) => NodeExtentProvider.Height(node);
 
-        private float NodeWidth(TreeNode node)
-        {
-            return NodeExtentProvider.Width(node);
-        }
+        private float NodeWidth(TreeNode node) => NodeExtentProvider.Width(node);
 
         private float WidthOrHeightOfNode(TreeNode treeNode, bool returnWidth)
-        {
-            return returnWidth ? NodeWidth(treeNode) : NodeHeight(treeNode);
-        }
+        => returnWidth ? NodeWidth(treeNode) : NodeHeight(treeNode);
 
         /**
          * When the level changes in Y-axis (i.e. root location Top or Bottom) the
@@ -65,9 +58,8 @@ namespace ANTLRStudio.TreeLayout
          * @return
          */
         private float NodeThickness(TreeNode treeNode)
-        {
-            return WidthOrHeightOfNode(treeNode, !IsLevelChangeInYAxis);
-        }
+        => WidthOrHeightOfNode(treeNode, !IsLevelChangeInYAxis);
+
 
         /**
          * When the level changes in Y-axis (i.e. root location Top or Bottom) the
@@ -80,9 +72,8 @@ namespace ANTLRStudio.TreeLayout
          * @return
          */
         private float NodeSize(TreeNode treeNode)
-        {
-            return WidthOrHeightOfNode(treeNode, IsLevelChangeInYAxis);
-        }
+        => WidthOrHeightOfNode(treeNode, IsLevelChangeInYAxis);
+
 
         /**
          * Returns the Configuration used by this {@link TreeLayout}.
@@ -92,13 +83,9 @@ namespace ANTLRStudio.TreeLayout
         public Configuration<TreeNode> Configuration { get; }
 
         private bool IsLevelChangeInYAxis
-        {
-            get
-            {
-                Configuration<TreeNode>.Location rootLocation = Configuration.RootLocation;
-                return rootLocation == Configuration<TreeNode>.Location.Top || rootLocation == Configuration<TreeNode>.Location.Bottom;
-            }
-        }
+        => Configuration.RootLocation == Configuration<TreeNode>.Location.Top
+            || Configuration.RootLocation == Configuration<TreeNode>.Location.Bottom;
+
 
         private int LevelChangeSign
         {
@@ -252,16 +239,14 @@ namespace ANTLRStudio.TreeLayout
         // ------------------------------------------------------------------------
         // The Algorithm
 
-        private readonly bool useIdentity;
-
-        private readonly Dictionary<TreeNode, float> mod;
-        private readonly Dictionary<TreeNode, TreeNode> thread;
-        private readonly Dictionary<TreeNode, float> prelim;
-        private readonly Dictionary<TreeNode, float> change;
-        private readonly Dictionary<TreeNode, float> shift;
-        private readonly Dictionary<TreeNode, TreeNode> ancestor1;
-        private readonly Dictionary<TreeNode, int> number;
-        private readonly Dictionary<TreeNode, NormalizedPosition> positions;
+        private readonly Dictionary<TreeNode, float> mod = new Dictionary<TreeNode, float>();
+        private readonly Dictionary<TreeNode, TreeNode> thread = new Dictionary<TreeNode, TreeNode>();
+        private readonly Dictionary<TreeNode, float> prelim = new Dictionary<TreeNode, float>();
+        private readonly Dictionary<TreeNode, float> change = new Dictionary<TreeNode, float>();
+        private readonly Dictionary<TreeNode, float> shift = new Dictionary<TreeNode, float>();
+        private readonly Dictionary<TreeNode, TreeNode> ancestor1 = new Dictionary<TreeNode, TreeNode>();
+        private readonly Dictionary<TreeNode, int> number = new Dictionary<TreeNode, int>();
+        private readonly Dictionary<TreeNode, NormalizedPosition> positions = new Dictionary<TreeNode, NormalizedPosition>();
 
         private float GetMod(TreeNode node) => mod.ContainsKey(node) ? mod[node] : 0;
 
@@ -280,13 +265,7 @@ namespace ANTLRStudio.TreeLayout
         }
 
         private TreeNode GetThread(TreeNode node)
-        {
-            if (thread.ContainsKey(node))
-            {
-                return thread[node];
-            }
-            return default(TreeNode);
-        }
+        => thread.ContainsKey(node) ? thread[node] : default(TreeNode);
 
         private void SetThread(TreeNode node, TreeNode thread)
         {
@@ -302,34 +281,24 @@ namespace ANTLRStudio.TreeLayout
         }
 
         private TreeNode GetAncestor(TreeNode node)
-        {
-            if (ancestor1.ContainsKey(node))
-            {
-                return ancestor1[node];
-            }
-            return default(TreeNode);
-        }
+        => ancestor1.ContainsKey(node) ? ancestor1[node] : default(TreeNode);
+
 
         private void SetAncestor(TreeNode node, TreeNode ancestor)
         {
-            if (this.ancestor1.ContainsKey(node))
+            if (ancestor1.ContainsKey(node))
             {
-                this.ancestor1[node] = ancestor;
+                ancestor1[node] = ancestor;
             }
             else
             {
-                this.ancestor1.Add(node, ancestor);
+                ancestor1.Add(node, ancestor);
             }
         }
 
         private float GetPrelim(TreeNode node)
-        {
-            if (prelim.ContainsKey(node))
-            {
-                return prelim[node];
-            }
-            return 0;
-        }
+        => prelim.ContainsKey(node) ? prelim[node] : 0;
+
 
         private void SetPrelim(TreeNode node, float d)
         {
@@ -386,18 +355,11 @@ namespace ANTLRStudio.TreeLayout
          * @return the distance between node v and w
          */
         private float GetDistance(TreeNode v, TreeNode w)
-        {
-            float sizeOfNodes = NodeSize(v) + NodeSize(w);
-
-            float distance = sizeOfNodes / 2 + Configuration.GapBetweenNodes(v, w);
-            return distance;
-        }
+        => (NodeSize(v) + NodeSize(w)) / 2 + Configuration.GapBetweenNodes(v, w);
 
         private TreeNode NextLeft(TreeNode v) => Tree.IsLeaf(v) ? GetThread(v) : Tree.FirstChild(v);
 
-
         private TreeNode NextRight(TreeNode v) => Tree.IsLeaf(v) ? GetThread(v) : Tree.LastChild(v);
-
 
         /**
          * 
@@ -452,7 +414,6 @@ namespace ANTLRStudio.TreeLayout
 
         private void MoveSubtree(TreeNode wMinus, TreeNode wPlus, TreeNode parent, float shift)
         {
-
             int subtrees = Number(wPlus, parent) - Number(wMinus, parent);
             SetChange(wPlus, GetChange(wPlus) - shift / subtrees);
             SetShift(wPlus, GetShift(wPlus) + shift);
@@ -538,7 +499,7 @@ namespace ANTLRStudio.TreeLayout
                 vOMinus = NextLeft(vOMinus);
                 vOPlus = NextRight(vOPlus);
                 SetAncestor(vOPlus, v);
-                float shift = (GetPrelim(vIMinus) + sIMinus)
+                float shift = GetPrelim(vIMinus) + sIMinus
                         - (GetPrelim(vIPlus) + sIPlus)
                         + GetDistance(vIMinus, vIPlus);
 
@@ -730,16 +691,25 @@ namespace ANTLRStudio.TreeLayout
             {
                 if (nodeBounds == null)
                 {
-                    nodeBounds = new Dictionary<TreeNode, RectangleF>();
-                    foreach (TreeNode treeNode in positions.Keys)
+                    nodeBounds = positions.Keys.ToDictionary(treeNode => treeNode, treeNode =>
                     {
                         NormalizedPosition pos = positions[treeNode];
                         float w = NodeWidth(treeNode);
                         float h = NodeHeight(treeNode);
                         float x = pos.X - w / 2;
                         float y = pos.Y - h / 2;
-                        nodeBounds.Add(treeNode, new RectangleF(x, y, w, h));
-                    }
+                        return new RectangleF(x, y, w, h);
+                    });
+
+                    //foreach (TreeNode treeNode in positions.Keys)
+                    //{
+                    //    NormalizedPosition pos = positions[treeNode];
+                    //    float w = NodeWidth(treeNode);
+                    //    float h = NodeHeight(treeNode);
+                    //    float x = pos.X - w / 2;
+                    //    float y = pos.Y - h / 2;
+                    //    nodeBounds.Add(treeNode, new RectangleF(x, y, w, h));
+                    //}
                 }
                 return nodeBounds;
             }
@@ -757,30 +727,14 @@ namespace ANTLRStudio.TreeLayout
          * @param tree &nbsp;
          * @param nodeExtentProvider &nbsp;
          * @param configuration &nbsp;
-         * @param useIdentity
-         *            [default: false] when true, identity ("==") is used instead of
-         *            equality ("equals(...)") when checking nodes. Within a tree
-         *            each node must only exist once (using this check).
          */
         public TreeLayout(ITreeForTreeLayout<TreeNode> tree,
                 INodeExtentProvider<TreeNode> nodeExtentProvider,
-                Configuration<TreeNode> configuration, bool useIdentity)
+                Configuration<TreeNode> configuration)
         {
             Tree = tree;
             NodeExtentProvider = nodeExtentProvider;
             Configuration = configuration;
-            this.useIdentity = useIdentity;
-
-            this.mod = new Dictionary<TreeNode, float>();
-            this.thread = new Dictionary<TreeNode, TreeNode>();
-            this.prelim = new Dictionary<TreeNode, float>();
-            this.change = new Dictionary<TreeNode, float>();
-            this.shift = new Dictionary<TreeNode, float>();
-            this.ancestor1 = new Dictionary<TreeNode, TreeNode>();
-            this.number = new Dictionary<TreeNode, int>();
-            this.positions = new Dictionary<TreeNode, NormalizedPosition>();
-
-
             // No need to explicitly set mod, thread and ancestor as their getters
             // are taking care of the initial values. This avoids a full tree walk
             // through and saves some memory as no entries are added for
@@ -792,12 +746,6 @@ namespace ANTLRStudio.TreeLayout
             SecondWalk(r, -GetPrelim(r), 0, 0);
         }
 
-        public TreeLayout(ITreeForTreeLayout<TreeNode> tree,
-                INodeExtentProvider<TreeNode> nodeExtentProvider,
-                Configuration<TreeNode> configuration) : this(tree, nodeExtentProvider, configuration, false)
-        {
-
-        }
 
         // ------------------------------------------------------------------------
         // checkTree
@@ -848,21 +796,22 @@ namespace ANTLRStudio.TreeLayout
 
             if (dumpConfiguration.IncludeObjectToString)
             {
-                sb.Append("[");
-                sb.Append(node.GetType().Name + "@"
-                        + node.GetHashCode().ToString("X"));
-                sb.Append("]");
+                sb.Append("[")
+                  .Append(node.GetType().Name)
+                  .Append("@")
+                  .Append(node.GetHashCode().ToString("X"))
+                  .Append("]");
             }
 
             sb.Append(StringUtililities.Quote(node?.ToString()));
 
             if (dumpConfiguration.IncludeNodeSize)
             {
-                sb.Append(" (size: ");
-                sb.Append(NodeWidth(node));
-                sb.Append("x");
-                sb.Append(NodeHeight(node));
-                sb.Append(")");
+                sb.Append(" (size: ")
+                  .Append(NodeWidth(node))
+                  .Append("x")
+                  .Append(NodeHeight(node))
+                  .Append(")");
             }
 
             output.WriteLine(sb);
