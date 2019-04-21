@@ -38,33 +38,46 @@ let generate file language options =
     let processOutput = antlrJavaProcess.StandardOutput.ReadToEnd()
     printfn "%s" <| processOutput
 
-let generateParserLexerInMemory file data =
+let generateParserLexerInMemory file =
     let directory = Path.Combine(Directory.GetCurrentDirectory(),"Generations")
     if not <| Directory.Exists(directory) then Directory.CreateDirectory(directory) |> ignore
-    let directoryOption = { Name="Output Directory"; Value= true; ActiveFlag="-o";InactiveFlag=String.Empty}
-    generate file (languages |> Seq.find(fun (name, v) -> name = "C#") |> snd) [directoryOption]
+    let directoryOption = [{
+                            Name="Output Directory Flag"; Value= true; ActiveFlag="-o";InactiveFlag=String.Empty
+                           }
+                           {
+                            Name="Output Directory Location"; Value= true; ActiveFlag=directory;InactiveFlag=String.Empty
+                           }
+                           {
+                            Name="Package Flag"; Value = true; ActiveFlag = "-package";InactiveFlag=String.Empty
+                           }
+                           {
+                            Name="Package Name"; Value = true; ActiveFlag = "RandomAssembly";InactiveFlag=String.Empty
+                           }]
+    generate file (languages |> Seq.find(fun (name, v) -> name = "C#") |> snd) directoryOption
 
     use provider = new CSharpCodeProvider()
-    let referenceAssemblies = [|"System.dll" 
-                                "Antlr4.Runtime.dll"
-                                "Antlr4.Runtime.Standard.dll"|];
+    let referenceAssemblies = [|"System.dll";Path.Combine(cwd,"Antlr4.Runtime.Standard.dll")|];
     let resultName = sprintf "%s.dll" <| file.Split('.').[0]
     let parameters = new CompilerParameters(referenceAssemblies, resultName)
     parameters.GenerateInMemory <- true
     parameters.GenerateExecutable <- false
-    let results = provider.CompileAssemblyFromSource(parameters,Directory.GetFiles(directory) 
-                                                                |> Seq.filter(fun x -> x.EndsWith(".cs")) 
-                                                                |> Seq.toArray)
+    parameters.IncludeDebugInformation <- true
+    let files = Directory.GetFiles(directory) 
+                |> Seq.filter(fun x -> x.EndsWith(".cs")) 
+                |> Seq.toArray
+    let results = provider.CompileAssemblyFromFile(parameters,files)
     let lexerClass = results.CompiledAssembly.GetTypes() |> Seq.find (fun t -> t.IsSubclassOf(typeof<Lexer>))
-    let lexerInstance = lexerClass.GetConstructor([|typeof<ICharStream>|]).Invoke(null) :?> Lexer
+    let lexerInstance = lexerClass.GetConstructor([|typeof<ICharStream>|]).Invoke([|null|]) :?> Lexer
     let parserClass = results.CompiledAssembly.GetTypes() |> Seq.find (fun t -> t.IsSubclassOf(typeof<Parser>))
-    let parserInstance = lexerClass.GetConstructor([|typeof<ITokenStream>|]).Invoke(null) :?> Parser
+    let parserInstance = parserClass.GetConstructor([|typeof<ITokenStream>|]).Invoke([|null|]) :?> Parser
+    (parserInstance,lexerInstance,results.CompiledAssembly)
+    
+let parse data ruleName (parser:Parser,lexer:Lexer,assembly:Assembly) =
     let stream = CharStreams.fromstring(data)
-    lexerInstance.SetInputStream(stream)
-    let tokenStream = new CommonTokenStream(lexerInstance)
+    lexer.SetInputStream(stream)
+    let tokenStream = new CommonTokenStream(lexer)
     tokenStream.Fill()
-    parserInstance.BuildParseTree <- true
-    parserInstance.TokenStream <- tokenStream
-    
-
-    
+    parser.BuildParseTree <- true
+    parser.TokenStream <- tokenStream
+    let tree = (parser.GetType().GetMethod(ruleName).Invoke(parser,Array.empty) :?> Tree.ITree)
+    (tree,parser)

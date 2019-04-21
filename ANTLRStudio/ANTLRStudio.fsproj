@@ -119,7 +119,6 @@
     <Compile Include="AntlrTools.fs" />
     <Compile Include="FormElements.fs" />
     <Compile Include="MenuOperations.fs" />
-    <Compile Include="DiagramTest.fs" />
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Program.fs" />
     <None Include="packages.config" />
@@ -140,6 +139,14 @@
     <ProjectReference Include="..\ANTLRStudio.TreeLayout.Example\ANTLRStudio.TreeLayout.Example.csproj">
       <Project>{64E2AA29-834F-457D-A4A5-B898376AE677}</Project>
       <Name>ANTLRStudio.TreeLayout.Example</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ANTLRStudio.Diagrams.Example\ANTLRStudio.Diagrams.Example.fsproj">
+      <Project>{B94DEB67-8470-4B3F-94F5-3B6FDD429A1A}</Project>
+      <Name>ANTLRStudio.Diagrams.Example</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ANTLRStuio.Trees\ANTLRStudio.Trees.csproj">
+      <Project>{DD7ED3F4-BC7A-499E-AB1C-04AE256176FC}</Project>
+      <Name>ANTLRStudio.Trees</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(FSharpTargetsPath)" />

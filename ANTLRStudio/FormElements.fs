@@ -8,6 +8,8 @@ open ANTLRStudio.TreeLayout;
 open ANTLRStudio.TreeLayout.Utilities;
 open ANTLRStudio.TreeLayout.Example;
 open State;
+open AntlrTools;
+open ANTLRStudio.Trees;
 let readGrammarToHtml name =
     let buildSvgHtml(svg : string)=
         //an SVG document will otherwise not show on Windows
@@ -47,7 +49,7 @@ let openGrammar (form:Form) =
     | DialogResult.Ok -> if dialog.FileName <> null then
                             let fileName = dialog.FileName
                             file <- fileName
-                            fileName |> readGrammarToHtml |> Some
+                            fileName |> Some
                          else None
     | v -> printf "User pressed %O" v
            None
@@ -56,12 +58,12 @@ let openGrammar (form:Form) =
 let railwayForm (app:Application) (form:Form) = 
     let webView = new WebView()
     match openGrammar form with
-    | Some (data) -> webView.LoadHtml(data)
+    | Some (fileName) -> webView.LoadHtml(fileName |> readGrammarToHtml)
     | None -> ()
     form.Content <- webView
     form
 
-let treeForm (app:Application) (form:Form) =
+let exampleTreeForm (app:Application) (form:Form) =
     let tree = SampleTreeFactory.ASTTree()
     let gapBetweenLevels = 50.f
     let gapBetweenNodes = 10.f
@@ -76,4 +78,15 @@ let treeForm (app:Application) (form:Form) =
     // Create a panel that draws the nodes and edges and show the panel
     let panel = new TextInBoxTreePane(treeLayout)
     form.Content <- panel
+    form
+
+let treeForm (app:Application) (form:Form) =
+    //match openGrammar form with
+    //| Some (data) -> 
+
+    let content = generateParserLexerInMemory "/home/martin/ANTLR/ArrayInit/ArrayInit.g4"
+                  |> parse "{1,2,3}" "init" 
+                  |> (fun (tree,parser) -> new TreeViewer(new ResizeArray<string>(parser.RuleNames),tree))
+    form.Content <- content
+    //| None -> ()
     form
