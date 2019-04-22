@@ -115,7 +115,7 @@
   <ItemGroup>
     <Compile Include="Models.fs" />
     <Compile Include="State.fs" />
-    <Compile Include="Utils.fs" />
+    <Compile Include="Utilities.fs" />
     <Compile Include="AntlrTools.fs" />
     <Compile Include="FormElements.fs" />
     <Compile Include="MenuOperations.fs" />
@@ -135,14 +135,6 @@
     <ProjectReference Include="..\ANTLRStudio.TreeLayout\ANTLRStudio.TreeLayout.csproj">
       <Project>{F632B167-6587-48A6-B8FA-5B9EA4FA2441}</Project>
       <Name>ANTLRStudio.TreeLayout</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ANTLRStudio.TreeLayout.Example\ANTLRStudio.TreeLayout.Example.csproj">
-      <Project>{64E2AA29-834F-457D-A4A5-B898376AE677}</Project>
-      <Name>ANTLRStudio.TreeLayout.Example</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ANTLRStudio.Diagrams.Example\ANTLRStudio.Diagrams.Example.fsproj">
-      <Project>{B94DEB67-8470-4B3F-94F5-3B6FDD429A1A}</Project>
-      <Name>ANTLRStudio.Diagrams.Example</Name>
     </ProjectReference>
     <ProjectReference Include="..\ANTLRStuio.Trees\ANTLRStudio.Trees.csproj">
       <Project>{DD7ED3F4-BC7A-499E-AB1C-04AE256176FC}</Project>

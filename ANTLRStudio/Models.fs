@@ -1,4 +1,5 @@
-﻿module Models
+﻿[<AutoOpen>]
+module Models
 open System.IO;
 open System;
 type CompilerOption = { Name:string; mutable Value:bool; ActiveFlag:string; InactiveFlag: string }

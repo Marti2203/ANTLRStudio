@@ -167,6 +167,7 @@ let DEFAULT_STYLE = """
         stroke-width:3;
         stroke:black;
         fill:hsl(120,100%,90%);
+        border: 1 px solid black;
     }
 """
 

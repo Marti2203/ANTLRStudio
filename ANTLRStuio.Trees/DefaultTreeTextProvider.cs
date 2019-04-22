@@ -11,9 +11,9 @@ namespace ANTLRStudio.Trees
 {
     public class DefaultTreeTextProvider : ITreeTextProvider
     {
-        private readonly List<string> ruleNames;
+        private readonly IList<string> ruleNames;
 
-        public DefaultTreeTextProvider(List<string> ruleNames)
+        public DefaultTreeTextProvider(IList<string> ruleNames)
         {
             this.ruleNames = ruleNames;
         }

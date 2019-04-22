@@ -78,7 +78,7 @@ namespace ANTLRStudio.Trees
 
                 var parentBounds = BoundsOfNode(parent);
                 float x1 = parentBounds.Center.X;
-                float y1 = parentBounds.TopRight.Y;
+                float y1 = parentBounds.BottomLeft.Y;
                 foreach (Tree child in Tree.Children(parent))
                 {
                     var childBounds = BoundsOfNode(child);
@@ -108,9 +108,8 @@ namespace ANTLRStudio.Trees
             var box = BoundsOfNode(tree);
             // draw the box in the background
             bool ruleFailedAndMatchedNothing = false;
-            if (Tree is ParserRuleContext)
+            if (tree is ParserRuleContext ctx)
             {
-                ParserRuleContext ctx = (ParserRuleContext)tree;
                 ruleFailedAndMatchedNothing = ctx.exception != null && ctx.Stop != null && ctx.Stop.TokenIndex < ctx.Start.TokenIndex;
             }
             if (IsHighlighted(tree) || tree is IErrorNode || ruleFailedAndMatchedNothing)
@@ -118,7 +117,7 @@ namespace ANTLRStudio.Trees
                 var color = boxColor;
                 if (IsHighlighted(tree)) color = (highlightedBoxColor);
                 if (tree is IErrorNode || ruleFailedAndMatchedNothing) color = LIGHT_RED;
-                g.FillRectangle(color, box.X, box.Y, box.Width - 1, box.Height - 1);
+                //g.FillRectangle(color, box.X, box.Y, box.Width - 1, box.Height - 1);
             }
             g.DrawRectangle(borderColor, box.X, box.Y, box.Width - 1, box.Height - 1);
 
@@ -677,7 +676,7 @@ namespace ANTLRStudio.Trees
             }
         }
 
-        public void SetRuleNames(List<string> ruleNames)
+        public void SetRuleNames(IList<string> ruleNames)
         {
             TreeTextProvider = (new DefaultTreeTextProvider(ruleNames));
         }

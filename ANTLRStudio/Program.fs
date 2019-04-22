@@ -15,7 +15,7 @@ let main argv =
     use form = new Form (Title = progName, Size = Size(Screen.PrimaryScreen.Bounds.Size))
 
     setupInitialMenus app form
-        |> treeForm app
-        //|> railwayForm app
+        //|> treeForm app
+        |> mainForm app
         |> app.Run
     0

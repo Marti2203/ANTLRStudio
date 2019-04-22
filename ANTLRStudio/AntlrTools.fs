@@ -1,13 +1,10 @@
 ﻿module AntlrTools
 open System;
 open System.IO
-open Models;
-open System.CodeDom;
 open System.CodeDom.Compiler;
 open System.Reflection;
 open Microsoft.CSharp;
 open Antlr4.Runtime;
-open Antlr4;
 let createArguments file language options = 
     let flags = options 
                 |> Seq.map(fun option -> if option.Value then option.ActiveFlag else option.InactiveFlag)
@@ -53,11 +50,13 @@ let generateParserLexerInMemory file =
                            {
                             Name="Package Name"; Value = true; ActiveFlag = "RandomAssembly";InactiveFlag=String.Empty
                            }]
+    Directory.GetFiles(directory) |> Seq.iter File.Delete
     generate file (languages |> Seq.find(fun (name, v) -> name = "C#") |> snd) directoryOption
 
     use provider = new CSharpCodeProvider()
     let referenceAssemblies = [|"System.dll";Path.Combine(cwd,"Antlr4.Runtime.Standard.dll")|];
-    let resultName = sprintf "%s.dll" <| file.Split('.').[0]
+    let grammarName = file.Split('.').[0]
+    let resultName = sprintf "%s.dll" <| grammarName
     let parameters = new CompilerParameters(referenceAssemblies, resultName)
     parameters.GenerateInMemory <- true
     parameters.GenerateExecutable <- false
@@ -71,8 +70,8 @@ let generateParserLexerInMemory file =
     let parserClass = results.CompiledAssembly.GetTypes() |> Seq.find (fun t -> t.IsSubclassOf(typeof<Parser>))
     let parserInstance = parserClass.GetConstructor([|typeof<ITokenStream>|]).Invoke([|null|]) :?> Parser
     (parserInstance,lexerInstance,results.CompiledAssembly)
-    
-let parse data ruleName (parser:Parser,lexer:Lexer,assembly:Assembly) =
+
+let parse data ruleName (parser:Parser,lexer:Lexer) =
     let stream = CharStreams.fromstring(data)
     lexer.SetInputStream(stream)
     let tokenStream = new CommonTokenStream(lexer)

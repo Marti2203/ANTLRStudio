@@ -1,6 +1,5 @@
 ﻿[<AutoOpen>]
 module Utilites
-open Eto;
 open Eto.Forms;
 open Eto.Drawing;
 type TCell =

@@ -1,12 +1,10 @@
 ﻿module MenuOperations
 open Eto.Forms;
-open Models;
-open State;
 open AntlrTools;
 open FormElements;
 let RadioMenuItem = Menu.RadioMenuItem
 let CheckMenuItem = Menu.CheckMenuItem
-let mutable addedMenus = false
+let mutable private addedMenus = false
 
 
 let addMenus (form:Form) (menuItems: MenuItem seq) =
@@ -41,12 +39,12 @@ let removeSpecificMenus form =
 let setupInitialMenus (app:Application) (form:Form) =
     let menu = new MenuBar()
     let menus = [
-                SubMenu("File",
-                    [
-                    ActionMenuItem("Open") |> action (fun _ -> railwayForm app form  |> ignore)
+                //SubMenu("File",
+                //    [
+                ActionMenuItem("Open") |> action (fun _ -> openGrammar(form))
                     //ActionMenuItem("Close")|> action (fun _ -> ())
-                    ActionMenuItem("Quit") |> action (fun _ -> app.Quit())
-                    ])
+                ActionMenuItem("Quit") |> action (fun _ -> app.Quit())
+                //    ])
                 ]
     menus |> Seq.iter (menu.Items.Add << makeMenu)
     form.Menu <- menu

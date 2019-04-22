@@ -1,6 +1,5 @@
 ﻿namespace ANTLRStudio
 open System.Reflection
-open System.Runtime.CompilerServices
 
 [<assembly: AssemblyTitle("ANTLRStudio")>]
 [<assembly: AssemblyDescription("Main Project for ANTLRStudio")>]

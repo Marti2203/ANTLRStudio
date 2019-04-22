@@ -6,8 +6,7 @@ open System.Text;
 open ANTLRStudio.Parser;
 open ANTLRStudio.TreeLayout;
 open ANTLRStudio.TreeLayout.Utilities;
-open ANTLRStudio.TreeLayout.Example;
-open State;
+//open ANTLRStudio.TreeLayout.Example;
 open AntlrTools;
 open ANTLRStudio.Trees;
 let readGrammarToHtml name =
@@ -49,44 +48,73 @@ let openGrammar (form:Form) =
     | DialogResult.Ok -> if dialog.FileName <> null then
                             let fileName = dialog.FileName
                             file <- fileName
-                            fileName |> Some
-                         else None
+                            printfn "Trigger!!"
+                            loadedFileInput.Trigger(fileName)
     | v -> printf "User pressed %O" v
-           None
 
 
-let railwayForm (app:Application) (form:Form) = 
+let studioForm (app:Application) (form:Form) =
     let webView = new WebView()
-    match openGrammar form with
-    | Some (fileName) -> webView.LoadHtml(fileName |> readGrammarToHtml)
-    | None -> ()
-    form.Content <- webView
+    let mutable treeViewer: TreeViewer = null
+    let masterLayout = makeLayout <| Tbl([Row([El(webView);El(treeViewer)])])
+    form.Content <- masterLayout
     form
 
-let exampleTreeForm (app:Application) (form:Form) =
-    let tree = SampleTreeFactory.ASTTree()
-    let gapBetweenLevels = 50.f
-    let gapBetweenNodes = 10.f
-    let configuration = new DefaultConfiguration<TextInBox>(gapBetweenLevels, gapBetweenNodes, Configuration<TextInBox>.Location.Left)
+let mainForm (app:Application) (form:Form) = 
+    let webView = new WebView()
+    let inputField = new RichTextArea(AcceptsTab = true, AcceptsReturn = true,Wrap = true)
+    let ruleNames = new DropDown(Size = Eto.Drawing.Size(50,50))
+    let generateCheckBox = new CheckBox(Text = "Ready",Size = Eto.Drawing.Size(50,50))
+    let treeViewer = new TreeViewer(null,null)
+    let scrollableTree = new Scrollable()
+    scrollableTree.Content <- treeViewer
+    let parse _ =
+        if(currentParser <> null && generateCheckBox.Checked.GetValueOrDefault(false)) 
+        then
+            parse inputField.Text (ruleNames.SelectedValue :?> string) (currentParser,currentLexer) 
+            |> (fun (tree,parser)-> treeViewer.SetRuleNames(new ResizeArray<string>(parser.RuleNames))
+                                    treeViewer.SetTree(tree))
+    inputField.TextChanged.Add(parse)
+    ruleNames.SelectedValueChanged.Add(parse)
+    generateCheckBox.CheckedChanged.Add(parse)
+    loadedFile.Add(readGrammarToHtml >> webView.LoadHtml)
+    loadedFile.Add(fun name -> let (parser,lexer,_) = generateParserLexerInMemory name
+                               currentLexer <- lexer
+                               currentParser <- parser
+                               lexer.RemoveErrorListeners()
+                               parser.RemoveErrorListeners()
+                               form.ToolTip <- sprintf "Current Grammar is %s" <| parser.GrammarFileName.Split('.').[0]
+                               ruleNames.DataStore <- Seq.cast<obj> parser.RuleNames)
+    
+    let layout = makeLayout <| Tbl [ Row [
 
-    // create the NodeExtentProvider for TextInBox nodes
-    let nodeExtentProvider = new TextInBoxNodeExtentProvider()
-
-    // create the layout
-    let treeLayout = new TreeLayout<TextInBox>(tree, nodeExtentProvider, configuration)
-
-    // Create a panel that draws the nodes and edges and show the panel
-    let panel = new TextInBoxTreePane(treeLayout)
-    form.Content <- panel
-    form
-
-let treeForm (app:Application) (form:Form) =
-    //match openGrammar form with
-    //| Some (data) -> 
-
-    let content = generateParserLexerInMemory "/home/martin/ANTLR/ArrayInit/ArrayInit.g4"
-                  |> parse "{1,2,3}" "init" 
-                  |> (fun (tree,parser) -> new TreeViewer(new ResizeArray<string>(parser.RuleNames),tree))
+                                         TableEl <| Tbl([
+                                                         Row [
+                                                              StretchedEl inputField
+                                                              El ruleNames
+                                                              El generateCheckBox
+                                                              ]])]
+                                     StretchedRow([StretchedEl scrollableTree])
+                                        ]
+    let size = form.Size.Width / 2
+    let content = new Splitter(Panel1 = webView,Panel1MinimumSize =size,Panel2MinimumSize = size, Panel2 = layout)
     form.Content <- content
-    //| None -> ()
     form
+
+//let exampleTreeForm (app:Application) (form:Form) =
+    //let tree = SampleTreeFactory.ASTTree()
+    //let gapBetweenLevels = 50.f
+    //let gapBetweenNodes = 10.f
+    //let configuration = new DefaultConfiguration<TextInBox>(gapBetweenLevels, gapBetweenNodes, Configuration<TextInBox>.Location.Left)
+
+    //// create the NodeExtentProvider for TextInBox nodes
+    //let nodeExtentProvider = new TextInBoxNodeExtentProvider()
+
+    //// create the layout
+    //let treeLayout = new TreeLayout<TextInBox>(tree, nodeExtentProvider, configuration)
+
+    //// Create a panel that draws the nodes and edges and show the panel
+    //let panel = new TextInBoxTreePane(treeLayout)
+    //form.Content <- panel
+    //form
+    
