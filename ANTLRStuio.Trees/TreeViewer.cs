@@ -234,7 +234,6 @@ namespace ANTLRStudio.Trees
             }
         }
 
-
         //@Override
         //    protected Graphics getComponentGraphics(Graphics g)
         //{

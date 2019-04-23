@@ -62,13 +62,14 @@ let studioForm (app:Application) (form:Form) =
 let mainForm (app:Application) (form:Form) = 
     let webView = new WebView()
     let inputField = new RichTextArea(AcceptsTab = true, AcceptsReturn = true,Wrap = true)
-    let ruleNames = new DropDown(Size = Eto.Drawing.Size(50,50))
+    let ruleNames = new DropDown(Size = Eto.Drawing.Size(200,50))
     let generateCheckBox = new CheckBox(Text = "Ready",Size = Eto.Drawing.Size(50,50))
     let treeViewer = new TreeViewer(null,null)
     let scrollableTree = new Scrollable()
+    let slider = new Slider(MaxValue = 10000,MinValue = 1,Value = 1000)
     scrollableTree.Content <- treeViewer
     let parse _ =
-        if(currentParser <> null && generateCheckBox.Checked.GetValueOrDefault(false)) 
+        if(currentParser <> null && ruleNames.SelectedValue <> null && generateCheckBox.Checked.GetValueOrDefault(false)) 
         then
             parse inputField.Text (ruleNames.SelectedValue :?> string) (currentParser,currentLexer) 
             |> (fun (tree,parser)-> treeViewer.SetRuleNames(new ResizeArray<string>(parser.RuleNames))
@@ -76,6 +77,8 @@ let mainForm (app:Application) (form:Form) =
     inputField.TextChanged.Add(parse)
     ruleNames.SelectedValueChanged.Add(parse)
     generateCheckBox.CheckedChanged.Add(parse)
+    slider.ValueChanged.Add(fun _ -> treeViewer.Scale <- (float32 slider.Value / 1000.f)
+                                     slider.ID <-"Text" )
     loadedFile.Add(readGrammarToHtml >> webView.LoadHtml)
     loadedFile.Add(fun name -> let (parser,lexer,_) = generateParserLexerInMemory name
                                currentLexer <- lexer
@@ -83,7 +86,7 @@ let mainForm (app:Application) (form:Form) =
                                lexer.RemoveErrorListeners()
                                parser.RemoveErrorListeners()
                                form.ToolTip <- sprintf "Current Grammar is %s" <| parser.GrammarFileName.Split('.').[0]
-                               ruleNames.DataStore <- Seq.cast<obj> parser.RuleNames)
+                               ruleNames.DataStore <- parser.RuleNames |> Seq.sort |> Seq.cast<obj> )
     
     let layout = makeLayout <| Tbl [ Row [
 
@@ -92,6 +95,7 @@ let mainForm (app:Application) (form:Form) =
                                                               StretchedEl inputField
                                                               El ruleNames
                                                               El generateCheckBox
+                                                              El slider
                                                               ]])]
                                      StretchedRow([StretchedEl scrollableTree])
                                         ]

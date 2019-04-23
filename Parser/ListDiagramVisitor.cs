@@ -194,7 +194,7 @@ namespace ANTLRStudio.Parser
 
         public override ItemSequence VisitLexerRuleSpec([NotNull] ANTLRv4Parser.LexerRuleSpecContext context)
         {
-            var displayName = context.FRAGMENT()?.GetText() + context.TOKEN_REF();
+            var displayName = context.FRAGMENT()?.GetText() + " " + context.TOKEN_REF();
             var comments = context.DOC_COMMENT().Select(x => x.GetText()).Select(CreateComment).Select(x => Create($"{context.TOKEN_REF().GetText()} Comment", DiagramOf(x)));
             return comments.Concat(SequenceOf(displayName, Transform(context.lexerRuleBlock().lexerAltList())));
         }
@@ -254,11 +254,9 @@ namespace ANTLRStudio.Parser
             if (context.characterRange() != null)
             {
                 var startText = context.characterRange().STRING_LITERAL()[0].GetText().Split('\'')[1];
-                if (startText.Length != 1) Console.WriteLine(startText.Substring(2));
                 char start = startText.Length == 1 ? startText[0] :
                              (char)int.Parse(startText.Substring(2).TrimStart('0'), System.Globalization.NumberStyles.HexNumber);
                 var endText = context.characterRange().STRING_LITERAL()[1].GetText().Split('\'')[1];
-                if (endText.Length != 1) Console.WriteLine(endText.Substring(2));
                 char end = endText.Length == 1 ? endText[0] :
                              (char)int.Parse(endText.Substring(2).TrimStart('0'), System.Globalization.NumberStyles.HexNumber);
                 return new Choice(0, Enumerable.Range(start, end + 1)
