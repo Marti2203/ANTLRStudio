@@ -28,8 +28,7 @@ let readGrammarToHtml name =
         writer
 
     name
-    |> AntlrParser.ParseFile 
-    |> Seq.map (fun x -> x.ToTuple())
+    |> AntlrParser.ParseFile
     |> (Seq.fold <| append <| new StringWriter())
     |> (fun x -> x.ToString())
     |> buildSvgHtml

@@ -4,15 +4,17 @@ using static RailwayPortPy;
 using Microsoft.FSharp.Core;
 using System.Linq;
 using System.Collections.Generic;
-using Item = System.ValueTuple<string, RailwayPortPy.Diagram>;
-using ItemSequence = System.Collections.Generic.IEnumerable<(string Name, RailwayPortPy.Diagram Diagram)>;
+using Item = System.Tuple<string, RailwayPortPy.Diagram>;
+using ItemSequence = System.Collections.Generic.IEnumerable<System.Tuple<string, RailwayPortPy.Diagram>>;
 using Antlr4.Runtime;
 namespace ANTLRStudio.Parser
 {
     public class ListDiagramVisitor : ANTLRv4ParserBaseVisitor<ItemSequence>
     {
+        private static Item Create(string item, Diagram diagram) => new Item(item, diagram);
+
         protected override ItemSequence DefaultResult
-        => new Item[] { ("Default", DiagramOf(new NonTerminal("DEFAULT RESULT", noneString, noneString))) };
+        => new Item[] { Create("Default", DiagramOf(new NonTerminal("DEFAULT RESULT", noneString, noneString))) };
 
         private static readonly FSharpOption<string> noneString = FSharpOption<string>.None;
 
@@ -20,7 +22,7 @@ namespace ANTLRStudio.Parser
         => new Diagram(new[] { FSharpChoice<DiagramItem, string>.NewChoice1Of2(item) }, FSharpOption<ComplexityType>.None, noneString);
 
         private static ItemSequence SequenceOf(string name, DiagramItem item)
-        => new Item[] { (name, DiagramOf(item)) };
+        => new Item[] { Create(name, DiagramOf(item)) };
 
         private Comment CreateComment(string v) => new Comment(v, noneString, noneString);
 
@@ -33,7 +35,7 @@ namespace ANTLRStudio.Parser
                 return $"{type} Grammar {name}";
             }
             string grammarName = VisitGrammarDecl(context.grammarDecl());
-            var comments = context.DOC_COMMENT().Select(x => x.GetText()).Select(CreateComment).Select(x => ($"{grammarName} Comment", DiagramOf(x)));
+            var comments = context.DOC_COMMENT().Select(x => x.GetText()).Select(CreateComment).Select(x => Create($"{grammarName} Comment", DiagramOf(x)));
             //var prequel = context.prequelConstruct(); NOT YET
             var rules = context.rules().ruleSpec().SelectMany(VisitRuleSpec);
             var modeSpecs = context.modeSpec().SelectMany(VisitModeSpec);
@@ -130,7 +132,7 @@ namespace ANTLRStudio.Parser
         => new Sequence(context.ruleAction()
                                .Select(x => x.GetText())
                                .Select(x => TerminalWithClass(x, "ruleActions"))
-                               .Append(Transform(context.altList()))
+                               .Concat(new[] { Transform(context.altList()) })
                                .Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2));
 
 
@@ -155,7 +157,7 @@ namespace ANTLRStudio.Parser
         public override ItemSequence VisitParserRuleSpec([NotNull] ANTLRv4Parser.ParserRuleSpecContext context)
         {
             var displayName = context.ruleModifiers()?.GetText() + context.RULE_REF();
-            var comments = context.DOC_COMMENT().Select(x => x.GetText()).Select(CreateComment).Select(x => ($"{context.RULE_REF().GetText()} Comment", DiagramOf(x)));
+            var comments = context.DOC_COMMENT().Select(x => x.GetText()).Select(CreateComment).Select(x => Create($"{context.RULE_REF().GetText()} Comment", DiagramOf(x)));
 
             List<DiagramItem> items = new List<DiagramItem>();
 
@@ -192,7 +194,7 @@ namespace ANTLRStudio.Parser
         public override ItemSequence VisitLexerRuleSpec([NotNull] ANTLRv4Parser.LexerRuleSpecContext context)
         {
             var displayName = context.FRAGMENT()?.GetText() + context.TOKEN_REF();
-            var comments = context.DOC_COMMENT().Select(x => x.GetText()).Select(CreateComment).Select(x => ($"{context.TOKEN_REF().GetText()} Comment", DiagramOf(x)));
+            var comments = context.DOC_COMMENT().Select(x => x.GetText()).Select(CreateComment).Select(x => Create($"{context.TOKEN_REF().GetText()} Comment", DiagramOf(x)));
             return comments.Concat(SequenceOf(displayName, Transform(context.lexerRuleBlock().lexerAltList())));
         }
 
@@ -206,7 +208,7 @@ namespace ANTLRStudio.Parser
             var lexerElements = context.lexerElements().lexerElement().Select(Transform).Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2);
 
             if (context.lexerCommands() != null)
-                return new Sequence(lexerElements.Append(FSharpChoice<DiagramItem, string>.NewChoice1Of2(TerminalWithClass("->", "rightArrows")))
+                return new Sequence(lexerElements.Concat(new[] { FSharpChoice<DiagramItem, string>.NewChoice1Of2(TerminalWithClass("->", "rightArrows")) })
                                                  .Concat(context.lexerCommands()
                                                                 .lexerCommand()
                                                                 .Select(x => TerminalWithClass(x.GetText(), "lexerCommands"))
