@@ -154,6 +154,8 @@ namespace ANTLRStudio.Trees
 
             graphics.FillRectangle(Colors.White, new Rectangle(Size));
 
+
+            graphics.ScaleTransform(scale);
             PaintEdges(graphics, Tree.Root);
 
             // paint the boxes

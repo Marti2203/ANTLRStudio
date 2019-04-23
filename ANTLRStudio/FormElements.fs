@@ -62,11 +62,11 @@ let studioForm (app:Application) (form:Form) =
 let mainForm (app:Application) (form:Form) = 
     let webView = new WebView()
     let inputField = new RichTextArea(AcceptsTab = true, AcceptsReturn = true,Wrap = true)
-    let ruleNames = new DropDown(Size = Eto.Drawing.Size(200,50))
-    let generateCheckBox = new CheckBox(Text = "Ready",Size = Eto.Drawing.Size(50,50))
+    let ruleNames = new DropDown(Size = Eto.Drawing.Size(100,25))
+    let generateCheckBox = new CheckBox(Text = "Ready",Size = Eto.Drawing.Size(50,25))
     let treeViewer = new TreeViewer(null,null)
     let scrollableTree = new Scrollable()
-    let slider = new Slider(MaxValue = 10000,MinValue = 1,Value = 1000)
+    let slider = new Slider(MaxValue = 20,MinValue = 1,Value = 1,Enabled = false,Size = Eto.Drawing.Size(50,25))
     scrollableTree.Content <- treeViewer
     let parse _ =
         if(currentParser <> null && ruleNames.SelectedValue <> null && generateCheckBox.Checked.GetValueOrDefault(false)) 
@@ -77,7 +77,7 @@ let mainForm (app:Application) (form:Form) =
     inputField.TextChanged.Add(parse)
     ruleNames.SelectedValueChanged.Add(parse)
     generateCheckBox.CheckedChanged.Add(parse)
-    slider.ValueChanged.Add(fun _ -> treeViewer.Scale <- (float32 slider.Value / 1000.f)
+    slider.ValueChanged.Add(fun _ -> treeViewer.Scale <- (float32 slider.Value)
                                      slider.ID <-"Text" )
     loadedFile.Add(readGrammarToHtml >> webView.LoadHtml)
     loadedFile.Add(fun name -> let (parser,lexer,_) = generateParserLexerInMemory name
@@ -85,9 +85,9 @@ let mainForm (app:Application) (form:Form) =
                                currentParser <- parser
                                lexer.RemoveErrorListeners()
                                parser.RemoveErrorListeners()
-                               form.ToolTip <- sprintf "Current Grammar is %s" <| parser.GrammarFileName.Split('.').[0]
+                               //form.ToolTip <- sprintf "Current Grammar is %s" <| parser.GrammarFileName.Split('.').[0]
                                ruleNames.DataStore <- parser.RuleNames |> Seq.sort |> Seq.cast<obj> )
-    
+    loadedFile.Add(fun _ -> slider.Enabled <- true)
     let layout = makeLayout <| Tbl [ Row [
 
                                          TableEl <| Tbl([
