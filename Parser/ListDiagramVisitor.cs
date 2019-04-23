@@ -66,6 +66,7 @@ namespace ANTLRStudio.Parser
                 case "?":
                     return Optional(element, false);
                 case "*":
+                case "*?":
                     return ZeroOrMore(FSharpChoice<DiagramItem, string>.NewChoice1Of2(element),
                                       FSharpOption<FSharpChoice<DiagramItem, string>>.None, false);
                 case "+":
@@ -252,8 +253,14 @@ namespace ANTLRStudio.Parser
                 return new Terminal("Anything", noneString, noneString);
             if (context.characterRange() != null)
             {
-                char start = char.Parse(context.characterRange().STRING_LITERAL()[0].GetText().Split('\'')[1]);
-                char end = char.Parse(context.characterRange().STRING_LITERAL()[1].GetText().Split('\'')[1]);
+                var startText = context.characterRange().STRING_LITERAL()[0].GetText().Split('\'')[1];
+                if (startText.Length != 1) Console.WriteLine(startText.Substring(2));
+                char start = startText.Length == 1 ? startText[0] :
+                             (char)int.Parse(startText.Substring(2).TrimStart('0'), System.Globalization.NumberStyles.HexNumber);
+                var endText = context.characterRange().STRING_LITERAL()[1].GetText().Split('\'')[1];
+                if (endText.Length != 1) Console.WriteLine(endText.Substring(2));
+                char end = endText.Length == 1 ? endText[0] :
+                             (char)int.Parse(endText.Substring(2).TrimStart('0'), System.Globalization.NumberStyles.HexNumber);
                 return new Choice(0, Enumerable.Range(start, end + 1)
                                                .Select(x => new string((char)x, 1))
                                                .Select(x => new Terminal(x, noneString, noneString))
