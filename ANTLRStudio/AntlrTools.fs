@@ -19,7 +19,7 @@ let startJavaProgram(jarLocation: string, programArguments: string) =
         <| programArguments
 
     let startInfo = new Diagnostics.ProcessStartInfo(WorkingDirectory = Directory.GetCurrentDirectory(),
-                                                     FileName = "java",
+                                                     FileName = java,
                                                      Arguments = javaProcessArguments,
                                                      UseShellExecute = false,
                                                      RedirectStandardOutput=true,
