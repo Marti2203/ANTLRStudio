@@ -60,11 +60,11 @@ let generateParserLexerInMemory file =
     let parameters = new CompilerParameters(referenceAssemblies, resultName)
     parameters.GenerateInMemory <- true
     parameters.GenerateExecutable <- false
-    parameters.IncludeDebugInformation <- true
     let files = Directory.GetFiles(directory) 
                 |> Seq.filter(fun x -> x.EndsWith(".cs")) 
                 |> Seq.toArray
     let results = provider.CompileAssemblyFromFile(parameters,files)
+    Directory.GetParent(file).GetFiles() |> Seq.find (fun f -> f.Extension = ".dll") |> (fun f -> f.Delete())
     let lexerClass = results.CompiledAssembly.GetTypes() |> Seq.find (fun t -> t.IsSubclassOf(typeof<Lexer>))
     let lexerInstance = lexerClass.GetConstructor([|typeof<ICharStream>|]).Invoke([|null|]) :?> Lexer
     let parserClass = results.CompiledAssembly.GetTypes() |> Seq.find (fun t -> t.IsSubclassOf(typeof<Parser>))

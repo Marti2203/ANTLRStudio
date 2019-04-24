@@ -39,13 +39,14 @@ let removeSpecificMenus form =
 let setupInitialMenus (app:Application) (form:Form) =
     let menu = new MenuBar()
     let menus = [
-                //SubMenu("File",
-                //    [
-                ActionMenuItem("Open") |> action (fun _ -> openGrammar(form))
-                    //ActionMenuItem("Close")|> action (fun _ -> ())
+                SubMenu("File",
+                    [
+                ActionMenuItem("Open Grammar") |> action (fun _ -> openGrammar(form))
+                ActionMenuItem("Close Grammar")|> action (fun _ -> ())
                 ActionMenuItem("Quit") |> action (fun _ -> app.Quit())
-                //    ])
+                    ])
                 ]
     menus |> Seq.iter (menu.Items.Add << makeMenu)
+    loadedFile.Add(fun _ -> addSpecificMenus form)
     form.Menu <- menu
     form

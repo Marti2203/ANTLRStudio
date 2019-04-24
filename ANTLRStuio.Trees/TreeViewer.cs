@@ -25,8 +25,8 @@ namespace ANTLRStudio.Trees
         protected List<Tree> highlightedNodes;
 
         protected FontStyle fontStyle = FontStyle.None;
-        protected int fontSize = 12;
-        public Font font = Fonts.Serif(11);
+        protected int fontSize = 11;
+        public Font font = Fonts.Monospace(11);
 
         protected float gapBetweenLevels = 17.0F;
         protected float gapBetweenNodes = 7.0F;
@@ -36,10 +36,10 @@ namespace ANTLRStudio.Trees
 
         protected float scale = 1.0F;
 
-        protected Color boxColor = Colors.White;     // set to a color to make it draw background
+        protected Color boxColor = Colors.Transparent;     // set to a color to make it draw background
 
         protected Color highlightedBoxColor = Colors.LightGrey;
-        protected Color borderColor;
+        protected Color borderColor = Colors.Black;
 
         public TreeViewer(List<string> ruleNames, Tree tree)
         {
@@ -78,12 +78,12 @@ namespace ANTLRStudio.Trees
 
                 var parentBounds = BoundsOfNode(parent);
                 float x1 = parentBounds.Center.X;
-                float y1 = parentBounds.BottomLeft.Y;
+                float y1 = parentBounds.TopLeft.Y;
                 foreach (Tree child in Tree.Children(parent))
                 {
                     var childBounds = BoundsOfNode(child);
                     float x2 = childBounds.Center.X;
-                    float y2 = childBounds.BottomLeft.Y;
+                    float y2 = childBounds.TopLeft.Y;
                     //if (UseCurvedEdges)
                     //{
                     //    CubicCurve2D c = new CubicCurve2D.Double();
@@ -96,6 +96,8 @@ namespace ANTLRStudio.Trees
                     //}
                     //else
                     //{
+                    System.Console.WriteLine($"{x1},{y1},{x2},{y2}");
+
                     g.DrawLine(stroke, x1, y1, x2, y2);
                     //}
                     PaintEdges(g, child);
@@ -115,18 +117,18 @@ namespace ANTLRStudio.Trees
             if (IsHighlighted(tree) || tree is IErrorNode || ruleFailedAndMatchedNothing)
             {
                 var color = boxColor;
-                if (IsHighlighted(tree)) color = (highlightedBoxColor);
+                if (IsHighlighted(tree)) color = highlightedBoxColor;
                 if (tree is IErrorNode || ruleFailedAndMatchedNothing) color = LIGHT_RED;
-                //g.FillRectangle(color, box.X, box.Y, box.Width - 1, box.Height - 1);
+                g.FillRectangle(color, box.Center.X, box.BottomLeft.Y, box.Width - 1, box.Height - 1);
             }
-            g.DrawRectangle(borderColor, box.X, box.Y, box.Width - 1, box.Height - 1);
+            //g.DrawRectangle(borderColor, box.X, box.Y, box.Width - 1, box.Height - 1);
 
 
             // draw the text on top of the box (possibly multiple lines)
             string s = TreeTextProvider.Text(tree);
             string[] lines = s.Split('\n');
             float x = box.X + arcSize / 2 + nodeWidthPadding;
-            float y = box.Y + font.Ascent + font.Leading + 1 + nodeHeightPadding;
+            float y = box.BottomLeft.Y + font.Ascent + font.Leading + 1 + nodeHeightPadding;
             for (int i = 0; i < lines.Length; i++)
             {
                 Text(g, lines[i], new PointF(x, y));

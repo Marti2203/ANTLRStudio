@@ -26,3 +26,7 @@ let options = [
 let cwd = Directory.GetCurrentDirectory()
 let currentAntlr = Directory.GetFiles(cwd) |> Array.find(fun file -> file.EndsWith("-complete.jar") && file.Contains("antlr"))
 let antlrLocation = Path.Combine(cwd, currentAntlr)
+let java = if Environment.OSVersion.Platform <> PlatformID.Win32NT 
+           then 
+                "java" 
+           else sprintf @"C:\Program Files (x86)\Common Files\Oracle\Java\javapath\java.exe"

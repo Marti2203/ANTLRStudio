@@ -4,8 +4,8 @@ open System.IO;
 open Eto.Forms;
 open System.Text;
 open ANTLRStudio.Parser;
-open ANTLRStudio.TreeLayout;
-open ANTLRStudio.TreeLayout.Utilities;
+//open ANTLRStudio.TreeLayout;
+//open ANTLRStudio.TreeLayout.Utilities;
 //open ANTLRStudio.TreeLayout.Example;
 open AntlrTools;
 open ANTLRStudio.Trees;
@@ -47,17 +47,9 @@ let openGrammar (form:Form) =
     | DialogResult.Ok -> if dialog.FileName <> null then
                             let fileName = dialog.FileName
                             file <- fileName
-                            printfn "Trigger!!"
                             loadedFileInput.Trigger(fileName)
     | v -> printf "User pressed %O" v
-
-
-let studioForm (app:Application) (form:Form) =
-    let webView = new WebView()
-    let mutable treeViewer: TreeViewer = null
-    let masterLayout = makeLayout <| Tbl([Row([El(webView);El(treeViewer)])])
-    form.Content <- masterLayout
-    form
+    
 
 let mainForm (app:Application) (form:Form) = 
     let webView = new WebView()
@@ -66,7 +58,7 @@ let mainForm (app:Application) (form:Form) =
     let generateCheckBox = new CheckBox(Text = "Ready",Size = Eto.Drawing.Size(50,25))
     let treeViewer = new TreeViewer(null,null)
     let scrollableTree = new Scrollable()
-    let slider = new Slider(MaxValue = 20,MinValue = 1,Value = 1,Enabled = false,Size = Eto.Drawing.Size(50,25))
+    let slider = new Slider(MaxValue = 10,MinValue = 1,Value = 1,Enabled = false,Size = Eto.Drawing.Size(50,25))
     scrollableTree.Content <- treeViewer
     let parse _ =
         if(currentParser <> null && ruleNames.SelectedValue <> null && generateCheckBox.Checked.GetValueOrDefault(false)) 
@@ -77,8 +69,7 @@ let mainForm (app:Application) (form:Form) =
     inputField.TextChanged.Add(parse)
     ruleNames.SelectedValueChanged.Add(parse)
     generateCheckBox.CheckedChanged.Add(parse)
-    slider.ValueChanged.Add(fun _ -> treeViewer.Scale <- (float32 slider.Value)
-                                     slider.ID <-"Text" )
+    slider.ValueChanged.Add(fun _ -> treeViewer.Scale <- (float32 slider.Value))
     loadedFile.Add(readGrammarToHtml >> webView.LoadHtml)
     loadedFile.Add(fun name -> let (parser,lexer,_) = generateParserLexerInMemory name
                                currentLexer <- lexer
@@ -100,7 +91,8 @@ let mainForm (app:Application) (form:Form) =
                                      StretchedRow([StretchedEl scrollableTree])
                                         ]
     let size = form.Size.Width / 2
-    let content = new Splitter(Panel1 = webView,Panel1MinimumSize =size,Panel2MinimumSize = size, Panel2 = layout)
+    webView.Size <- new Eto.Drawing.Size(size, form.Size.Height)
+    let content = new Splitter(Panel1 = webView,(*Panel1MinimumSize =size , Panel2MinimumSize = size,*) Panel2 = layout)
     form.Content <- content
     form
 
