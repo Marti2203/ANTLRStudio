@@ -1,6 +1,7 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ANTLRStudio", "ANTLRStudio\ANTLRStudio.fsproj", "{81940932-3287-41C6-B55B-CB5F7DD59BAB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio.Parser", "Parser\ANTLRStudio.Parser.csproj", "{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}"
@@ -14,6 +15,8 @@ EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ANTLRStudio.Diagrams.Example", "ANTLRStudio.Diagrams.Example\ANTLRStudio.Diagrams.Example.fsproj", "{B94DEB67-8470-4B3F-94F5-3B6FDD429A1A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio.Trees", "ANTLRStuio.Trees\ANTLRStudio.Trees.csproj", "{DD7ED3F4-BC7A-499E-AB1C-04AE256176FC}"
+EndProject
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "ANTLRSetup", "ANTLRSetup\ANTLRSetup.wixproj", "{5A1FEA6C-3ED5-4A98-9A4F-5B891955EDFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,5 +52,15 @@ Global
 		{DD7ED3F4-BC7A-499E-AB1C-04AE256176FC}.Debug|x86.Build.0 = Debug|Any CPU
 		{DD7ED3F4-BC7A-499E-AB1C-04AE256176FC}.Release|x86.ActiveCfg = Release|Any CPU
 		{DD7ED3F4-BC7A-499E-AB1C-04AE256176FC}.Release|x86.Build.0 = Release|Any CPU
+		{5A1FEA6C-3ED5-4A98-9A4F-5B891955EDFA}.Debug|x86.ActiveCfg = Debug|x86
+		{5A1FEA6C-3ED5-4A98-9A4F-5B891955EDFA}.Debug|x86.Build.0 = Debug|x86
+		{5A1FEA6C-3ED5-4A98-9A4F-5B891955EDFA}.Release|x86.ActiveCfg = Release|x86
+		{5A1FEA6C-3ED5-4A98-9A4F-5B891955EDFA}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {551FE839-71B9-40BE-BB88-A3D55D8E6368}
 	EndGlobalSection
 EndGlobal
