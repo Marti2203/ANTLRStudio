@@ -259,10 +259,12 @@ namespace ANTLRStudio.Parser
                 var endText = context.characterRange().STRING_LITERAL()[1].GetText().Split('\'')[1];
                 char end = endText.Length == 1 ? endText[0] :
                              (char)int.Parse(endText.Substring(2).TrimStart('0'), System.Globalization.NumberStyles.HexNumber);
-                return new Choice(0, Enumerable.Range(start, end + 1)
-                                               .Select(x => new string((char)x, 1))
-                                               .Select(x => new Terminal(x, noneString, noneString))
-                                               .Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2));
+                if (Math.Abs(start - end) <= 40)
+                    return new Choice(0, Enumerable.Range(start, end - start + 1)
+                             .Select(x => new string((char)x, 1))
+                             .Select(x => new Terminal(x, noneString, noneString))
+                             .Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2)) as DiagramItem;
+                return new Terminal($"[{start}=\\u{(int)start} - {end}=\\u{(int)end}]", noneString, noneString);
             }
             throw new InvalidOperationException("WTF?!?!");
         }
