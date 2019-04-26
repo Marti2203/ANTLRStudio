@@ -47,7 +47,7 @@ let openGrammar (form:Form) =
     | DialogResult.Ok -> if dialog.FileName <> null then
                             let fileName = dialog.FileName
                             file <- fileName
-                            loadedFileInput.Trigger(fileName)
+                            loadedFileInput.Trigger(file)
     | v -> printf "User pressed %O" v
     
 

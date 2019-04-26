@@ -24,7 +24,7 @@
       </Directory>
     </Directory>
  <Property Id="JAVA_CURRENT_VERSION">
-      <RegistrySearch Id="JRE_KEY" Root="HKLM" Key="SOFTWARE\JavaSoft\Java Runtime Environment" Name="EVersion" Type="raw"  />
+      <RegistrySearch Id="JRE_KEY" Root="HKLM" Key="SOFTWARE\JavaSoft\Java Runtime Environment\Security Baseline" Name="1.8.0" Type="raw"  />
     </Property>
     <Condition Message="Java not installed  Please install JRE 1.6 or later."><![CDATA[(Installed OR JAVA_CURRENT_VERSION) AND JAVA_CURRENT_VERSION >= "1.6"]]></Condition>   
 
@@ -36,9 +36,6 @@
       </Component>
       <Component Id="ANTLRStudio.Diagrams.dll" Guid="a2d7a7ab-bcf7-4e63-9652-7e111e803841">
         <File Id="ANTLRStudio.Diagrams.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\ANTLRStudio.Diagrams.dll" KeyPath="yes"/>
-      </Component>
-       <Component Id="ANTLRStudio.Diagrams.Example.dll" Guid="db0c5837-10cc-4508-bfbf-db945fcbe85a">
-        <File Id="ANTLRStudio.Diagrams.Example.dll" Source="C:\Users\konsu\ANTLRStudio\ANTLRStudio.Diagrams.Example\bin\Debug\ANTLRStudio.Diagrams.Example.dll" KeyPath="yes"/>
       </Component>
       <Component Id="Parser.dll" Guid="1abff314-77e4-4c2a-bb3d-314bf4c31bcf">
         <File Id="Parser.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\Parser.dll" KeyPath="yes"/>
@@ -58,61 +55,15 @@
       <Component Id="Eto.Wpf.dll" Guid="4b2dfc22-f0b5-4649-b97c-d8329a5f7d77">
         <File Id="Eto.Wpf.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\Eto.Wpf.dll" KeyPath="yes"/>
       </Component>
-      <Component Id="Eto.Gtk3.dll" Guid="a798496b-7a9d-43bd-9a66-2d9c6e53f2b2">
-        <File Id="Eto.Gtk3.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\Eto.Gtk3.dll" KeyPath="yes"/>
-      </Component>
       <Component Id="Antlr4.Runtime.Standard.dll" Guid="6a87a862-d54f-4609-8a56-08b05d0ca6c5">
         <File Id="Antlr4.Runtime.Standard.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\Antlr4.Runtime.Standard.dll" KeyPath="yes"/>
       </Component>
       <Component Id="System.Runtime.Serialization.Primitives.dll" Guid="2ec292de-36f1-477b-bf06-ab1f3f57840f">
         <File Id="System.Runtime.Serialization.Primitives.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\System.Runtime.Serialization.Primitives.dll" KeyPath="yes"/>
-      </Component>
-      <Component Id="MyDownloader.Spider.dll" Guid="150a85aa-8f5b-4467-bed6-bfb25292992e">
-        <File Id="MyDownloader.Spider.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\MyDownloader.Spider.dll" KeyPath="yes"/>
-      </Component>
-      <Component Id="MyDownloader.App.dll" Guid="859c7f35-617f-4424-ae77-c18df7e67377">
-        <File Id="MyDownloader.App.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\MyDownloader.App.dll" KeyPath="yes"/>
-      </Component>
-      <Component Id="MyDownloader.Core.dll" Guid="c1f78dc3-b308-4635-bd1e-2ba9d1bf3c53">
-        <File Id="MyDownloader.Core.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\MyDownloader.Core.dll" KeyPath="yes"/>
-      </Component>
-      <Component Id="JSCore.dll" Guid="86a3d1ee-29be-40f1-8247-85c473735653">
-        <File Id="JSCore.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\JSCore.dll" KeyPath="yes"/>
-      </Component>
-      <Component Id="GtkSharp.dll" Guid="ec66125e-cfbe-4604-81d0-dc6a1a46fac2">
-        <File Id="GtkSharp.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\GtkSharp.dll" KeyPath="yes"/>
-      </Component>
-      <Component Id="GioSharp.dll" Guid="3bb40b5d-31eb-490a-b3ff-bd931508eb5d">
-        <File Id="GioSharp.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\GioSharp.dll" KeyPath="yes"/>
-      </Component>
-      <Component Id="GdkSharp.dll" Guid="eef38227-9258-4949-bd3f-5deee035aaf4">
-        <File Id="GdkSharp.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\GdkSharp.dll" KeyPath="yes"/>
-      </Component>
-      <Component Id="GLibSharp.dll" Guid="6c365f30-827c-491c-b430-0d161955cc42">
-        <File Id="GLibSharp.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\GLibSharp.dll" KeyPath="yes"/>
-      </Component>
-      <Component Id="MyDownloader.Extension.dll" Guid="905d06f3-a311-4c2c-82ed-2c2b7a97e4d1">
-        <File Id="MyDownloader.Extension.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\MyDownloader.Extension.dll" KeyPath="yes"/>
-      </Component>
-      <Component Id="ICSharpCode.SharpZipLib.dll" Guid="513d6c5b-4349-4c3b-96d9-9bf85a71a4c2">
-        <File Id="ICSharpCode.SharpZipLib.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\ICSharpCode.SharpZipLib.dll" KeyPath="yes"/>
-      </Component>
-      <Component Id="Eto.Gtk.dll" Guid="de6469f4-abe0-457f-b237-f9bef389baf7">
-        <File Id="Eto.Gtk.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\Eto.Gtk.dll" KeyPath="yes"/>
-      </Component>
+      </Component>  
       <Component Id="stdole.dll" Guid="d237c530-eee7-4752-b4b2-649f8e488583">
         <File Id="stdole.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\stdole.dll" KeyPath="yes"/>
       </Component>
-      <Component Id="TabStrip.dll" Guid="ba217e2a-e110-48da-af82-4b2cc14c393e">
-        <File Id="TabStrip.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\TabStrip.dll" KeyPath="yes"/>
-      </Component>
-      <Component Id="WebKit.Interop.dll" Guid="f84ea9e4-85bf-4581-acc2-da8a2339e7e2">
-        <File Id="WebKit.Interop.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\WebKit.Interop.dll" KeyPath="yes"/>
-      </Component>
-      <Component Id="OpenWebKitSharp.dll" Guid="645819d3-7de9-47ef-ad14-7b963894adaf">
-        <File Id="OpenWebKitSharp.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\OpenWebKitSharp.dll" KeyPath="yes"/>
-      </Component>
-
 
 
     </DirectoryRef>
@@ -149,27 +100,11 @@
     <Feature Id="MainApplication" Title="Main Application" Level="1">
       <ComponentRef Id="ANTLRStudio.exe" />
       <ComponentRef Id="ANTLRStudio.Diagrams.dll" />
-      <ComponentRef Id="ANTLRStudio.Diagrams.Example.dll" />
       <ComponentRef Id="ANTLRStuio.Trees.dll" />
       <ComponentRef Id="Parser.dll" />
       <ComponentRef Id="Eto.Wpf.dll" />
-      <ComponentRef Id="Eto.Gtk3.dll" />
       <ComponentRef Id="System.Runtime.Serialization.Primitives.dll" />
-      <ComponentRef Id="JSCore.dll" />
-      <ComponentRef Id="WebKit.Interop.dll" />
-      <ComponentRef Id="OpenWebKitSharp.dll" />
-      <ComponentRef Id="TabStrip.dll"/>
-      <ComponentRef Id="GtkSharp.dll" />
       <ComponentRef Id="stdole.dll" />
-      <ComponentRef Id="Eto.Gtk.dll"/>
-      <ComponentRef Id="ICSharpCode.SharpZipLib.dll" />
-      <ComponentRef Id="GioSharp.dll" />
-      <ComponentRef Id="GdkSharp.dll" />
-      <ComponentRef Id="GLibSharp.dll" />
-      <ComponentRef Id="MyDownloader.App.dll" />
-      <ComponentRef Id="MyDownloader.Core.dll" />
-      <ComponentRef Id="MyDownloader.Extension.dll" />
-      <ComponentRef Id="MyDownloader.Spider.dll" />
       <ComponentRef Id="Antlr4.Runtime.Standard.dll" />
       <ComponentRef Id="Eto.dll" />
       <ComponentRef Id="FSharp.Core.dll" />

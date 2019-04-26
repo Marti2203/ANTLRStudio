@@ -41,9 +41,9 @@ let setupInitialMenus (app:Application) (form:Form) =
     let menus = [
                 SubMenu("File",
                     [
-                ActionMenuItem("Open Grammar") |> action (fun _ -> openGrammar(form))
-                ActionMenuItem("Close Grammar")|> action (fun _ -> ())
-                ActionMenuItem("Quit") |> action (fun _ -> app.Quit())
+                     ActionMenuItem("Open Grammar") |> action (fun _ -> openGrammar(form))
+                     ActionMenuItem("Close Grammar")|> action (fun _ -> printfn """ "Closing" grammar """)
+                     ActionMenuItem("Quit") |> action (fun _ -> app.Quit())
                     ])
                 ]
     menus |> Seq.iter (menu.Items.Add << makeMenu)

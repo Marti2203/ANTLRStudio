@@ -8,6 +8,7 @@
     <RootNamespace>ANTLRStudio.TreeLayout</RootNamespace>
     <AssemblyName>ANTLRStudio.TreeLayout</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <ReleaseVersion>0.9</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

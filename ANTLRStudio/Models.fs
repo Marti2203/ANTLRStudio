@@ -29,4 +29,4 @@ let antlrLocation = Path.Combine(cwd, currentAntlr)
 let java = if Environment.OSVersion.Platform <> PlatformID.Win32NT 
            then 
                 "java" 
-           else  @"C:\Program Files (x86)\Common Files\Oracle\Java\javapath\java.exe"
+           else @"C:\Program Files (x86)\Common Files\Oracle\Java\javapath\java.exe"
