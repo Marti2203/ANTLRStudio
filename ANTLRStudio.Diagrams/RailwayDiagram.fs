@@ -815,15 +815,13 @@ type MultipleChoice(defaultChoice:int,choiceType:ChoiceType,items: DiString seq)
                                           | Any -> "1+"
                                           | All -> "all")
                                           .addTo(text) |> ignore
-        DiagramItem("path", diDict [
-            "d", sprintf "M %f %f h 16 a 4 4 0 0 1 4 4 v 12 a 4 4 0 0 1 -4 4 h -16 z" (x + self.width - 20.f) (y - 10.f)
-            "class","diagram-text"
-            ]).addTo(text) |> ignore
-        DiagramItem("text",  Dictionary(dict [
-            "x", (x + self.width - 10.f).ToString()
-            "y", (y + 4.f).ToString()
-            "class","diagram-arrow"
-            ]), Choice2Of2 "↺" ).addTo(text) |> ignore
+        DiagramItem("path", diDict ["d", sprintf "M %f %f h 16 a 4 4 0 0 1 4 4 v 12 a 4 4 0 0 1 -4 4 h -16 z" (x + self.width - 20.f) (y - 10.f)
+                                    "class","diagram-text"
+                                   ]).addTo(text) |> ignore
+        DiagramItem("text",  Dictionary(dict ["x", (x + self.width - 10.f).ToString()
+                                              "y", (y + 4.f).ToString()
+                                              "class","diagram-arrow"
+                                             ]), Choice2Of2 "↺" ).addTo(text) |> ignore
         self :> DiagramItem
 
 type HorizontalChoiceImpl(items: DiString seq) as self =

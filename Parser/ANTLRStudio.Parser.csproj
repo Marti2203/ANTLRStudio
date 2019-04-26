@@ -9,6 +9,7 @@
     <AssemblyName>Parser</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <BaseDirectory>..\ANTLRStudio.Parser</BaseDirectory>
+    <ReleaseVersion>0.9</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -83,6 +84,7 @@
     <Compile Include="..\ANTLRStudio.Parser\GrammarFiles\ANTLRv4ParserVisitor.cs" />
     <Compile Include="..\ANTLRStudio.Parser\GrammarFiles\LexBasic.cs" />
     <Compile Include="..\ANTLRStudio.Parser\GrammarFiles\LexerAdaptor.cs" />
+    <Compile Include="..\ANTLRStudio.Parser\Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

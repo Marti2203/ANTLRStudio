@@ -50,4 +50,7 @@ Global
 		{DD7ED3F4-BC7A-499E-AB1C-04AE256176FC}.Release|x86.ActiveCfg = Release|Any CPU
 		{DD7ED3F4-BC7A-499E-AB1C-04AE256176FC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		version = 0.9
+	EndGlobalSection
 EndGlobal
