@@ -23,10 +23,6 @@
       <Directory Id="DesktopFolder" Name="Desktop">
       </Directory>
     </Directory>
- <Property Id="JAVA_CURRENT_VERSION">
-      <RegistrySearch Id="JRE_KEY" Root="HKLM" Key="SOFTWARE\JavaSoft\Java Runtime Environment\Security Baseline" Name="1.8.0" Type="raw"  />
-    </Property>
-    <Condition Message="Java not installed  Please install JRE 1.6 or later."><![CDATA[(Installed OR JAVA_CURRENT_VERSION) AND JAVA_CURRENT_VERSION >= "1.6"]]></Condition>   
 
     <!-- Step 2: Add files to your installer package -->
     <DirectoryRef Id="APPLICATIONROOTDIRECTORY">
@@ -61,9 +57,7 @@
       <Component Id="System.Runtime.Serialization.Primitives.dll" Guid="2ec292de-36f1-477b-bf06-ab1f3f57840f">
         <File Id="System.Runtime.Serialization.Primitives.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\System.Runtime.Serialization.Primitives.dll" KeyPath="yes"/>
       </Component>  
-      <Component Id="stdole.dll" Guid="d237c530-eee7-4752-b4b2-649f8e488583">
-        <File Id="stdole.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\stdole.dll" KeyPath="yes"/>
-      </Component>
+      
 
 
     </DirectoryRef>
@@ -104,7 +98,7 @@
       <ComponentRef Id="Parser.dll" />
       <ComponentRef Id="Eto.Wpf.dll" />
       <ComponentRef Id="System.Runtime.Serialization.Primitives.dll" />
-      <ComponentRef Id="stdole.dll" />
+      
       <ComponentRef Id="Antlr4.Runtime.Standard.dll" />
       <ComponentRef Id="Eto.dll" />
       <ComponentRef Id="FSharp.Core.dll" />

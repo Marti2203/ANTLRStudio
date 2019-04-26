@@ -96,7 +96,7 @@ namespace ANTLRStudio.Trees
                     //}
                     //else
                     //{
-                    System.Console.WriteLine($"{x1},{y1},{x2},{y2}");
+                    //System.Console.WriteLine($"{x1},{y1},{x2},{y2}");
 
                     g.DrawLine(stroke, x1, y1, x2, y2);
                     //}
