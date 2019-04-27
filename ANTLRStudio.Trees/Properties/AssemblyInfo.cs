@@ -3,9 +3,8 @@ using System.Runtime.CompilerServices;
 
 // Information about this assembly is defined by the following attributes. 
 // Change them to the values specific to your project.
-using System;
 
-[assembly: AssemblyTitle("ANTLRStuio.Trees")]
+[assembly: AssemblyTitle("ANTLRStudio.TreeLayout")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
@@ -13,7 +12,7 @@ using System;
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: CLSCompliant(false)]
+
 // The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
 // The form "{Major}.{Minor}.*" will automatically update the build and revision,
 // and "{Major}.{Minor}.{Build}.*" will update just the revision.

@@ -70,20 +70,24 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ANTLRStudio.Diagrams\ANTLRStudio.Diagrams.fsproj">
-      <Project>{3E18CBC1-4E96-4141-8728-0571671A315C}</Project>
       <Name>ANTLRStudio.Diagrams</Name>
+      <Project>{3e18cbc1-4e96-4141-8728-0571671a315c}</Project>
+      <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\Parser\ANTLRStudio.Parser.csproj">
-      <Project>{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}</Project>
+    <ProjectReference Include="..\ANTLRStudio.Parser\ANTLRStudio.Parser.csproj">
       <Name>ANTLRStudio.Parser</Name>
+      <Project>{0c0e67d1-0016-4974-a58c-c28cbe1d4eff}</Project>
+      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\ANTLRStudio.TreeLayout\ANTLRStudio.TreeLayout.csproj">
-      <Project>{F632B167-6587-48A6-B8FA-5B9EA4FA2441}</Project>
       <Name>ANTLRStudio.TreeLayout</Name>
+      <Project>{f632b167-6587-48a6-b8fa-5b9ea4fa2441}</Project>
+      <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\ANTLRStuio.Trees\ANTLRStudio.Trees.csproj">
-      <Project>{DD7ED3F4-BC7A-499E-AB1C-04AE256176FC}</Project>
+    <ProjectReference Include="..\ANTLRStudio.Trees\ANTLRStudio.Trees.csproj">
       <Name>ANTLRStudio.Trees</Name>
+      <Project>{dd7ed3f4-bc7a-499e-ab1c-04ae256176fc}</Project>
+      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(FSharpTargetsPath)" />
