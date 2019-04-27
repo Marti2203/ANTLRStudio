@@ -10,32 +10,26 @@
       <RegistrySearch Id="JRE_KEY_SEC" Root="HKLM" Key="SOFTWARE\JavaSoft\Java Runtime Environment\Security Baseline" Name="1.8.0" Type="raw"  />
       <RegistrySearch Id="JRE_KEY_WOW" Root="HKLM" Key="SOFTWARE\WOW6432Node\JavaSoft\Java Runtime Environment" Name="CurrentVersion" Type="raw"  />
     </Property>
-    <Property Id="ANTLRSTUDIO_INSTALLED">
-      <RegistrySearch Id="ANTLRSTUDIO_INSTALL" Root="HKCU" Key="Software\ANTLRStudio" Name="installed" Type="raw" />
-    </Property>
-    <Condition Message="ANTLRStudio is already installed! Uninstall it first!"><![CDATA[(!ANTLRSTUDIO_INSTALLED)]]></Condition>
     <Condition Message="Java not installed  Please install JRE 1.6 or later."><![CDATA[(JAVA_CURRENT_VERSION)]]></Condition>
+    <!--<Property Id="ANTLRSTUDIO_INSTALLED">
+      <RegistrySearch Id="ANTLRSTUDIO_INSTALL" Root="HKCU" Key="Software\[ProductName] Name="installed" Type="raw" />
+    </Property>-->
+    <!--<Condition Message="ANTLRStudio is already installed! Uninstall it first!"><![CDATA[(not ANTLRSTUDIO_INSTALLED)]]></Condition>-->
 
     <!-- Step  1: Define the directory structure -->
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
-        <Directory Id="APPLICATIONROOTDIRECTORY" Name="ANTLRStudio"/>
+        <Directory Id="ApplicationRootDirectory" Name="ANTLRStudio"/>
       </Directory>
       <Directory Id="ProgramMenuFolder">
         <Directory Id="ApplicationProgramsFolder" Name="ANTLRStudio"/>
       </Directory>
       <Directory Id="DesktopFolder" Name="Desktop">
       </Directory>
-      <Directory Id="GenerationsFolder" Name="Generations">
-        <Component Id="CreateGenerationsFolder" Guid="4d74a4fc-a3b7-47e2-bcbc-91e736faeeb9">
-          <CreateFolder />
-        </Component>
-      </Directory>
     </Directory>
 
     <!-- Step 2: Add files to your installer package -->
-    <DirectoryRef Id="APPLICATIONROOTDIRECTORY">
-
+    <DirectoryRef Id="ApplicationRootDirectory">
       <Component Id="ANTLRStudio.exe" Guid="5b9d9f14-5065-434d-b5ec-b8cb7ff3f5af">
         <File Id="ANTLRStudio.exe" Source="$(var.sourceFolder)ANTLRStudio.exe" KeyPath="yes" Checksum="yes"/>
       </Component>
@@ -69,9 +63,6 @@
       <Component Id="antlr4.jar" Guid="6de9a829-d861-41e1-8c73-d61104a5be6b">
         <File Id="antlr4.jar" Source="$(var.sourceFolder)antlr-4.7.2-complete.jar" KeyPath="yes"/>
       </Component>
-
-
-
     </DirectoryRef>
 
     <DirectoryRef Id="ApplicationProgramsFolder">
@@ -79,15 +70,14 @@
         <Shortcut Id="ApplicationStartMenuShortcut"
             Name="ANTLRStudio"
             Target="[#ANTLRStudio.exe]"
-            WorkingDirectory="APPLICATIONROOTDIRECTORY"
+            WorkingDirectory="ApplicationRootDirectory"
             Description="ANTLRStudio - A minimalistic IDE for ANTLRv4 grammars"/>
         <Shortcut Id="UninstallProduct"
-          Name="Uninstall My Application"
+          Name="Uninstall ANTLRStudio"
           Target="[SystemFolder]msiexec.exe"
           Arguments="/x [ProductCode]"
           Description="Uninstall ANTLRStudio" />
-        <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
-        <RegistryValue Root="HKCU" Key="Software\ANTLRStudio" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+        <RegistryValue Root="HKCU" Key="Software\[ProductName]" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
       </Component>
     </DirectoryRef>
 
@@ -96,8 +86,7 @@
         <Shortcut Id="ApplicationDesktopShortcut"
             Name="ANTLRStudio"
             Target="[#ANTLRStudio.exe]"
-            WorkingDirectory="APPLICATIONROOTDIRECTORY"/>
-        <RemoveFolder Id="DesktopFolder" On="uninstall"/>
+            WorkingDirectory="ApplicationRootDirectory"/>
         <RegistryValue
             Root="HKCU"
             Key="Software/ANTLRStudio"
@@ -123,7 +112,6 @@
       <ComponentRef Id="ANTLRStudio.TreeLayout.dll"/>
       <ComponentRef Id="ApplicationShortcut" />
       <ComponentRef Id="ApplicationShortcutDesktop" />
-      <ComponentRef Id="CreateGenerationsFolder"/>
     </Feature>
     <!-- Step 4: Sign the MSI Install, else Web user will get unknown publisher message -->
     <!-- Signing is done by executing a post-build batch file configured in project properties -->
