@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
-  <?define sourceFolder="$(sys.CURRENTDIR)\..\"?>
+  <?define sourceFolder="$(var.SolutionDir)\ANTLRStudio\bin\$(var.ANTLRStudio.Configuration)\"?>
   <Product Id="*" UpgradeCode="a8179053-35b4-4e7d-a7d0-4e98bb3dfdd2" Version="1.0.0.0" Language="1033" Name="ANTLRStudio" Manufacturer="Marti and Koycho" >
     <Package InstallerVersion="300" Compressed="yes"/>
     <Media Id="1" Cabinet="myapplication.cab" EmbedCab="yes" />
@@ -18,42 +18,50 @@
       </Directory>
       <Directory Id="DesktopFolder" Name="Desktop">
       </Directory>
+      <Directory Id="GenerationsFolder" Name="Generations">
+        <Component Id="CreateGenerationsFolder" Guid="4d74a4fc-a3b7-47e2-bcbc-91e736faeeb9">
+          <CreateFolder />
+        </Component>
+      </Directory>
     </Directory>
 
     <!-- Step 2: Add files to your installer package -->
     <DirectoryRef Id="APPLICATIONROOTDIRECTORY">
 
       <Component Id="ANTLRStudio.exe" Guid="5b9d9f14-5065-434d-b5ec-b8cb7ff3f5af">
-        <File Id="ANTLRStudio.exe" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\ANTLRStudio.exe" KeyPath="yes" Checksum="yes"/>
+        <File Id="ANTLRStudio.exe" Source="$(var.sourceFolder)ANTLRStudio.exe" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="ANTLRStudio.Diagrams.dll" Guid="a2d7a7ab-bcf7-4e63-9652-7e111e803841">
-        <File Id="ANTLRStudio.Diagrams.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\ANTLRStudio.Diagrams.dll" KeyPath="yes"/>
+        <File Id="ANTLRStudio.Diagrams.dll" Source="$(var.sourceFolder)ANTLRStudio.Diagrams.dll" KeyPath="yes"/>
       </Component>
       <Component Id="Parser.dll" Guid="1abff314-77e4-4c2a-bb3d-314bf4c31bcf">
-        <File Id="Parser.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\Parser.dll" KeyPath="yes"/>
+        <File Id="Parser.dll" Source="$(var.sourceFolder)Parser.dll" KeyPath="yes"/>
       </Component>
       <Component Id="ANTLRStudio.TreeLayout.dll" Guid="1f257bb3-fc35-4625-bdc0-98a8e8aa5507">
-        <File Id="ANTLRStudio.TreeLayout.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\ANTLRStudio.TreeLayout.dll" KeyPath="yes"/>
+        <File Id="ANTLRStudio.TreeLayout.dll" Source="$(var.sourceFolder)ANTLRStudio.TreeLayout.dll" KeyPath="yes"/>
       </Component>
       <Component Id="ANTLRStuio.Trees.dll" Guid="3bca1834-4540-4f06-b700-4328a446ce9d">
-        <File Id="ANTLRStudio.Trees.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\ANTLRStuio.Trees.dll" KeyPath="yes"/>
+        <File Id="ANTLRStudio.Trees.dll" Source="$(var.sourceFolder)ANTLRStuio.Trees.dll" KeyPath="yes"/>
       </Component>
       <Component Id="Eto.dll" Guid="5d39ad7b-b503-490c-865a-4135718698e9">
-        <File Id="Eto.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\Eto.dll" KeyPath="yes"/>
+        <File Id="Eto.dll" Source="$(var.sourceFolder)Eto.dll" KeyPath="yes"/>
       </Component>
       <Component Id="FSharp.Core.dll" Guid="9d13dc85-d425-466c-9694-be1ce3258a84">
-        <File Id="FSharp.Core.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\FSharp.Core.dll" KeyPath="yes"/>
+        <File Id="FSharp.Core.dll" Source="$(var.sourceFolder)FSharp.Core.dll" KeyPath="yes"/>
       </Component>
       <Component Id="Eto.Wpf.dll" Guid="4b2dfc22-f0b5-4649-b97c-d8329a5f7d77">
-        <File Id="Eto.Wpf.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\Eto.Wpf.dll" KeyPath="yes"/>
+        <File Id="Eto.Wpf.dll" Source="$(var.sourceFolder)Eto.Wpf.dll" KeyPath="yes"/>
       </Component>
       <Component Id="Antlr4.Runtime.Standard.dll" Guid="6a87a862-d54f-4609-8a56-08b05d0ca6c5">
-        <File Id="Antlr4.Runtime.Standard.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\Antlr4.Runtime.Standard.dll" KeyPath="yes"/>
+        <File Id="Antlr4.Runtime.Standard.dll" Source="$(var.sourceFolder)Antlr4.Runtime.Standard.dll" KeyPath="yes"/>
       </Component>
       <Component Id="System.Runtime.Serialization.Primitives.dll" Guid="2ec292de-36f1-477b-bf06-ab1f3f57840f">
-        <File Id="System.Runtime.Serialization.Primitives.dll" Source="$(var.sourceFolder)\ANTLRStudio\bin\Debug\System.Runtime.Serialization.Primitives.dll" KeyPath="yes"/>
-      </Component>  
-      
+        <File Id="System.Runtime.Serialization.Primitives.dll" Source="$(var.sourceFolder)System.Runtime.Serialization.Primitives.dll" KeyPath="yes"/>
+      </Component>
+      <Component Id="antlr4.jar" Guid="6de9a829-d861-41e1-8c73-d61104a5be6b">
+        <File Id="antlr4.jar" Source="$(var.sourceFolder)antlr-4.7.2-complete.jar" KeyPath="yes"/>
+      </Component>
+
 
 
     </DirectoryRef>
@@ -87,21 +95,21 @@
     </DirectoryRef>
     
     <!-- Step 3: Tell WiX to install the files -->
-    <Feature Id="MainApplication" Title="Main Application" Level="1">
+    <Feature Id="ANTLRStudio" Title="ANTLRStudio" Level="1">
       <ComponentRef Id="ANTLRStudio.exe" />
       <ComponentRef Id="ANTLRStudio.Diagrams.dll" />
       <ComponentRef Id="ANTLRStuio.Trees.dll" />
       <ComponentRef Id="Parser.dll" />
       <ComponentRef Id="Eto.Wpf.dll" />
       <ComponentRef Id="System.Runtime.Serialization.Primitives.dll" />
-      
+      <ComponentRef Id="antlr4.jar"/>
       <ComponentRef Id="Antlr4.Runtime.Standard.dll" />
       <ComponentRef Id="Eto.dll" />
       <ComponentRef Id="FSharp.Core.dll" />
       <ComponentRef Id="ANTLRStudio.TreeLayout.dll"/>
       <ComponentRef Id="ApplicationShortcut" />
       <ComponentRef Id="ApplicationShortcutDesktop" />
-     
+      <ComponentRef Id="CreateGenerationsFolder"/>
     </Feature>
     <!-- Step 4: Sign the MSI Install, else Web user will get unknown publisher message -->
     <!-- Signing is done by executing a post-build batch file configured in project properties -->
