@@ -47,6 +47,6 @@ let setupInitialMenus (app:Application) (form:Form) =
                     ])
                 ]
     menus |> Seq.iter (menu.Items.Add << makeMenu)
-   // loadedFile.Add(fun _ -> addSpecificMenus form)
+    loadedFile.Add(fun _ -> addSpecificMenus form)
     form.Menu <- menu
     form
