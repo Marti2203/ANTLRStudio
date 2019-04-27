@@ -19,8 +19,8 @@ namespace ANTLRStudio.Trees
 {
     public class TreeViewer : Drawable
     {
-        public static readonly Color LIGHT_RED = new Color(244, 213, 211);
-
+        private static readonly Color LIGHT_RED = new Color(244, 213, 211);
+        private new static readonly ColorHSL BackgroundColor = new ColorHSL(30, 0.2F, 0.95F);
         protected TreeLayout<Tree> treeLayout;
         protected List<Tree> highlightedNodes;
 
@@ -604,12 +604,16 @@ namespace ANTLRStudio.Trees
 
         public ITreeTextProvider TreeTextProvider { get; set; }
 
-        public void SetFontSize(int sz)
+        public int FontSize
         {
-            fontSize = sz;
-            font = Fonts.Serif(sz, fontStyle);
+            get => fontSize;
+            set
+            {
+                fontSize = value;
+                font = Fonts.Monospace(value, fontStyle);
+                this.Invalidate();
+            }
         }
-
 
         ///** Slow for big lists of highlighted nodes */
         public void AddHighlightedNodes(ICollection<Tree> nodes)
