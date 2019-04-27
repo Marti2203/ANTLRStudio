@@ -51,14 +51,15 @@ let openGrammar (form:Form) =
     | v -> printf "User pressed %O" v
     
 
-let mainForm (app:Application) (form:Form) = 
+let mainForm (app:Application) (form:Form) =
     let webView = new WebView()
     let inputField = new RichTextArea(AcceptsTab = true, AcceptsReturn = true,Wrap = true)
     let ruleNames = new DropDown(Size = Eto.Drawing.Size(100,25))
     let generateCheckBox = new CheckBox(Text = "Ready",Size = Eto.Drawing.Size(50,25))
     let treeViewer = new TreeViewer(null,null)
     let scrollableTree = new Scrollable()
-    let slider = new Slider(MaxValue = 10,MinValue = 1,Value = 1,Enabled = false,Size = Eto.Drawing.Size(50,25))
+    let slider = new Slider(MaxValue = 20,MinValue = 1,Value = 10,Enabled = false,Size = Eto.Drawing.Size(50,25))
+    let fontSizeStepper = new NumericStepper(MaxValue = 20.,Size= Eto.Drawing.Size(75,25),FormatString="Size:{0}", MinValue = 10. ,Value=(float treeViewer.FontSize),Increment = 1.)
     scrollableTree.Content <- treeViewer
     let parse _ =
         if(currentParser <> null && ruleNames.SelectedValue <> null && generateCheckBox.Checked.GetValueOrDefault(false)) 
@@ -69,8 +70,10 @@ let mainForm (app:Application) (form:Form) =
     inputField.TextChanged.Add(parse)
     ruleNames.SelectedValueChanged.Add(parse)
     generateCheckBox.CheckedChanged.Add(parse)
-    slider.ValueChanged.Add(fun _ -> treeViewer.Scale <- (float32 slider.Value))
-    loadedFile.Add(readGrammarToHtml >> webView.LoadHtml)
+    fontSizeStepper.ValueChanged.Add(fun _ -> treeViewer.FontSize <- int fontSizeStepper.Value)
+    slider.ValueChanged.Add(fun _ -> treeViewer.Scale <- (float32 slider.Value) / 10.f)
+    loadedFile.Add(readGrammarToHtml >> fun x -> webView.LoadHtml x
+                                                 form.Enabled <- true)
     loadedFile.Add(fun name -> let (parser,lexer,_) = generateParserLexerInMemory name
                                currentLexer <- lexer
                                currentParser <- parser
@@ -86,6 +89,7 @@ let mainForm (app:Application) (form:Form) =
                                                               El ruleNames
                                                               El generateCheckBox
                                                               El slider
+                                                              El fontSizeStepper
                                                               ]])]
                                      StretchedRow([StretchedEl scrollableTree])
                                         ]
