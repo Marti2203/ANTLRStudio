@@ -16,7 +16,7 @@ let readGrammarToHtml name =
                              .Append("<head>")
                              .Append("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=9\"/>")
                              .Append("</head>")
-                             .Append("<body>")
+                             .Append("<body style=\"background-color:hsl(30,20%,95%);\">")
                              .Append(svg)
                              .Append("</body>")
                              .Append("</html>")
