@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
-  <?define sourceFolder="C:\Users\konsu\ANTLRStudio"?>
+  <?define sourceFolder="C:\Users\[LogonUser]\ANTLRStudio"?>
   <Product Id="*" UpgradeCode="a8179053-35b4-4e7d-a7d0-4e98bb3dfdd2" Version="1.0.0.0" Language="1033" Name="ANTLRStudio" Manufacturer="Marti and Koycho" >
     <Package InstallerVersion="300" Compressed="yes"/>
     <Media Id="1" Cabinet="myapplication.cab" EmbedCab="yes" />
