@@ -58,7 +58,7 @@
             <File Id="antlr4.jar" Source="$(var.sourceFolder)antlr-4.7.2-complete.jar" KeyPath="yes"/>
           </Component>
           <Component Id="Deletion" Guid="71ef0ac6-a0e2-45aa-b4c7-0526fb950767">
-            <RemoveRegistryKey Root="HKCU" Key="Software/ANTLRStudio" Action="removeOnUninstall"/>
+            <!--<RemoveRegistryKey Root="HKCU" Key="Software/ANTLRStudio" Action="removeOnUninstall"/>-->
             <!--<util:RemoveFolderEx Id="DeleteFolderSystem"  On="uninstall" Property="C:\Program Files(x86)\ANTLRStudio"/>-->
             <RemoveFile Id="DeleteFiles" Directory="ApplicationRootDirectory" On="uninstall" Name="*"/>
             <Shortcut Id="UninstallProductApplicationRoot"

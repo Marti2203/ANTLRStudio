@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -6,7 +6,7 @@
     <ProjectGuid>{DD7ED3F4-BC7A-499E-AB1C-04AE256176FC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>ANTLRStudio.Trees</RootNamespace>
-    <AssemblyName>ANTLRStuio.Trees</AssemblyName>
+    <AssemblyName>ANTLRStudio.Trees</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
