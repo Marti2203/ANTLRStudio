@@ -39,10 +39,12 @@ public partial class CustomDialog : WixCLRDialog
     private void WPFRadioButton_CheckedChanged(object sender, EventArgs e)
     {
         Program.GraphicsBackend = "Eto.Wpf.dll";
+        session["GraphicsBackend"] = "Eto.Wpf.dll";
     }
 
     private void WinFormsRadioButton_CheckedChanged(object sender, EventArgs e)
     {
         Program.GraphicsBackend = "Eto.Windows.dll";
+        session["GraphicsBackend"] = "Eto.Windows.dll";
     }
 }

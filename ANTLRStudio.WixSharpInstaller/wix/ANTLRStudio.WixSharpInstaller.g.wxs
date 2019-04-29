@@ -6,52 +6,65 @@
 </auto-generated>
 -->
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="234f222b-22da-4d7e-86a0-53f700a4de30" Name="ANTLRStudio" Language="1033" Codepage="Windows-1252" Version="1.0.0.0" UpgradeCode="234f222b-22da-4d7e-86a0-53f7f0a4de2f" Manufacturer="Martin Mirchev">
+  <Product Id="faf9a043-01cd-4e50-92bd-d09dda7e5ce0" Name="ANTLRStudio" Language="1033" Codepage="Windows-1252" Version="1.0.0.0" UpgradeCode="faf9a043-01cd-4e50-92bd-d09dca7e5cdf" Manufacturer="Martin Mirchev">
     <Package InstallerVersion="200" Compressed="yes" SummaryCodepage="Windows-1252" Languages="1033" />
     <Media Id="1" Cabinet="ANTLRStudio.cab" EmbedCab="yes" />
+
+    <Condition Message="Java not installed  Please install JRE 1.6 or later.">HASJAVA</Condition>
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder" Name="ProgramFilesFolder">
         <Directory Id="INSTALLDIR" Name="ANTLRStudio">
 
-          <Component Id="Component.ANTLRStudio.exe_1802765730" Guid="234f222b-22da-4d7e-86a0-53f72ea5e85a">
+          <Component Id="Component.ANTLRStudio.exe_1802765730" Guid="faf9a043-01cd-4e50-92bd-d09d087f660a">
             <File Id="ANTLRStudio.exe_1802765730" Source="bin\Debug\ANTLRStudio.exe" />
           </Component>
 
-          <Component Id="Component.FSharp.Core.dll_1034640084" Guid="234f222b-22da-4d7e-86a0-53f7f8bf3cf7">
+          <Component Id="Component.FSharp.Core.dll_1034640084" Guid="faf9a043-01cd-4e50-92bd-d09dd299baa7">
             <File Id="FSharp.Core.dll_1034640084" Source="bin\Debug\FSharp.Core.dll" />
           </Component>
 
-          <Component Id="Component.Eto.dll_1658811899" Guid="234f222b-22da-4d7e-86a0-53f793eb5bff">
+          <Component Id="Component.Eto.dll_1658811899" Guid="faf9a043-01cd-4e50-92bd-d09d6dc5d9af">
             <File Id="Eto.dll_1658811899" Source="bin\Debug\Eto.dll" />
           </Component>
 
-          <Component Id="Component.Antlr4.Runtime.Standard.dll_1483742224" Guid="234f222b-22da-4d7e-86a0-53f7d5eff134">
+          <Component Id="Component.Antlr4.Runtime.Standard.dll_1483742224" Guid="faf9a043-01cd-4e50-92bd-d09dafc96fe4">
             <File Id="Antlr4.Runtime.Standard.dll_1483742224" Source="bin\Debug\Antlr4.Runtime.Standard.dll" />
           </Component>
 
-          <Component Id="Component.System.Runtime.Serialization.Primitives.dll_307371982" Guid="234f222b-22da-4d7e-86a0-53f75311af2b">
+          <Component Id="Component.System.Runtime.Serialization.Primitives.dll_307371982" Guid="faf9a043-01cd-4e50-92bd-d09d2deb2ddb">
             <File Id="System.Runtime.Serialization.Primitives.dll_307371982" Source="bin\Debug\System.Runtime.Serialization.Primitives.dll" />
           </Component>
 
-          <Component Id="Component.ANTLRStudio.Trees.dll_640438276" Guid="234f222b-22da-4d7e-86a0-53f7434586bd">
+          <Component Id="Component.ANTLRStudio.Trees.dll_640438276" Guid="faf9a043-01cd-4e50-92bd-d09d1d1f046d">
             <File Id="ANTLRStudio.Trees.dll_640438276" Source="bin\Debug\ANTLRStudio.Trees.dll" />
           </Component>
 
-          <Component Id="Component.ANTLRStudio.TreeLayout.dll_1961686849" Guid="234f222b-22da-4d7e-86a0-53f7aea90a34">
+          <Component Id="Component.ANTLRStudio.TreeLayout.dll_1961686849" Guid="faf9a043-01cd-4e50-92bd-d09d888388e4">
             <File Id="ANTLRStudio.TreeLayout.dll_1961686849" Source="bin\Debug\ANTLRStudio.TreeLayout.dll" />
           </Component>
 
-          <Component Id="Component.ANTLRStudio.Parser.dll_329658702" Guid="234f222b-22da-4d7e-86a0-53f7296064a5">
+          <Component Id="Component.ANTLRStudio.Parser.dll_329658702" Guid="faf9a043-01cd-4e50-92bd-d09d033ae255">
             <File Id="ANTLRStudio.Parser.dll_329658702" Source="bin\Debug\ANTLRStudio.Parser.dll" />
           </Component>
 
-          <Component Id="Component.Eto.Wpf.dll_603554882" Guid="234f222b-22da-4d7e-86a0-53f7711ef743">
+          <Component Id="Component.Eto.Wpf.dll_603554882" Guid="faf9a043-01cd-4e50-92bd-d09d4bf875f3">
             <File Id="Eto.Wpf.dll_603554882" Source="bin\Debug\Eto.Wpf.dll" />
           </Component>
 
-          <Component Id="Component.antlr_4.7.2_complete.jar_918753255" Guid="234f222b-22da-4d7e-86a0-53f7304b7f26">
+          <Component Id="Component.antlr_4.7.2_complete.jar_918753255" Guid="faf9a043-01cd-4e50-92bd-d09d0a25fdd6">
             <File Id="antlr_4.7.2_complete.jar_918753255" Source="bin\Debug\antlr-4.7.2-complete.jar" />
+          </Component>
+
+          <Component Id="Component.Uninstall" Guid="faf9a043-01cd-4e50-92bd-d09dbb30be25">
+            <Shortcut Id="INSTALLDIR.Uninstall" WorkingDirectory="System64Folder" Target="[System64Folder]msiexec.exe" Arguments="/x [ProductCode]" Name="Uninstall.lnk" />
+
+            <CreateFolder />
+            <RemoveFolder Id="INSTALLDIR" On="uninstall" />
+
+            <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+              <RegistryValue Value="0" Type="string" KeyPath="yes" />
+            </RegistryKey>
           </Component>
 
         </Directory>
@@ -111,6 +124,14 @@
     <UIRef Id="WixUI_Common" />
     <UIRef Id="WixUI_ErrorProgressText" />
 
+    <Property Id="HASJAVA">
+      <RegistrySearch Id="RegistrySearch" Root="HKLM" Name="EVersion" Key="SOFTWARE\JavaSoft\Java Runtime Environment" Type="raw" />
+      <RegistrySearch Id="RegistrySearch.1" Root="HKLM" Name="1.8.0" Key="SOFTWARE\JavaSoft\Java Runtime Environment\Security Baseline" Type="raw" />
+      <RegistrySearch Id="RegistrySearch.2" Root="HKLM" Name="CurrentVersion" Key="SOFTWARE\WOW6432Node\JavaSoft\Java Runtime Environment" Type="raw" />
+    </Property>
+
+    <Property Id="GraphicsBackend" Value="Eto.Wpf.dll" />
+
     <Feature Id="Complete" Title="Complete" Absent="allow" Level="1">
       <ComponentRef Id="Component.ANTLRStudio.exe_1802765730" />
       <ComponentRef Id="Component.FSharp.Core.dll_1034640084" />
@@ -122,6 +143,7 @@
       <ComponentRef Id="Component.ANTLRStudio.Parser.dll_329658702" />
       <ComponentRef Id="Component.Eto.Wpf.dll_603554882" />
       <ComponentRef Id="Component.antlr_4.7.2_complete.jar_918753255" />
+      <ComponentRef Id="Component.Uninstall" />
     </Feature>
 
   </Product>
