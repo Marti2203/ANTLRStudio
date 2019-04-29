@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 // Change them to the values specific to your project.
 using System;
 
-[assembly: AssemblyTitle("ANTLRStuio.Trees")]
+[assembly: AssemblyTitle("ANTLRStudio.Parser")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]

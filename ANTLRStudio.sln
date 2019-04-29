@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ANTLRStudio", "ANTLRStudio\ANTLRStudio.fsproj", "{81940932-3287-41C6-B55B-CB5F7DD59BAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio.Parser", "Parser\ANTLRStudio.Parser.csproj", "{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}"
-EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ANTLRStudio.Diagrams", "ANTLRStudio.Diagrams\ANTLRStudio.Diagrams.fsproj", "{3E18CBC1-4E96-4141-8728-0571671A315C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio.TreeLayout", "ANTLRStudio.TreeLayout\ANTLRStudio.TreeLayout.csproj", "{F632B167-6587-48A6-B8FA-5B9EA4FA2441}"
@@ -13,7 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio.TreeLayout.Exam
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ANTLRStudio.Diagrams.Example", "ANTLRStudio.Diagrams.Example\ANTLRStudio.Diagrams.Example.fsproj", "{B94DEB67-8470-4B3F-94F5-3B6FDD429A1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio.Trees", "ANTLRStuio.Trees\ANTLRStudio.Trees.csproj", "{DD7ED3F4-BC7A-499E-AB1C-04AE256176FC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio.Trees", "ANTLRStudio.Trees\ANTLRStudio.Trees.csproj", "{DD7ED3F4-BC7A-499E-AB1C-04AE256176FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio.Parser", "ANTLRStudio.Parser\ANTLRStudio.Parser.csproj", "{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +25,6 @@ Global
 		{81940932-3287-41C6-B55B-CB5F7DD59BAB}.Debug|x86.Build.0 = Debug|x86
 		{81940932-3287-41C6-B55B-CB5F7DD59BAB}.Release|x86.ActiveCfg = Release|x86
 		{81940932-3287-41C6-B55B-CB5F7DD59BAB}.Release|x86.Build.0 = Release|x86
-		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Debug|x86.Build.0 = Debug|Any CPU
-		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Release|x86.ActiveCfg = Release|Any CPU
-		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Release|x86.Build.0 = Release|Any CPU
 		{3E18CBC1-4E96-4141-8728-0571671A315C}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{3E18CBC1-4E96-4141-8728-0571671A315C}.Debug|x86.Build.0 = Debug|Any CPU
 		{3E18CBC1-4E96-4141-8728-0571671A315C}.Release|x86.ActiveCfg = Release|Any CPU
@@ -49,6 +45,10 @@ Global
 		{DD7ED3F4-BC7A-499E-AB1C-04AE256176FC}.Debug|x86.Build.0 = Debug|Any CPU
 		{DD7ED3F4-BC7A-499E-AB1C-04AE256176FC}.Release|x86.ActiveCfg = Release|Any CPU
 		{DD7ED3F4-BC7A-499E-AB1C-04AE256176FC}.Release|x86.Build.0 = Release|Any CPU
+		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Debug|x86.Build.0 = Debug|Any CPU
+		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Release|x86.ActiveCfg = Release|Any CPU
+		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		version = 0.9

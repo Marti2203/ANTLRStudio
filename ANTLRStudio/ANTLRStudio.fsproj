@@ -75,7 +75,7 @@
       <Project>{3E18CBC1-4E96-4141-8728-0571671A315C}</Project>
       <Name>ANTLRStudio.Diagrams</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Parser\ANTLRStudio.Parser.csproj">
+    <ProjectReference Include="..\ANTLRStudio.Parser\ANTLRStudio.Parser.csproj">
       <Project>{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}</Project>
       <Name>ANTLRStudio.Parser</Name>
     </ProjectReference>
@@ -83,7 +83,7 @@
       <Project>{F632B167-6587-48A6-B8FA-5B9EA4FA2441}</Project>
       <Name>ANTLRStudio.TreeLayout</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ANTLRStuio.Trees\ANTLRStudio.Trees.csproj">
+    <ProjectReference Include="..\ANTLRStudio.Trees\ANTLRStudio.Trees.csproj">
       <Project>{DD7ED3F4-BC7A-499E-AB1C-04AE256176FC}</Project>
       <Name>ANTLRStudio.Trees</Name>
     </ProjectReference>

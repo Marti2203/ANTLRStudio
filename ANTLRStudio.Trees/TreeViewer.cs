@@ -96,7 +96,7 @@ namespace ANTLRStudio.Trees
                     //}
                     //else
                     //{
-                    System.Console.WriteLine($"{x1},{y1},{x2},{y2}");
+                    //System.Console.WriteLine($"{x1},{y1},{x2},{y2}");
 
                     g.DrawLine(stroke, x1, y1, x2, y2);
                     //}
@@ -249,12 +249,12 @@ namespace ANTLRStudio.Trees
         //// ----------------------------------------------------------------------
 
 
-        private static readonly string DIALOG_WIDTH_PREFS_KEY = "dialog_width";
-        private static readonly string DIALOG_HEIGHT_PREFS_KEY = "dialog_height";
-        private static readonly string DIALOG_X_PREFS_KEY = "dialog_x";
-        private static readonly string DIALOG_Y_PREFS_KEY = "dialog_y";
-        private static readonly string DIALOG_DIVIDER_LOC_PREFS_KEY = "dialog_divider_location";
-        private static readonly string DIALOG_VIEWER_SCALE_PREFS_KEY = "dialog_viewer_scale";
+        //private static readonly string DIALOG_WIDTH_PREFS_KEY = "dialog_width";
+        //private static readonly string DIALOG_HEIGHT_PREFS_KEY = "dialog_height";
+        //private static readonly string DIALOG_X_PREFS_KEY = "dialog_x";
+        //private static readonly string DIALOG_Y_PREFS_KEY = "dialog_y";
+        //private static readonly string DIALOG_DIVIDER_LOC_PREFS_KEY = "dialog_divider_location";
+        //private static readonly string DIALOG_VIEWER_SCALE_PREFS_KEY = "dialog_viewer_scale";
 
         //protected static JFrame showInDialog(readonly TreeViewer viewer)
         //{
