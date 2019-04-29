@@ -16,19 +16,23 @@ namespace ANTLRStudio.WixSharpInstaller
             "ANTLRStudio.exe",
             "FSharp.Core.dll",
             "Eto.dll",
-            "Eto.Wpf.dll",
             "Antlr4.Runtime.Standard.dll",
             "System.Runtime.Serialization.Primitives.dll",
+            "ANTLRStudio.Diagrams.dll",
             "ANTLRStudio.Trees.dll",
             "ANTLRStudio.TreeLayout.dll",
             "ANTLRStudio.Parser.dll"
         };
-        public static string GraphicsBackend = "Eto.Wpf.dll";
         public static WixEntity[] Shortcuts = new WixEntity[]
         {
              new ExeFileShortcut("Uninstall","[System64Folder]msiexec.exe","/x [ProductCode]"),
         };
 
+        public static WixEntity[] GraphicsBackends = new WixEntity[]
+        {
+            new File(Path.Combine(AssemblyLocation,"Eto.Wpf.dll")){Condition = new Condition(@"GRAPHICSBACKEND=""WPF""")},
+            new File(Path.Combine(AssemblyLocation,"Eto.WinForms.dll")){Condition = new Condition(@"GRAPHICSBACKEND=""WINFORMS""")},
+        };
         static void Main()
         {
             // This project type has been superseded with the EmbeddedUI based "WixSharp Managed Setup - Custom Dialog"
@@ -42,6 +46,7 @@ namespace ANTLRStudio.WixSharpInstaller
                                   .Select(x => new File(new Id(Path.GetFileNameWithoutExtension(x).Replace('-', '_')),
                                                                Path.Combine(AssemblyLocation, x)) as WixEntity)
                                   .Concat(Shortcuts)
+                                  .Concat(GraphicsBackends)
                                   .ToArray();
             (files.First(x => x.Id == "ANTLRStudio") as File)
                 .AddShortcuts(new FileShortcut("ANTLRStudio.exe", "%Desktop%"), 

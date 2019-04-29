@@ -98,9 +98,9 @@
             this.WinFormsRadioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.WinFormsRadioButton.Location = new System.Drawing.Point(4, 19);
             this.WinFormsRadioButton.Name = "WinFormsRadioButton";
-            this.WinFormsRadioButton.Size = new System.Drawing.Size(125, 21);
+            this.WinFormsRadioButton.Size = new System.Drawing.Size(250, 21);
             this.WinFormsRadioButton.TabIndex = 11;
-            this.WinFormsRadioButton.Text = "Windows Forms";
+            this.WinFormsRadioButton.Text = "Windows Forms (More rudimentary)";
             this.WinFormsRadioButton.UseVisualStyleBackColor = true;
             this.WinFormsRadioButton.CheckedChanged += new System.EventHandler(this.WPFRadioButton_CheckedChanged);
             // 
@@ -110,7 +110,7 @@
             this.groupBox1.Controls.Add(this.WPFRadioButton);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(240, 72);
+            this.groupBox1.Size = new System.Drawing.Size(536, 72);
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Choose Graphics Backend";
@@ -126,7 +126,7 @@
             this.Controls.Add(this.nextBtn);
             this.Controls.Add(this.backBtn);
             this.Name = "CustomDialog";
-            this.Text = "Custom CLR Dialog";
+            this.Text = "Graphics Backend Choice";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
