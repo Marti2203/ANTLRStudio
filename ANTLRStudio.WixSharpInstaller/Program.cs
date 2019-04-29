@@ -56,6 +56,7 @@ namespace ANTLRStudio.WixSharpInstaller
             var hasJava = new Property("HASJAVA",
                 new RegistrySearch(RegistryHive.LocalMachine, @"SOFTWARE\JavaSoft\Java Runtime Environment", "EVersion", RegistrySearchType.raw),
                 new RegistrySearch(RegistryHive.LocalMachine, @"SOFTWARE\JavaSoft\Java Runtime Environment\Security Baseline", "1.8.0", RegistrySearchType.raw),
+                new RegistrySearch(RegistryHive.LocalMachine, @"SOFTWARE\JavaSoft\Java Runtime Environment", "CurrentVersion", RegistrySearchType.raw),
                 new RegistrySearch(RegistryHive.LocalMachine, @"SOFTWARE\WOW6432Node\JavaSoft\Java Runtime Environment", "CurrentVersion", RegistrySearchType.raw));
 
 
