@@ -11,8 +11,11 @@ namespace ANTLRStudio.Parser
 {
     public class ListDiagramVisitor : ANTLRv4ParserBaseVisitor<ItemSequence>
     {
-        private static Item Create(string item, Diagram diagram) => new Item(item, diagram);
-
+        private static Item Create(string item, Diagram diagram)
+        {
+            diagram.attrs.Add("id", item);
+            return new Item(item, diagram);
+        }
         protected override ItemSequence DefaultResult
         => new Item[] { Create("Default", DiagramOf(new NonTerminal("DEFAULT RESULT", noneString, noneString))) };
 
@@ -113,10 +116,14 @@ namespace ANTLRStudio.Parser
         {
 
             if (context.terminal() != null)
-                return new Terminal(context.terminal().TOKEN_REF()?.GetText() ?? context.terminal().STRING_LITERAL().GetText(), noneString, noneString);
+            {
+                var text = context.terminal().TOKEN_REF()?.GetText() ?? context.terminal().STRING_LITERAL().GetText();
+                var href = context.terminal().TOKEN_REF()?.GetText() == null ? noneString : "#"+context.terminal().TOKEN_REF().GetText();
+                return new Terminal(text,href , noneString);
+            }
             if (context.ruleref() != null)
             {
-                List<Terminal> terminals = new List<Terminal>(2) { new Terminal(context.ruleref().RULE_REF().GetText(), noneString, noneString) };
+                List<Terminal> terminals = new List<Terminal>(2) { new Terminal(context.ruleref().RULE_REF().GetText(), "#"+context.ruleref().RULE_REF().GetText(), noneString) };
                 if (context.ruleref().argActionBlock() != null)
                     terminals.Add(TerminalWithClass(context.ruleref().argActionBlock().GetText(), "argActionBlocks"));
                 return new Sequence(terminals.Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2));
@@ -196,7 +203,7 @@ namespace ANTLRStudio.Parser
 
         public override ItemSequence VisitLexerRuleSpec([NotNull] ANTLRv4Parser.LexerRuleSpecContext context)
         {
-            var displayName = context.FRAGMENT()?.GetText() + " " + context.TOKEN_REF();
+            var displayName = (context.FRAGMENT() != null ? (context.FRAGMENT().GetText() + " ") : string.Empty) + context.TOKEN_REF();
             var comments = context.DOC_COMMENT().AsParallel().AsOrdered().Select(x => x.GetText()).Select(CreateComment).Select(x => Create($"{context.TOKEN_REF().GetText()} Comment", DiagramOf(x)));
             return comments.Concat(ParallelSequenceOf(displayName, Transform(context.lexerRuleBlock().lexerAltList())));
         }
@@ -243,7 +250,11 @@ namespace ANTLRStudio.Parser
         private DiagramItem Transform(ANTLRv4Parser.LexerAtomContext context)
         {
             if (context.terminal() != null)
-                return new Terminal(context.terminal().TOKEN_REF()?.GetText() ?? context.terminal().STRING_LITERAL().GetText(), noneString, noneString);
+            {
+                var text = context.terminal().TOKEN_REF()?.GetText() ?? context.terminal().STRING_LITERAL().GetText();
+                var href = context.terminal().TOKEN_REF()?.GetText() == null ? noneString : "#"+context.terminal().TOKEN_REF().GetText();
+                return new Terminal(text,href , noneString);
+            }
             if (context.LEXER_CHAR_SET() != null)
             {
                 return new Terminal(context.LEXER_CHAR_SET().GetText(), noneString, noneString);
@@ -268,7 +279,7 @@ namespace ANTLRStudio.Parser
                              .AsParallel().AsOrdered()
                              .Select(x => new Terminal(x, noneString, noneString))
                              .Select(FSharpChoice<DiagramItem, string>.NewChoice1Of2)) as DiagramItem;
-                return new Terminal($"[{start}=\\u{(int)start} - {end}=\\u{(int)end}]", noneString, noneString);
+                return new NonTerminal($"[{start}=\\u{(int)start} - {end}=\\u{(int)end}]", noneString, noneString);
             }
             throw new InvalidOperationException("WTF?!?!");
         }

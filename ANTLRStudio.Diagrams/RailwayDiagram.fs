@@ -179,7 +179,7 @@ type Style(css:string) =
         writer.Write(sprintf "<style>%s</style>" css)
 
 type Terminal(text:string,?href:string,?title:string) as self=
-    inherit DiagramItem( "g", dictFromPair("class","terminal"))
+    inherit DiagramItem( "g", dictFromPair ("class","terminal"))
     do
         self.width <- float32 text.Length * CHAR_WIDTH + 20.f
         self.up <- 11.f

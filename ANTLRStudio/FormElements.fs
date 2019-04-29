@@ -72,8 +72,7 @@ let mainForm (app:Application) (form:Form) =
     generateCheckBox.CheckedChanged.Add(parse)
     fontSizeStepper.ValueChanged.Add(fun _ -> treeViewer.FontSize <- int fontSizeStepper.Value)
     slider.ValueChanged.Add(fun _ -> treeViewer.Scale <- (float32 slider.Value) / 10.f)
-    loadedFile.Add(readGrammarToHtml >> fun x -> webView.LoadHtml x
-                                                 form.Enabled <- true)
+    loadedFile.Add(readGrammarToHtml >> webView.LoadHtml)
     loadedFile.Add(fun name -> let (parser,lexer,_) = generateParserLexerInMemory name
                                currentLexer <- lexer
                                currentParser <- parser
@@ -99,20 +98,4 @@ let mainForm (app:Application) (form:Form) =
     form.Content <- content
     form
 
-//let exampleTreeForm (app:Application) (form:Form) =
-    //let tree = SampleTreeFactory.ASTTree()
-    //let gapBetweenLevels = 50.f
-    //let gapBetweenNodes = 10.f
-    //let configuration = new DefaultConfiguration<TextInBox>(gapBetweenLevels, gapBetweenNodes, Configuration<TextInBox>.Location.Left)
-
-    //// create the NodeExtentProvider for TextInBox nodes
-    //let nodeExtentProvider = new TextInBoxNodeExtentProvider()
-
-    //// create the layout
-    //let treeLayout = new TreeLayout<TextInBox>(tree, nodeExtentProvider, configuration)
-
-    //// Create a panel that draws the nodes and edges and show the panel
-    //let panel = new TextInBoxTreePane(treeLayout)
-    //form.Content <- panel
-    //form
     

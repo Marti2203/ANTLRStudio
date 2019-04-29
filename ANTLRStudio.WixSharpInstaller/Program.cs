@@ -57,7 +57,7 @@ namespace ANTLRStudio.WixSharpInstaller
             var project = new Project("ANTLRStudio", 
                                       hasJava, 
                                       new Dir(@"%ProgramFiles%\ANTLRStudio", files),
-                                      new Dir(@"%ProgramMenu%\ANTLRStudio", new ExeFileShortcut("Uninstall", "[System64Folder]msiexec.exe", "/x [ProductCode]")))
+                                      new Dir(@"%ProgramMenu%\ANTLRStudio", new ExeFileShortcut("Uninstall ANTLRStudio", "[System64Folder]msiexec.exe", "/x [ProductCode]")))
             {
                 GUID = Guid.NewGuid(),
                 LaunchConditions = new List<LaunchCondition>() { new LaunchCondition("HASJAVA", "Java not installed  Please install JRE 1.6 or later.") },
