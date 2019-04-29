@@ -6,7 +6,7 @@
 </auto-generated>
 -->
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="faf9a043-01cd-4e50-92bd-d09dda7e5ce0" Name="ANTLRStudio" Language="1033" Codepage="Windows-1252" Version="1.0.0.0" UpgradeCode="faf9a043-01cd-4e50-92bd-d09dca7e5cdf" Manufacturer="Martin Mirchev">
+  <Product Id="14be261f-2e3f-4e83-9d22-b9a8ed9bd212" Name="ANTLRStudio" Language="1033" Codepage="Windows-1252" Version="1.0.0.0" UpgradeCode="14be261f-2e3f-4e83-9d22-b9a8dd9bd211" Manufacturer="Koicho Georgiev and Martin Mirchev">
     <Package InstallerVersion="200" Compressed="yes" SummaryCodepage="Windows-1252" Languages="1033" />
     <Media Id="1" Cabinet="ANTLRStudio.cab" EmbedCab="yes" />
 
@@ -16,47 +16,54 @@
       <Directory Id="ProgramFilesFolder" Name="ProgramFilesFolder">
         <Directory Id="INSTALLDIR" Name="ANTLRStudio">
 
-          <Component Id="Component.ANTLRStudio.exe_1802765730" Guid="faf9a043-01cd-4e50-92bd-d09d087f660a">
-            <File Id="ANTLRStudio.exe_1802765730" Source="bin\Debug\ANTLRStudio.exe" />
+          <Component Id="Component.ANTLRStudio" Guid="14be261f-2e3f-4e83-9d22-b9a8c4231995">
+            <File Id="ANTLRStudio" Source="bin\Debug\ANTLRStudio.exe">
+              <Shortcut Id="Shortcut.ANTLRStudio.ANTLRStudio.exe" WorkingDirectory="INSTALLDIR" Directory="DesktopFolder" Name="ANTLRStudio.exe.lnk" />
+              <Shortcut Id="Shortcut.ANTLRStudio.ANTLRStudio.exe.1" WorkingDirectory="INSTALLDIR" Directory="ANTLRStudio.1" Name="ANTLRStudio.exe.lnk" />
+            </File>
+
+            <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+              <RegistryValue Value="0" Type="string" KeyPath="yes" />
+            </RegistryKey>
           </Component>
 
-          <Component Id="Component.FSharp.Core.dll_1034640084" Guid="faf9a043-01cd-4e50-92bd-d09dd299baa7">
-            <File Id="FSharp.Core.dll_1034640084" Source="bin\Debug\FSharp.Core.dll" />
+          <Component Id="Component.FSharp.Core" Guid="14be261f-2e3f-4e83-9d22-b9a8e64b1ff5">
+            <File Id="FSharp.Core" Source="bin\Debug\FSharp.Core.dll" />
           </Component>
 
-          <Component Id="Component.Eto.dll_1658811899" Guid="faf9a043-01cd-4e50-92bd-d09d6dc5d9af">
-            <File Id="Eto.dll_1658811899" Source="bin\Debug\Eto.dll" />
+          <Component Id="Component.Eto" Guid="14be261f-2e3f-4e83-9d22-b9a8b69cbd30">
+            <File Id="Eto" Source="bin\Debug\Eto.dll" />
           </Component>
 
-          <Component Id="Component.Antlr4.Runtime.Standard.dll_1483742224" Guid="faf9a043-01cd-4e50-92bd-d09dafc96fe4">
-            <File Id="Antlr4.Runtime.Standard.dll_1483742224" Source="bin\Debug\Antlr4.Runtime.Standard.dll" />
+          <Component Id="Component.Eto.Wpf" Guid="14be261f-2e3f-4e83-9d22-b9a878d04131">
+            <File Id="Eto.Wpf" Source="bin\Debug\Eto.Wpf.dll" />
           </Component>
 
-          <Component Id="Component.System.Runtime.Serialization.Primitives.dll_307371982" Guid="faf9a043-01cd-4e50-92bd-d09d2deb2ddb">
-            <File Id="System.Runtime.Serialization.Primitives.dll_307371982" Source="bin\Debug\System.Runtime.Serialization.Primitives.dll" />
+          <Component Id="Component.Antlr4.Runtime.Standard" Guid="14be261f-2e3f-4e83-9d22-b9a8a0d2a136">
+            <File Id="Antlr4.Runtime.Standard" Source="bin\Debug\Antlr4.Runtime.Standard.dll" />
           </Component>
 
-          <Component Id="Component.ANTLRStudio.Trees.dll_640438276" Guid="faf9a043-01cd-4e50-92bd-d09d1d1f046d">
-            <File Id="ANTLRStudio.Trees.dll_640438276" Source="bin\Debug\ANTLRStudio.Trees.dll" />
+          <Component Id="Component.System.Runtime.Serialization.Primitives" Guid="14be261f-2e3f-4e83-9d22-b9a8625e2f00">
+            <File Id="System.Runtime.Serialization.Primitives" Source="bin\Debug\System.Runtime.Serialization.Primitives.dll" />
           </Component>
 
-          <Component Id="Component.ANTLRStudio.TreeLayout.dll_1961686849" Guid="faf9a043-01cd-4e50-92bd-d09d888388e4">
-            <File Id="ANTLRStudio.TreeLayout.dll_1961686849" Source="bin\Debug\ANTLRStudio.TreeLayout.dll" />
+          <Component Id="Component.ANTLRStudio.Trees" Guid="14be261f-2e3f-4e83-9d22-b9a83357232e">
+            <File Id="ANTLRStudio.Trees" Source="bin\Debug\ANTLRStudio.Trees.dll" />
           </Component>
 
-          <Component Id="Component.ANTLRStudio.Parser.dll_329658702" Guid="faf9a043-01cd-4e50-92bd-d09d033ae255">
-            <File Id="ANTLRStudio.Parser.dll_329658702" Source="bin\Debug\ANTLRStudio.Parser.dll" />
+          <Component Id="Component.ANTLRStudio.TreeLayout" Guid="14be261f-2e3f-4e83-9d22-b9a8bf5a3606">
+            <File Id="ANTLRStudio.TreeLayout" Source="bin\Debug\ANTLRStudio.TreeLayout.dll" />
           </Component>
 
-          <Component Id="Component.Eto.Wpf.dll_603554882" Guid="faf9a043-01cd-4e50-92bd-d09d4bf875f3">
-            <File Id="Eto.Wpf.dll_603554882" Source="bin\Debug\Eto.Wpf.dll" />
+          <Component Id="Component.ANTLRStudio.Parser" Guid="14be261f-2e3f-4e83-9d22-b9a852649145">
+            <File Id="ANTLRStudio.Parser" Source="bin\Debug\ANTLRStudio.Parser.dll" />
           </Component>
 
-          <Component Id="Component.antlr_4.7.2_complete.jar_918753255" Guid="faf9a043-01cd-4e50-92bd-d09d0a25fdd6">
-            <File Id="antlr_4.7.2_complete.jar_918753255" Source="bin\Debug\antlr-4.7.2-complete.jar" />
+          <Component Id="Component.antlr_4.7.2_complete" Guid="14be261f-2e3f-4e83-9d22-b9a8108e7f0b">
+            <File Id="antlr_4.7.2_complete" Source="bin\Debug\antlr-4.7.2-complete.jar" />
           </Component>
 
-          <Component Id="Component.Uninstall" Guid="faf9a043-01cd-4e50-92bd-d09dbb30be25">
+          <Component Id="Component.Uninstall" Guid="14be261f-2e3f-4e83-9d22-b9a8ce4d3457">
             <Shortcut Id="INSTALLDIR.Uninstall" WorkingDirectory="System64Folder" Target="[System64Folder]msiexec.exe" Arguments="/x [ProductCode]" Name="Uninstall.lnk" />
 
             <CreateFolder />
@@ -69,6 +76,41 @@
 
         </Directory>
       </Directory>
+
+      <Directory Id="ProgramMenuFolder" Name="ProgramMenuFolder">
+        <Directory Id="ANTLRStudio.1" Name="ANTLRStudio">
+
+          <Component Id="Component.Uninstall.1" Guid="14be261f-2e3f-4e83-9d22-b9a87941826f">
+            <Shortcut Id="ANTLRStudio.1.Uninstall.1" WorkingDirectory="System64Folder" Target="[System64Folder]msiexec.exe" Arguments="/x [ProductCode]" Name="Uninstall.lnk" />
+
+            <CreateFolder />
+            <RemoveFolder Id="ANTLRStudio.1" On="uninstall" />
+
+            <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+              <RegistryValue Value="0" Type="string" KeyPath="yes" />
+            </RegistryKey>
+          </Component>
+
+        </Directory>
+      </Directory>
+
+      <Directory Id="DesktopFolder" Name="DesktopFolder">
+
+        <Component Id="Component.DesktopFolder.EmptyDirectory" Guid="14be261f-2e3f-4e83-9d22-b9a81cb57317">
+          <CreateFolder />
+
+          <RegistryKey Root="HKCU" Key="Software\WixSharp\Used">
+            <RegistryValue Value="0" Type="string" KeyPath="yes" />
+          </RegistryKey>
+        </Component>
+
+      </Directory>
+
+      <Component Id="TARGETDIR" Guid="14be261f-2e3f-4e83-9d22-b9a8506b4284" KeyPath="yes">
+        <CreateFolder />
+        <RemoveFolder Id="TARGETDIR" On="uninstall" />
+      </Component>
+
     </Directory>
 
     <UI />
@@ -130,20 +172,23 @@
       <RegistrySearch Id="RegistrySearch.2" Root="HKLM" Name="CurrentVersion" Key="SOFTWARE\WOW6432Node\JavaSoft\Java Runtime Environment" Type="raw" />
     </Property>
 
-    <Property Id="GraphicsBackend" Value="Eto.Wpf.dll" />
+    <Property Id="ARPCONTACT" Value="marti_2203@abv.bg" />
 
     <Feature Id="Complete" Title="Complete" Absent="allow" Level="1">
-      <ComponentRef Id="Component.ANTLRStudio.exe_1802765730" />
-      <ComponentRef Id="Component.FSharp.Core.dll_1034640084" />
-      <ComponentRef Id="Component.Eto.dll_1658811899" />
-      <ComponentRef Id="Component.Antlr4.Runtime.Standard.dll_1483742224" />
-      <ComponentRef Id="Component.System.Runtime.Serialization.Primitives.dll_307371982" />
-      <ComponentRef Id="Component.ANTLRStudio.Trees.dll_640438276" />
-      <ComponentRef Id="Component.ANTLRStudio.TreeLayout.dll_1961686849" />
-      <ComponentRef Id="Component.ANTLRStudio.Parser.dll_329658702" />
-      <ComponentRef Id="Component.Eto.Wpf.dll_603554882" />
-      <ComponentRef Id="Component.antlr_4.7.2_complete.jar_918753255" />
+      <ComponentRef Id="Component.ANTLRStudio" />
+      <ComponentRef Id="Component.FSharp.Core" />
+      <ComponentRef Id="Component.Eto" />
+      <ComponentRef Id="Component.Eto.Wpf" />
+      <ComponentRef Id="Component.Antlr4.Runtime.Standard" />
+      <ComponentRef Id="Component.System.Runtime.Serialization.Primitives" />
+      <ComponentRef Id="Component.ANTLRStudio.Trees" />
+      <ComponentRef Id="Component.ANTLRStudio.TreeLayout" />
+      <ComponentRef Id="Component.ANTLRStudio.Parser" />
+      <ComponentRef Id="Component.antlr_4.7.2_complete" />
       <ComponentRef Id="Component.Uninstall" />
+      <ComponentRef Id="Component.Uninstall.1" />
+      <ComponentRef Id="Component.DesktopFolder.EmptyDirectory" />
+      <ComponentRef Id="TARGETDIR" />
     </Feature>
 
   </Product>
