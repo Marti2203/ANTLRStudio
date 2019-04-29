@@ -65,7 +65,7 @@ namespace ANTLRStudio.WixSharpInstaller
                                       new Dir(@"%ProgramMenu%\ANTLRStudio", new ExeFileShortcut("Uninstall ANTLRStudio", "[System64Folder]msiexec.exe", "/x [ProductCode]")))
             {
                 GUID = Guid.NewGuid(),
-                LaunchConditions = new List<LaunchCondition>() { new LaunchCondition("HASJAVA", "Java not installed  Please install JRE 1.6 or later.") },
+                LaunchConditions = new List<LaunchCondition>() { new LaunchCondition("HASJAVA", "Java not installed  Please install JRE 1.8 or later.") },
             };
 
             project.ControlPanelInfo.Manufacturer = "Koicho Georgiev and Martin Mirchev";
