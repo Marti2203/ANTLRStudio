@@ -9,7 +9,7 @@ let createArguments file language options =
     let flags = options 
                 |> Seq.map(fun option -> if option.Value then option.ActiveFlag else option.InactiveFlag)
                 |> Seq.toList 
-    let strings = [file; (if language <> null then sprintf "-Dlanguage=%s" language else String.Empty)]
+    let strings = [sprintf "\"%s\"" file; (if language <> null then sprintf "-Dlanguage=%s" language else String.Empty)]
     String.Join(" ", Seq.concat [strings;flags])
 
 let startJavaProgram(jarLocation: string, programArguments: string) =
@@ -35,14 +35,16 @@ let generate file language options =
     let processOutput = antlrJavaProcess.StandardOutput.ReadToEnd()
     printfn "%s" <| processOutput
 
+let generateTemporaryDirectory () =
+   let tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName().Split('.').[0]);
+   Directory.CreateDirectory(tempDirectory)
 let generateParserLexerInMemory file =
-    let directory = Path.Combine(Directory.GetCurrentDirectory(),"Generations")
-    if not <| Directory.Exists(directory) then Directory.CreateDirectory(directory) |> ignore
+    let directory = generateTemporaryDirectory()
     let directoryOption = [{
                             Name="Output Directory Flag"; Value= true; ActiveFlag="-o";InactiveFlag=String.Empty
                            }
                            {
-                            Name="Output Directory Location"; Value= true; ActiveFlag=directory;InactiveFlag=String.Empty
+                            Name="Output Directory Location"; Value= true; ActiveFlag=(sprintf "\"%s\"" directory.FullName);InactiveFlag=String.Empty
                            }
                            {
                             Name="Package Flag"; Value = true; ActiveFlag = "-package";InactiveFlag=String.Empty
@@ -50,8 +52,7 @@ let generateParserLexerInMemory file =
                            {
                             Name="Package Name"; Value = true; ActiveFlag = "RandomAssembly";InactiveFlag=String.Empty
                            }]
-    Directory.GetFiles(directory) |> Seq.iter File.Delete
-    generate file (languages |> Seq.find(fun (name, v) -> name = "C#") |> snd) directoryOption
+    generate file "CSharp" directoryOption
 
     use provider = new CSharpCodeProvider()
     let referenceAssemblies = [|"System.dll";Path.Combine(cwd,"Antlr4.Runtime.Standard.dll")|];
@@ -60,12 +61,13 @@ let generateParserLexerInMemory file =
     let parameters = new CompilerParameters(referenceAssemblies, resultName)
     parameters.GenerateInMemory <- true
     parameters.GenerateExecutable <- false
-    let files = Directory.GetFiles(directory) 
-                |> Seq.filter(fun x -> x.EndsWith(".cs")) 
+    let files = directory.EnumerateFiles() 
+                |> Seq.filter(fun x -> x.Name.EndsWith(".cs"))
+                |> Seq.map(fun x -> x.FullName)
                 |> Seq.toArray
     let results = provider.CompileAssemblyFromFile(parameters,files)
     [0..(results.Errors.Count - 1)] |> Seq.map(fun x -> results.Errors.[x]) |> Seq.iter( fun x -> printfn "%A" x)
-    Directory.GetParent(file).GetFiles() |> Seq.find (fun f -> f.Extension = ".dll") |> (fun f -> f.Delete())
+    directory.Delete()
     let lexerClass = results.CompiledAssembly.GetTypes() |> Seq.find (fun t -> t.IsSubclassOf(typeof<Lexer>))
     let lexerInstance = lexerClass.GetConstructor([|typeof<ICharStream>|]).Invoke([|null|]) :?> Lexer
     let parserClass = results.CompiledAssembly.GetTypes() |> Seq.find (fun t -> t.IsSubclassOf(typeof<Parser>))

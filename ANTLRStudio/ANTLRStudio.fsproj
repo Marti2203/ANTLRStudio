@@ -66,6 +66,9 @@
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Program.fs" />
     <None Include="packages.config" />
+    <None Include="antlr-4.7.2-complete.jar">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ANTLRStudio.Diagrams\ANTLRStudio.Diagrams.fsproj">

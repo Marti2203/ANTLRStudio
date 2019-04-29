@@ -76,7 +76,6 @@ let mainForm (app:Application) (form:Form) =
                                currentParser <- parser
                                lexer.RemoveErrorListeners()
                                parser.RemoveErrorListeners()
-                               //form.ToolTip <- sprintf "Current Grammar is %s" <| parser.GrammarFileName.Split('.').[0]
                                ruleNames.DataStore <- parser.RuleNames |> Seq.sort |> Seq.cast<obj> )
     loadedFile.Add(fun _ -> slider.Enabled <- true)
     let layout = makeLayout <| Tbl [ Row [
