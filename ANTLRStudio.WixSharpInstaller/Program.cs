@@ -59,8 +59,9 @@ namespace ANTLRStudio.WixSharpInstaller
                 new RegistrySearch(RegistryHive.LocalMachine, @"SOFTWARE\WOW6432Node\JavaSoft\Java Runtime Environment", "CurrentVersion", RegistrySearchType.raw));
 
 
-            var project = new Project("ANTLRStudio", 
-                                      hasJava, 
+            var project = new Project("ANTLRStudio",
+                                      hasJava,
+                                      new Property("GRAPHICSBACKEND", "WPF"),
                                       new Dir(@"%ProgramFiles%\ANTLRStudio", files),
                                       new Dir(@"%ProgramMenu%\ANTLRStudio", new ExeFileShortcut("Uninstall ANTLRStudio", "[System64Folder]msiexec.exe", "/x [ProductCode]")))
             {

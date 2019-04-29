@@ -90,7 +90,7 @@
             this.WPFRadioButton.TabStop = true;
             this.WPFRadioButton.Text = "Windows Presentation Foundation";
             this.WPFRadioButton.UseVisualStyleBackColor = true;
-            this.WPFRadioButton.CheckedChanged += new System.EventHandler(this.WinFormsRadioButton_CheckedChanged);
+            this.WPFRadioButton.CheckedChanged += new System.EventHandler(this.WPFRadioButton_CheckedChanged);
             // 
             // WinFormsRadioButton
             // 
@@ -102,7 +102,7 @@
             this.WinFormsRadioButton.TabIndex = 11;
             this.WinFormsRadioButton.Text = "Windows Forms (More rudimentary)";
             this.WinFormsRadioButton.UseVisualStyleBackColor = true;
-            this.WinFormsRadioButton.CheckedChanged += new System.EventHandler(this.WPFRadioButton_CheckedChanged);
+            this.WinFormsRadioButton.CheckedChanged += new System.EventHandler(this.WinFormsRadioButton_CheckedChanged);
             // 
             // groupBox1
             // 

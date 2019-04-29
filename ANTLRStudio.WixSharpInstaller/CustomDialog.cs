@@ -38,7 +38,7 @@ public partial class CustomDialog : WixCLRDialog
 
     private void WPFRadioButton_CheckedChanged(object sender, EventArgs e)
     {
-        session["GraphicsBackend"] = "WPF";
+        session["GRAPHICSBACKEND"] = "WPF";
     }
 
     private void WinFormsRadioButton_CheckedChanged(object sender, EventArgs e)
