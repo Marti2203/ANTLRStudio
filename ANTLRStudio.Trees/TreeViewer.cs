@@ -611,7 +611,7 @@ namespace ANTLRStudio.Trees
             {
                 fontSize = value;
                 font = Fonts.Monospace(value, fontStyle);
-                this.Invalidate();
+                Invalidate();
             }
         }
 

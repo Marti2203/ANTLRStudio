@@ -72,8 +72,7 @@ let mainForm (app:Application) (form:Form) =
     generateCheckBox.CheckedChanged.Add(parse)
     fontSizeStepper.ValueChanged.Add(fun _ -> treeViewer.FontSize <- int fontSizeStepper.Value)
     slider.ValueChanged.Add(fun _ -> treeViewer.Scale <- (float32 slider.Value) / 10.f)
-    loadedFile.Add(readGrammarToHtml >> fun x -> webView.LoadHtml x
-                                                 form.Enabled <- true)
+    loadedFile.Add(readGrammarToHtml >> webView.LoadHtml)
     loadedFile.Add(fun name -> let (parser,lexer,_) = generateParserLexerInMemory name
                                currentLexer <- lexer
                                currentParser <- parser
