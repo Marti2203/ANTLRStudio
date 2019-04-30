@@ -2,6 +2,7 @@
 module Utilites
 open Eto.Forms;
 open Eto.Drawing;
+open System;
 type TCell =
 | El of Control
 | StretchedEl of Control
@@ -84,3 +85,6 @@ let rec makeMenu (menu) =
 let action cb (m:Menu) = m.WithAction cb
 let check (m:Menu) = m.WithCheck ()
 let shortcut (k:Keys) (m:Menu) = m.WithShortcut k
+let rec displayException (e :Exception) =
+    printfn "%s %s %s" e.Message Environment.NewLine e.StackTrace
+    if e.InnerException <> null then displayException e.InnerException

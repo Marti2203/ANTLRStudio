@@ -31,7 +31,7 @@ let readGrammarToHtml name =
     |> AntlrParser.ParseFile
     |> (Seq.fold <| append <| new StringWriter())
     |> (fun x -> let res = x.ToString()
-                 printfn "%s" res
+                 //printfn "%s" res
                  res)
     |> buildSvgHtml
 
