@@ -1014,7 +1014,7 @@ type NonTerminal(text:string,?href:string,?title:string) as self=
         let textItem = DiagramItem("text", diDict ["x",(x + width / 2.f).ToString()
                                                    "y",(y + 4.f).ToString()], Choice2Of2 text)
         textItem.addTo(match href with
-                       | Some(href) -> DiagramItem("a", dictFromPair("xlink:href",href), Choice2Of2 text).addTo(self)
+                       | Some(href) -> DiagramItem("a", dictFromPair(":href",href), Choice2Of2 text).addTo(self)
                        | None -> self :> DiagramItem) |> ignore
         match title with
         | Some(title) -> DiagramItem("title", Dictionary(), Choice2Of2(title)).addTo(self) |> ignore

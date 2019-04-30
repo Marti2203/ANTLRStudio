@@ -119,7 +119,7 @@ namespace ANTLRStudio.Trees
                 var color = boxColor;
                 if (IsHighlighted(tree)) color = highlightedBoxColor;
                 if (tree is IErrorNode || ruleFailedAndMatchedNothing) color = LIGHT_RED;
-                g.FillRectangle(color, box.Center.X, box.BottomLeft.Y, box.Width - 1, box.Height - 1);
+                //g.FillRectangle(color, box.Center.X, box.BottomLeft.Y, box.Width - 1, box.Height - 1);
             }
             //g.DrawRectangle(borderColor, box.X, box.Y, box.Width - 1, box.Height - 1);
 

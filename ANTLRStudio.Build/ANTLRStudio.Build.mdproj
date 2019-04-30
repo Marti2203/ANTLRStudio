@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ItemType>GenericProject</ItemType>
+    <ProjectGuid>{C60DACD6-7B41-4880-AF8B-3455248F9E0A}</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Default|AnyCPU' ">
+    <OutputPath>.\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="antlrstudio_0.9-0\" />
+    <Folder Include="antlrstudio_0.9-0\DEBIAN\" />
+    <Folder Include="antlrstudio_0.9-0\usr\" />
+    <Folder Include="antlrstudio_0.9-0\usr\local\" />
+    <Folder Include="antlrstudio_0.9-0\usr\local\bin\" />
+    <Folder Include="antlrstudio_0.9-0\usr\bin\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="antlrstudio_0.9-0\DEBIAN\control.txt" />
+    <None Include="..\ANTLRStudio\obj\x86\Debug\ANTLRStudio.exe">
+      <Link>antlrstudio_0.9-0\usr\bin\ANTLRStudio.exe</Link>
+    </None>
+  </ItemGroup>
+</Project>
