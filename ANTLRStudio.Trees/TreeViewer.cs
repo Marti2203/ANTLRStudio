@@ -36,7 +36,7 @@ namespace ANTLRStudio.Trees
 
         protected float scale = 1.0F;
 
-        protected Color boxColor = Colors.Transparent;     // set to a color to make it draw background
+        //protected Color boxColor = Colors.Transparent;     // set to a color to make it draw background
 
         protected Color highlightedBoxColor = Colors.LightGrey;
         protected Color borderColor = Colors.Black;
@@ -63,7 +63,7 @@ namespace ANTLRStudio.Trees
 
         // ---------------- PAINT -----------------------------------------------
 
-        public bool UseCurvedEdges { get; set; }
+        //public bool UseCurvedEdges { get; set; }
 
 
         protected void PaintEdges(Graphics g, Tree parent)
@@ -114,13 +114,11 @@ namespace ANTLRStudio.Trees
             {
                 ruleFailedAndMatchedNothing = ctx.exception != null && ctx.Stop != null && ctx.Stop.TokenIndex < ctx.Start.TokenIndex;
             }
-            if (IsHighlighted(tree) || tree is IErrorNode || ruleFailedAndMatchedNothing)
+            if (tree is IErrorNode || ruleFailedAndMatchedNothing)
             {
-                var color = boxColor;
-                if (IsHighlighted(tree)) color = highlightedBoxColor;
-                if (tree is IErrorNode || ruleFailedAndMatchedNothing) color = LIGHT_RED;
-                g.FillRectangle(color, box.Center.X, box.BottomLeft.Y, box.Width - 1, box.Height - 1);
+                g.FillRectangle(LIGHT_RED, box.Center.X, box.BottomLeft.Y, box.Width - 1, box.Height - 1);
             }
+
             //g.DrawRectangle(borderColor, box.X, box.Y, box.Width - 1, box.Height - 1);
 
 
@@ -146,16 +144,13 @@ namespace ANTLRStudio.Trees
         {
             base.OnPaint(e);
 
+            Graphics graphics = e.Graphics;
+            graphics.FillRectangle(BackgroundColor, new Rectangle(Size));
             if (treeLayout == null)
             {
                 return;
             }
-
-            Graphics graphics = e.Graphics;
             graphics.AntiAlias = true;
-
-            graphics.FillRectangle(Colors.White, new Rectangle(Size));
-
 
             graphics.ScaleTransform(scale);
             PaintEdges(graphics, Tree.Root);

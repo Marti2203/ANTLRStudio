@@ -68,6 +68,7 @@ let generateParserLexerInMemory file =
     [0..(results.Errors.Count - 1)] |> Seq.map(fun x -> results.Errors.[x]) |> Seq.iter( fun x -> printfn "%A" x)
     directory.EnumerateFiles() |> Seq.iter (fun file -> file.Delete() )
     directory.Delete()
+    Path.Combine(Path.GetDirectoryName(file),resultName) |> File.Delete
     let lexerClass = results.CompiledAssembly.GetTypes() |> Seq.find (fun t -> t.IsSubclassOf(typeof<Lexer>))
     let lexerInstance = lexerClass.GetConstructor([|typeof<ICharStream>|]).Invoke([|null|]) :?> Lexer
     let parserClass = results.CompiledAssembly.GetTypes() |> Seq.find (fun t -> t.IsSubclassOf(typeof<Parser>))
@@ -75,11 +76,18 @@ let generateParserLexerInMemory file =
     (parserInstance,lexerInstance,results.CompiledAssembly)
 
 let parse data ruleName (parser:Parser,lexer:Lexer) =
+    if String.IsNullOrEmpty(data)
+        then (null,parser)
+    else
     let stream = CharStreams.fromstring(data)
     lexer.SetInputStream(stream)
     let tokenStream = new CommonTokenStream(lexer)
     tokenStream.Fill()
     parser.BuildParseTree <- true
     parser.TokenStream <- tokenStream
-    let tree = (parser.GetType().GetMethod(ruleName).Invoke(parser,Array.empty) :?> Tree.ITree)
-    (tree,parser)
+    try
+        let output = (parser.GetType().GetMethod(ruleName).Invoke(parser,Array.empty))
+        let tree = (output :?> Tree.ITree)
+        (tree,parser)
+    with 
+    |  :? Exception as e -> (null,parser)
