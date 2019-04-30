@@ -90,4 +90,4 @@ let parse data ruleName (parser:Parser,lexer:Lexer) =
         let tree = (output :?> Tree.ITree)
         (tree,parser)
     with 
-    |  :? Exception as e -> (null,parser)
+    |  e -> (null,parser)
