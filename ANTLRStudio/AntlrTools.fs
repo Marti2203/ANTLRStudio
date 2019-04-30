@@ -65,7 +65,9 @@ let generateParserLexerInMemory file =
                 |> Seq.map(fun x -> x.FullName)
                 |> Seq.toArray
     let results = provider.CompileAssemblyFromFile(parameters,files)
-    [0..(results.Errors.Count - 1)] |> Seq.map(fun x -> results.Errors.[x]) |> Seq.iter( fun x -> printfn "%A" x)
+    [0..(results.Errors.Count - 1)] |> Seq.map(fun x -> results.Errors.[x]) 
+                                    |> Seq.filter(fun x -> not x.IsWarning) 
+                                    |> Seq.iter( fun x -> printfn "%A" x)
     directory.EnumerateFiles() |> Seq.iter( fun file -> file.Delete())
     directory.Delete()
     let lexerClass = results.CompiledAssembly.GetTypes() |> Seq.find (fun t -> t.IsSubclassOf(typeof<Lexer>))

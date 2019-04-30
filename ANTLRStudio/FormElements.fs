@@ -30,7 +30,9 @@ let readGrammarToHtml name =
     name
     |> AntlrParser.ParseFile
     |> (Seq.fold <| append <| new StringWriter())
-    |> (fun x -> x.ToString())
+    |> (fun x -> let res = x.ToString()
+                 printfn "%s" res
+                 res)
     |> buildSvgHtml
 
 let openGrammar (form:Form) =
@@ -59,7 +61,10 @@ let mainForm (app:Application) (form:Form) =
     let treeViewer = new TreeViewer(null,null)
     let scrollableTree = new Scrollable()
     let slider = new Slider(MaxValue = 20,MinValue = 1,Value = 10,Enabled = false,Size = Eto.Drawing.Size(50,25))
-    let fontSizeStepper = new NumericStepper(MaxValue = 20.,Size= Eto.Drawing.Size(75,25),FormatString="Size:{0}", MinValue = 10. ,Value=(float treeViewer.FontSize),Increment = 1.)
+    let fontSizeStepper = new NumericStepper(MaxValue = 20.,
+                                            Size= Eto.Drawing.Size(75,25),
+                                            MinValue = 10. ,
+                                            Value=(float treeViewer.FontSize),Increment = 1.)
     scrollableTree.Content <- treeViewer
     let parse _ =
         if(currentParser <> null && ruleNames.SelectedValue <> null && generateCheckBox.Checked.GetValueOrDefault(false)) 

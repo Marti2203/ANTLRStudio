@@ -340,6 +340,7 @@ ASALocalRun/
 # BeatPulse healthcheck temp database 
 healthchecksdb
 
+mono_crash*.json
 *.class
 *.java
 .antlr/
