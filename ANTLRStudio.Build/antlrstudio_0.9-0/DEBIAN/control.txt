@@ -1,9 +1,0 @@
-﻿Package: antlrstudio
-Version: 0.9-0
-Section: base
-Priority: optional
-Architecture: i386
-Depends: openjdk-8-jre , mono-runtime (>= 5.0.0)
-Maintainer: Martin Mirchev <mirchevmartin2203@gmail.com>
-Description: ANTLRStudio
- A minimalistic IDE for ANTLRv4 Grammars.
