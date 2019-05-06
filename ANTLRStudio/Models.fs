@@ -23,8 +23,8 @@ let options = [
                          { Name="Force ATN Simulation"; Value=false; ActiveFlag="-Xforce-atn";InactiveFlag= String.Empty}
                          { Name="Dump loggin info"; Value= false; ActiveFlag="-Xlog";InactiveFlag=String.Empty}
               ] 
-let cwd = Directory.GetCurrentDirectory()
-let currentAntlr = Directory.GetFiles(cwd) |> Array.find(fun file -> file.EndsWith("-complete.jar") && file.Contains("antlr"))
+let cwd = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)
+let currentAntlr = Directory.GetFiles(cwd,"antlr*.jar").[0]
 let antlrLocation = Path.Combine(cwd, currentAntlr)
 let java = if Environment.OSVersion.Platform <> PlatformID.Win32NT 
            then 

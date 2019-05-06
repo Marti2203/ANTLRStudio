@@ -1,0 +1,2 @@
+ dpkg-buildpackage -rfakeroot -us -uc -ui
+dpkg-buildpackage: error: syntax error in debian/control at line 9: duplicate field Section found
