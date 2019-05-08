@@ -72,7 +72,7 @@ namespace ANTLRStudio.Parser
                 case "*":
                 case "*?":
                     return ZeroOrMore(FSharpChoice<DiagramItem, string>.NewChoice1Of2(element),
-                                      FSharpOption<FSharpChoice<DiagramItem, string>>.None, false);
+                                      FSharpOption<FSharpChoice<DiagramItem, string>>.None, true);
                 case "+":
                     return new OneOrMore(FSharpChoice<DiagramItem, string>.NewChoice1Of2(element),
                                          FSharpOption<FSharpChoice<DiagramItem, string>>.None);
@@ -95,14 +95,15 @@ namespace ANTLRStudio.Parser
             if (context.labeledElement() != null)
                 return EBNFSuffix(context.ebnfSuffix(), Transform(context.labeledElement()));
 
-            if (context.atom() != null)
-                return Transform(context.atom());
-
             if (context.ebnf() != null)
                 return EBNFSuffix(context.ebnf().blockSuffix()?.ebnfSuffix(), Transform(context.ebnf().block()));
 
             if (context.actionBlock() != null)
-                return TerminalWithClass(context.actionBlock().GetText(), "actionBlocks");
+                return EBNFSuffix(context.ebnfSuffix(), TerminalWithClass(context.actionBlock().GetText(), "actionBlocks"));
+
+
+            if (context.atom() != null)
+                return EBNFSuffix(context.ebnfSuffix(), Transform(context.atom()));
 
             throw new NotImplementedException();
         }

@@ -48,6 +48,7 @@ let createSpecificMenus (form:Form) =
                                                        |> action (fun _ -> language <- value)))
     SubMenu("Options",  options |> Seq.map transformCheckItem)
     ActionMenuItem("Generate")  |> action (fun _ -> generateIn form)
+    ActionMenuItem("Edit Grammar") |> action (fun _ -> MessageBox.Show("WIP","Editor",MessageBoxType.Information) |> ignore)
     ] 
     |> Seq.map makeMenu
 let mutable specificMenus = null
