@@ -1,4 +1,0 @@
- dpkg-buildpackage -rfakeroot -us -uc -ui
-dpkg-buildpackage: warning:     debian/changelog(l1): version 'VERSION' is invalid: version number does not start with digit
-LINE: PACKAGE (VERSION) unstable; urgency=medium
-dpkg-buildpackage: error: syntax error in debian/control at line 12: first block lacks a Source field

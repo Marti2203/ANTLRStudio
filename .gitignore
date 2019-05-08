@@ -344,3 +344,4 @@ mono_crash*.json
 *.class
 *.java
 .antlr/
+*.deb
