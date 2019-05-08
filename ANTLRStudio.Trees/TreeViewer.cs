@@ -19,27 +19,26 @@ namespace ANTLRStudio.Trees
 {
     public class TreeViewer : Drawable
     {
-        private static readonly Color LIGHT_RED = new Color(244, 213, 211);
+        readonly float GapLevels = 17.0F;
+        readonly float GapNodes = 7.0F;
+        public Font Font = Fonts.Monospace(11);
         private new static readonly ColorHSL BackgroundColor = new ColorHSL(30, 0.2F, 0.95F);
+
         protected TreeLayout<Tree> treeLayout;
-        protected List<Tree> highlightedNodes;
+        protected List<Tree> highlightedNodes = new List<Tree>();
+        private readonly FontStyle fontStyle = FontStyle.None;
+        private int fontSize = 11;
 
-        protected FontStyle fontStyle = FontStyle.None;
-        protected int fontSize = 11;
-        public Font font = Fonts.Monospace(11);
-
-        protected float gapBetweenLevels = 17.0F;
-        protected float gapBetweenNodes = 7.0F;
         public int nodeWidthPadding = 2;  // added to left/right
         public int nodeHeightPadding; // added above/below
         protected int arcSize;           // make an arc in node outline?
 
+        public int ArcSize { get; set; }
+        public Color BoxColor { get; set; }
+        public Color HighlightedBoxColor { get; set; }
+        public Color BorderColor { get; set; }
+        public Color TextColor { get; set; } = Colors.Black;
         protected float scale = 1.0F;
-
-        //protected Color boxColor = Colors.Transparent;     // set to a color to make it draw background
-
-        protected Color highlightedBoxColor = Colors.LightGrey;
-        protected Color borderColor = Colors.Black;
 
         public TreeViewer(List<string> ruleNames, Tree tree)
         {
@@ -116,21 +115,21 @@ namespace ANTLRStudio.Trees
             }
             if (tree is IErrorNode || ruleFailedAndMatchedNothing)
             {
-                g.FillRectangle(LIGHT_RED, box.Center.X, box.BottomLeft.Y, box.Width - 1, box.Height - 1);
+                g.DrawRectangle(Colors.Red, box.X, box.Y, box.Width - 1, box.Height - 1);
             }
 
-            //g.DrawRectangle(borderColor, box.X, box.Y, box.Width - 1, box.Height - 1);
+            g.DrawRectangle(Colors.Green, box.X, box.Y, box.Width - 1, box.Height - 1);
 
 
             // draw the text on top of the box (possibly multiple lines)
             string s = TreeTextProvider.Text(tree);
             string[] lines = s.Split('\n');
             float x = box.X + arcSize / 2 + nodeWidthPadding;
-            float y = box.BottomLeft.Y + font.Ascent + font.Leading + 1 + nodeHeightPadding;
+            float y = box.TopLeft.Y /*+ Font.Ascent + Font.Leading + 1 /*+nodeHeightPadding */;
             for (int i = 0; i < lines.Length; i++)
             {
                 Text(g, lines[i], new PointF(x, y));
-                y += font.LineHeight;
+                y += Font.LineHeight;
             }
         }
 
@@ -138,7 +137,7 @@ namespace ANTLRStudio.Trees
         {
             //      System.out.println("drawing '"+s+"' @ "+x+","+y);
             s = Utils.EscapeWhitespace(s, true);
-            g.DrawText(font, Colors.Black, location, s);
+            g.DrawText(Font, Colors.Black, location, s);
         }
         protected override void OnPaint(PaintEventArgs e)
         {
@@ -605,7 +604,7 @@ namespace ANTLRStudio.Trees
             set
             {
                 fontSize = value;
-                font = Fonts.Monospace(value, fontStyle);
+                Font = Fonts.Monospace(value, fontStyle);
                 Invalidate();
             }
         }
@@ -632,11 +631,6 @@ namespace ANTLRStudio.Trees
 
 
         protected int HighlightedNodeIndex(Tree node) => highlightedNodes == null ? -1 : highlightedNodes.IndexOf(node);
-        public int ArcSize { get; set; }
-        public Color BoxColor { get; set; }
-        public Color HighlightedBoxColor { get; set; }
-        public Color BorderColor { get; set; }
-        public Color TextColor { get; set; } = Colors.Black;
 
         protected ITreeForTreeLayout<Tree> Tree => treeLayout.Tree;
 
@@ -647,8 +641,8 @@ namespace ANTLRStudio.Trees
                 treeLayout =
                     new TreeLayout<Tree>(new TreeLayoutAdaptor(root),
                                          new VariableExtentProvide(this),
-                                         new DefaultConfiguration<Tree>(gapBetweenLevels,
-                                                                        gapBetweenNodes));
+                                         new DefaultConfiguration<Tree>(GapLevels,
+                                                                        GapNodes));
                 // Let the UI display this new AST.
                 UpdatePreferredSize();
             }
@@ -680,7 +674,7 @@ namespace ANTLRStudio.Trees
 
         public void SetRuleNames(IList<string> ruleNames)
         {
-            TreeTextProvider = (new DefaultTreeTextProvider(ruleNames));
+            TreeTextProvider = new DefaultTreeTextProvider(ruleNames);
         }
     }
 }
