@@ -16,7 +16,7 @@ namespace ANTLRStudio.Editor.Controls
         public UnfocusablePanel(Color foregroundColor, Font font = null)
         {
             CanFocus = true;
-            this.ForegroundColor = foregroundColor;
+            ForegroundColor = foregroundColor;
             Font = font ?? SystemFonts.Default(12);
             //SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.OptimizedDoubleBuffer | ControlStyles.UserPaint, true);
         }

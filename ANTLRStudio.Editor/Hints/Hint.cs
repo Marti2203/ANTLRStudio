@@ -19,7 +19,7 @@ namespace ANTLRStudio.Editor.Hints
         /// <summary>
         /// Linked range
         /// </summary>
-        public Text.Range Range { get; set; }
+        public Range Range { get; set; }
         /// <summary>
         /// Backcolor
         /// </summary>
@@ -164,8 +164,8 @@ namespace ANTLRStudio.Editor.Hints
             BackColor2 = Colors.White;
             BackColor = InnerControl == null ? Colors.Silver : SystemColors.Control;
             ForeColor = Colors.Black;
-            TextAlignment = StringAlignment.Near;
-            Font = Range.tb.Parent == null ? Range.tb.Font : Range.tb.Parent.Font;
+            TextAlignment = StringAlignment.Left;
+            //Font = Range.tb.Parent == null ? Range.tb.Font : Range.tb.Parent;
 
             if (InnerControl != null)
             {
