@@ -34,7 +34,19 @@ let generateIn (form:Form) =
                          then
                             generate file language (options |> Seq.append(output dialog.Directory))
     | v -> printf "User pressed %O" v
+let loadData (form:Form) =
+    let dir = Directory.GetCurrentDirectory() // Eto.GTK changes the directory...
+    use dialog = new OpenFileDialog(MultiSelect = false,
+                                    Title = "Select Example File",
+                                    CheckFileExists = true,
+                                    Directory = new Uri(Environment.GetFolderPath(Environment.SpecialFolder.Desktop)))
+    let dialogResult = dialog.ShowDialog(form.ParentWindow)
+    Directory.SetCurrentDirectory(dir) // Eto.GTK changes the directory...
 
+    match dialogResult with
+    | DialogResult.Ok -> if dialog.FileName <> null then
+                            importedDataInput.Trigger(File.ReadAllText(dialog.FileName))
+    | v -> printf "User pressed %O" v
 let createSpecificMenus (form:Form) =
     let transformCheckItem option =
         let item = CheckMenuItem(option.Name)
@@ -49,6 +61,7 @@ let createSpecificMenus (form:Form) =
     SubMenu("Options",  options |> Seq.map transformCheckItem)
     ActionMenuItem("Generate")  |> action (fun _ -> generateIn form)
     ActionMenuItem("Edit Grammar") |> action (fun _ -> MessageBox.Show("WIP","Editor",MessageBoxType.Information) |> ignore)
+    ActionMenuItem("Import") |> action (fun _ -> loadData form)
     ] 
     |> Seq.map makeMenu
 let mutable specificMenus = null

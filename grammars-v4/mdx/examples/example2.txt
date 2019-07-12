@@ -1,5 +1,0 @@
-SELECT
-     [Measures].[Store Sales] ON COLUMNS,
-     [Date].Members ON ROWS
- FROM Sales
- WHERE ( [Store].[USA].[CA] )

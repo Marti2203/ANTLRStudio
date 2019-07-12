@@ -1,4 +1,0 @@
-to random_walk
-	repeat 100 [fd random 80 rt 90]
-	end
-

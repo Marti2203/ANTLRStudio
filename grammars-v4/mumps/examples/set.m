@@ -1,2 +1,0 @@
-xxxx()
-  set x="hello"

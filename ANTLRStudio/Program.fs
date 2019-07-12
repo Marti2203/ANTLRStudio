@@ -2,9 +2,9 @@
 open System;
 open Eto.Forms;
 open Eto.Drawing;
-open MenuOperations;
+open AntlrTools;
 open FormElements;
-
+open MenuOperations;
 [<STAThread>] // For Windows
 [<EntryPoint>]
 let main argv =
@@ -14,6 +14,9 @@ let main argv =
     use form = new Form (Title = progName, Size = Size(Screen.PrimaryScreen.Bounds.Size))
     app.UnhandledException.Add(fun e -> let e = (e.ExceptionObject :?> Exception)
                                         displayException e)
+    compilationErrors.Add(fun ers ->let text = (new Text.StringBuilder(),ers) 
+                                               ||> Seq.fold (fun (curr:Text.StringBuilder) next -> curr.Append(next.ErrorText))
+                                    MessageBox.Show(form,text.ToString(), "Could not parse generated grammar.",MessageBoxType.Error) |> ignore)
     setupInitialMenus app form
         |> mainForm app
         |> app.Run

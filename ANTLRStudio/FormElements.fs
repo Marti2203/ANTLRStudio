@@ -79,11 +79,13 @@ let mainForm (app:Application) (form:Form) =
     slider.ValueChanged.Add(fun _ -> treeViewer.Scale <- (float32 slider.Value) / 10.f)
     loadedFile.Add(readGrammarToHtml >> webView.LoadHtml)
     loadedFile.Add(fun name -> let (parser,lexer,_) = generateParserLexerInMemory name
-                               currentLexer <- lexer
-                               currentParser <- parser
-                               lexer.RemoveErrorListeners()
-                               parser.RemoveErrorListeners()
-                               ruleNames.DataStore <- parser.RuleNames |> Seq.sort |> Seq.cast<obj> )
+                               if parser <> null then
+                                   currentLexer <- lexer
+                                   currentParser <- parser
+                                   lexer.RemoveErrorListeners()
+                                   parser.RemoveErrorListeners()
+                                   ruleNames.DataStore <- parser.RuleNames |> Seq.sort |> Seq.cast<obj> )
+    importData.Add(fun text -> inputField.Text <- text)
     loadedFile.Add(fun _ -> slider.Enabled <- true)
     let layout = makeLayout <| Tbl [ Row [
 

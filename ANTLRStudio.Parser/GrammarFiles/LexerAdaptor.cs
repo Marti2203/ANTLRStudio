@@ -69,7 +69,11 @@ namespace GrammarGrammar
                 CurrentRuleType = (ANTLRv4Lexer.ACTION_CONTENT);
             }
         }
-
+        //TODO Test this!!
+        public override void Emit(IToken token)
+        {
+            base.Emit(token);
+        }
 
         public override IToken NextToken()
         {

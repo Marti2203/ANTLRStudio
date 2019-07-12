@@ -1,2 +1,0 @@
-
- FOR I=1:1:100 WRITE I,! QUIT:I=56

@@ -1,1 +1,0 @@
-repeat 3 [fd 60 rt 120]

@@ -1,2 +1,0 @@
-hello()
- write "Hello World!",!

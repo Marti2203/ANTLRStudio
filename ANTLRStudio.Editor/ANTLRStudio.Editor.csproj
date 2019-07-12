@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B83195A1-CAC0-4A9F-A19B-957EB7240C1F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>ANTLRStudio.Editor</RootNamespace>
+    <AssemblyName>ANTLRStudio.Editor</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <ReleaseVersion>0.9</ReleaseVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization.Primitives">
+      <HintPath>..\packages\System.Runtime.Serialization.Primitives.4.3.0\lib\net46\System.Runtime.Serialization.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="Eto">
+      <HintPath>..\packages\Eto.Forms.2.5.0-beta.1\lib\netstandard1.0\Eto.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Markers\VisualMarker.cs" />
+    <Compile Include="Markers\CollapseFoldingMarker.cs" />
+    <Compile Include="Markers\ExpandFoldingMarker.cs" />
+    <Compile Include="Markers\FoldedAreaMarker.cs" />
+    <Compile Include="Markers\StyleVisualMarker.cs" />
+    <Compile Include="Markers\VisualMarkerEventArgs.cs" />
+    <Compile Include="Styles\Style.cs" />
+    <Compile Include="Styles\TextStyle.cs" />
+    <Compile Include="Styles\FoldedBlockStyle.cs" />
+    <Compile Include="Styles\SelectionStyle.cs" />
+    <Compile Include="Styles\MarkerStyle.cs" />
+    <Compile Include="Styles\ShortcutStyle.cs" />
+    <Compile Include="Styles\WavyLineStyle.cs" />
+    <Compile Include="Styles\ReadOnlyStyle.cs" />
+    <Compile Include="AutoComplete\AutocompleteItem.cs" />
+    <Compile Include="AutoComplete\AutocompleteMenu.cs" />
+    <Compile Include="AutoComplete\SnippetAutocompleteItem.cs" />
+    <Compile Include="AutoComplete\MethodAutocompleteItem.cs" />
+    <Compile Include="Export\ExportToHTML.cs" />
+    <Compile Include="Export\ExportToRTF.cs" />
+    <Compile Include="Text\Line.cs" />
+    <Compile Include="Text\Char.cs" />
+    <Compile Include="Text\Place.cs" />
+    <Compile Include="Text\Range.cs" />
+    <Compile Include="Syntax\SyntaxDescriptor.cs" />
+    <Compile Include="Syntax\SyntaxHighlighter.cs" />
+    <Compile Include="Text\TextSource.cs" />
+    <Compile Include="Commands\CommandManager.cs" />
+    <Compile Include="Text\EncodingDetector.cs" />
+    <Compile Include="Text\FileTextSource.cs" />
+    <Compile Include="AutoComplete\SelectingEventArgs.cs" />
+    <Compile Include="AutoComplete\SelectedEventArgs.cs" />
+    <Compile Include="AutoComplete\AutocompleteListView.cs" />
+    <Compile Include="Text\LinesAccessor.cs" />
+    <Compile Include="Bookmarks\Bookmarks.cs" />
+    <Compile Include="Bookmarks\BaseBookmarks.cs" />
+    <Compile Include="Bookmarks\Bookmark.cs" />
+    <Compile Include="Hints\Hints.cs" />
+    <Compile Include="Hints\Hint.cs" />
+    <Compile Include="Controls\DocumentMap.cs" />
+    <Compile Include="Controls\UnfocusablePanel.cs" />
+    <Compile Include="StringAlignment.cs" />
+    <Compile Include="TypeDescriptor.cs" />
+    <Compile Include="Controls\Ruler.cs" />
+    <Compile Include="Utils\KeysConverter.cs" />
+    <Compile Include="MacrosManager.cs" />
+    <Compile Include="Styles\StyleIndex.cs" />
+    <Compile Include="Utils\ServiceColors.cs" />
+    <Compile Include="Export\PrintDialogSettings.cs" />
+    <Compile Include="Commands\UndoableCommand.cs" />
+    <Compile Include="Commands\Command.cs" />
+    <Compile Include="Forms\FindForm.cs" />
+    <Compile Include="Forms\GoToForm.cs" />
+    <Compile Include="Forms\FastColoredTextBox.cs" />
+    <Compile Include="Utils\HotkeysMapping.cs" />
+    <Compile Include="Utils\LimitedStack.cs" />
+    <Compile Include="Forms\ReplaceForm.cs" />
+    <Compile Include="Forms\HotkeysEditorForm.cs" />
+    <Compile Include="Args\ToolTipNeededEventArgs.cs" />
+    <Compile Include="Args\HintClickEventArgs.cs" />
+    <Compile Include="Args\CustomEventArgs.cs" />
+    <Compile Include="Enums\TextAreaBorderType.cs" />
+    <Compile Include="Enums\ScrollType.cs" />
+    <Compile Include="Enums\BracketsHighlightStrategy.cs" />
+    <Compile Include="Enums\FindEndOfFoldingBlockStrategy.cs" />
+    <Compile Include="Enums\HighligtingRangeType.cs" />
+    <Compile Include="Args\AutoIndentArgs.cs" />
+    <Compile Include="Enums\WordWrapMode.cs" />
+    <Compile Include="Args\WordWrapNeededEventArgs.cs" />
+    <Compile Include="Args\TextChangingEventArgs.cs" />
+    <Compile Include="Args\TextChangedEventArgs.cs" />
+    <Compile Include="Args\LineRemovedEventArgs.cs" />
+    <Compile Include="Args\LineInsertedEventArgs.cs" />
+    <Compile Include="Args\PaintLineEventArgs.cs" />
+    <Compile Include="Syntax\RuleDesc.cs" />
+    <Compile Include="Syntax\FoldingDesc.cs" />
+    <Compile Include="Enums\DockStyle.cs" />
+    <Compile Include="Args\LinePushedEventArgs.cs" />
+    <Compile Include="Args\LineNeededEventArgs.cs" />
+    <Compile Include="Text\RangeRect.cs" />
+    <Compile Include="Commands\InsertCharCommand.cs" />
+    <Compile Include="Commands\InsertTextCommand.cs" />
+    <Compile Include="Commands\ReplaceTextCommand.cs" />
+    <Compile Include="Commands\ClearSelectedCommand.cs" />
+    <Compile Include="Commands\ReplaceMultipleTextCommand.cs" />
+    <Compile Include="Commands\RemoveLinesCommand.cs" />
+    <Compile Include="Commands\MultiRangeCommand.cs" />
+    <Compile Include="Commands\SelectCommand.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Syntax\SyntaxHighlighter.cs.old" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Markers\" />
+    <Folder Include="Properties\" />
+    <Folder Include="Styles\" />
+    <Folder Include="AutoComplete\" />
+    <Folder Include="Export\" />
+    <Folder Include="Text\" />
+    <Folder Include="Syntax\" />
+    <Folder Include="Forms\" />
+    <Folder Include="Commands\" />
+    <Folder Include="Bookmarks\" />
+    <Folder Include="Hints\" />
+    <Folder Include="Controls\" />
+    <Folder Include="Utils\" />
+    <Folder Include="Enums\" />
+    <Folder Include="Args\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Eto.Forms.2.5.0-beta.1\build\Eto.Forms.targets" Condition="Exists('..\packages\Eto.Forms.2.5.0-beta.1\build\Eto.Forms.targets')" />
+</Project>

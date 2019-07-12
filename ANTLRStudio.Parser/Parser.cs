@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using Antlr4.Runtime;
-using static RailwayPortPy;
-using System;
+using DiString = System.Tuple<string, RailwayPortPy.Diagram>;
 
 namespace ANTLRStudio.Parser
 {
     public static class AntlrParser
     {
-        public static IEnumerable<Tuple<string, Diagram>> ParseFile(string path)
+        public static IEnumerable<DiString> ParseFile(string path)
         {
             ANTLRv4Lexer lexer = new ANTLRv4Lexer(CharStreams.fromPath(path));
             CommonTokenStream stream = new CommonTokenStream(lexer);

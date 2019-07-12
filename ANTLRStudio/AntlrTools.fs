@@ -5,6 +5,8 @@ open System.CodeDom.Compiler;
 open System.Reflection;
 open Microsoft.CSharp;
 open Antlr4.Runtime;
+let private compilationErrorsInput = new Event<CompilerError seq>()
+let compilationErrors = compilationErrorsInput.Publish
 let createArguments file language options = 
     let flags = options 
                 |> Seq.map(fun option -> if option.Value then option.ActiveFlag else option.InactiveFlag)
@@ -65,18 +67,22 @@ let generateParserLexerInMemory file =
                 |> Seq.map(fun x -> x.FullName)
                 |> Seq.toArray
     let results = provider.CompileAssemblyFromFile(parameters,files)
-    [0..(results.Errors.Count - 1)] |> Seq.map(fun x -> results.Errors.[x]) 
-                                    |> Seq.filter(fun x -> not x.IsWarning) 
-                                    |> Seq.iter( fun x -> printfn "%A" x)
+    let errors = [0..(results.Errors.Count - 1)] |> Seq.map(fun x -> results.Errors.[x]) 
+                                                 |> Seq.filter(fun x -> not x.IsWarning) 
+
+    errors |> Seq.iter( fun x -> printfn "%A" x)
+    if not (errors |> Seq.isEmpty) then
+        compilationErrorsInput.Trigger(errors)                    
     directory.EnumerateFiles() |> Seq.iter( fun file -> file.Delete())
     directory.Delete()
     Path.Combine(Path.GetDirectoryName(file),resultName) |> File.Delete
-    let lexerClass = results.CompiledAssembly.GetTypes() |> Seq.find (fun t -> t.IsSubclassOf(typeof<Lexer>))
-    let lexerInstance = lexerClass.GetConstructor([|typeof<ICharStream>|]).Invoke([|null|]) :?> Lexer
-    let parserClass = results.CompiledAssembly.GetTypes() |> Seq.find (fun t -> t.IsSubclassOf(typeof<Parser>))
-    let parserInstance = parserClass.GetConstructor([|typeof<ITokenStream>|]).Invoke([|null|]) :?> Parser
-    (parserInstance,lexerInstance,results.CompiledAssembly)
-
+    if (errors |> Seq.isEmpty) then
+        let lexerClass = results.CompiledAssembly.GetTypes() |> Seq.find (fun t -> t.IsSubclassOf(typeof<Lexer>))
+        let lexerInstance = lexerClass.GetConstructor([|typeof<ICharStream>|]).Invoke([|null|]) :?> Lexer
+        let parserClass = results.CompiledAssembly.GetTypes() |> Seq.find (fun t -> t.IsSubclassOf(typeof<Parser>))
+        let parserInstance = parserClass.GetConstructor([|typeof<ITokenStream>|]).Invoke([|null|]) :?> Parser
+        (parserInstance,lexerInstance,results.CompiledAssembly)
+    else (null,null,null)
 let parse data ruleName (parser:Parser,lexer:Lexer) =
     if String.IsNullOrEmpty(data)
         then (null,parser)

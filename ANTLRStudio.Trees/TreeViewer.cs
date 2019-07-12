@@ -34,7 +34,7 @@ namespace ANTLRStudio.Trees
         protected int arcSize;           // make an arc in node outline?
 
         public int ArcSize { get; set; }
-        public Color BoxColor { get; set; }
+        public Color BoxColor { get; set; } = new ColorHSL(120, 1.0f, 0.9f);
         public Color HighlightedBoxColor { get; set; }
         public Color BorderColor { get; set; }
         public Color TextColor { get; set; } = Colors.Black;
@@ -117,8 +117,11 @@ namespace ANTLRStudio.Trees
             {
                 g.DrawRectangle(Colors.Red, box.X, box.Y, box.Width - 1, box.Height - 1);
             }
-
-            g.DrawRectangle(Colors.Green, box.X, box.Y, box.Width - 1, box.Height - 1);
+            else
+            {
+                g.DrawRectangle(Colors.Black, box.X, box.Y, box.Width - 1, box.Height - 1);
+                g.FillRectangle(BoxColor, box.X + 1, box.Y + 1, box.Width - 2, box.Height - 2);
+            }
 
 
             // draw the text on top of the box (possibly multiple lines)
@@ -605,6 +608,7 @@ namespace ANTLRStudio.Trees
             {
                 fontSize = value;
                 Font = Fonts.Monospace(value, fontStyle);
+                SetTree(Tree.Root);
                 Invalidate();
             }
         }
@@ -634,23 +638,25 @@ namespace ANTLRStudio.Trees
 
         protected ITreeForTreeLayout<Tree> Tree => treeLayout.Tree;
 
+        //public DefaultConfiguration<Tree> Configuarion { get; set; } = new DefaultConfiguration<Tree>(Gap, GapNodes);
+
         public void SetTree(Tree root)
         {
             if (root != null)
             {
-                treeLayout =
-                    new TreeLayout<Tree>(new TreeLayoutAdaptor(root),
-                                         new VariableExtentProvide(this),
-                                         new DefaultConfiguration<Tree>(GapLevels,
-                                                                        GapNodes));
-                // Let the UI display this new AST.
+                ReloadTree(root);
+                // Let the UI display this new AST if it is working.
                 UpdatePreferredSize();
             }
-            else
-            {
-                treeLayout = null;
-                Invalidate();
-            }
+        }
+
+        private void ReloadTree(Tree root)
+        {
+            treeLayout =
+                new TreeLayout<Tree>(new TreeLayoutAdaptor(root),
+                                     new VariableExtentProvide(this),
+                                     new DefaultConfiguration<Tree>(GapLevels,
+                                                                    GapNodes));
         }
 
         ///** Get an adaptor for root that indicates how to walk ANTLR trees.

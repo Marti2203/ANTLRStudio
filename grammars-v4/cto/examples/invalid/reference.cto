@@ -1,6 +1,0 @@
-namespace org.sample.invalid
-
-//optional should be last
-asset Foo identified by id {
-  o String id optional default = "0815"
-}

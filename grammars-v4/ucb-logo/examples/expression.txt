@@ -1,3 +1,0 @@
-make "size 81/9
-print 2*3
-print :size - 4
