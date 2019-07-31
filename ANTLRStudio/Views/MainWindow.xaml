@@ -3,6 +3,7 @@
         xmlns:vm="clr-namespace:ANTLRStudio.ViewModels;assembly=ANTLRStudio"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:AvalonEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ANTLRStudio.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
@@ -12,6 +13,16 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+  <DockPanel>
+    <AvalonEdit:TextEditor
+      Name="Editor"
+      Margin="30"
+      SyntaxHighlighting="XML"
+      HorizontalScrollBarVisibility="Auto"
+      VerticalScrollBarVisibility="Visible"
+      TextBlock.FontSize="30">
+      
+    </AvalonEdit:TextEditor>
+  </DockPanel>
 
 </Window>
