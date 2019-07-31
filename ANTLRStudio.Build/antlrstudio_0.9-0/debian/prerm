@@ -1,3 +1,0 @@
-﻿#!/bin/bash
-rm /usr/bin/antlrstudio
-rm -rf /usr/local/antlrstudio

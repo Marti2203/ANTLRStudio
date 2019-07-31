@@ -1,39 +1,17 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ANTLRStudio", "ANTLRStudio\ANTLRStudio.fsproj", "{81940932-3287-41C6-B55B-CB5F7DD59BAB}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio.Parser", "ANTLRStudio.Parser\ANTLRStudio.Parser.csproj", "{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaEdit", "AvaloniaEdit\src\AvaloniaEdit\AvaloniaEdit.csproj", "{3CADD993-21F4-4313-93A3-888493C57404}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio", "ANTLRStudio.csproj", "{FCDB5C55-FB32-47B2-8006-49BBCEA3BB7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x86 = Debug|x86
-		Release|x86 = Release|x86
-		Default|Any CPU = Default|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{81940932-3287-41C6-B55B-CB5F7DD59BAB}.Debug|x86.ActiveCfg = Debug|x86
-		{81940932-3287-41C6-B55B-CB5F7DD59BAB}.Debug|x86.Build.0 = Debug|x86
-		{81940932-3287-41C6-B55B-CB5F7DD59BAB}.Release|x86.ActiveCfg = Release|x86
-		{81940932-3287-41C6-B55B-CB5F7DD59BAB}.Release|x86.Build.0 = Release|x86
-		{81940932-3287-41C6-B55B-CB5F7DD59BAB}.Default|Any CPU.ActiveCfg = Debug|x86
-		{81940932-3287-41C6-B55B-CB5F7DD59BAB}.Default|Any CPU.Build.0 = Debug|x86
-		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Debug|x86.Build.0 = Debug|Any CPU
-		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Release|x86.ActiveCfg = Release|Any CPU
-		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Release|x86.Build.0 = Release|Any CPU
-		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Default|Any CPU.ActiveCfg = Debug|Any CPU
-		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Default|Any CPU.Build.0 = Debug|Any CPU
-		{3CADD993-21F4-4313-93A3-888493C57404}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3CADD993-21F4-4313-93A3-888493C57404}.Debug|x86.Build.0 = Debug|Any CPU
-		{3CADD993-21F4-4313-93A3-888493C57404}.Release|x86.ActiveCfg = Release|Any CPU
-		{3CADD993-21F4-4313-93A3-888493C57404}.Release|x86.Build.0 = Release|Any CPU
-		{3CADD993-21F4-4313-93A3-888493C57404}.Default|Any CPU.ActiveCfg = Debug|Any CPU
-		{3CADD993-21F4-4313-93A3-888493C57404}.Default|Any CPU.Build.0 = Debug|Any CPU
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		version = 0.9
+		{FCDB5C55-FB32-47B2-8006-49BBCEA3BB7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCDB5C55-FB32-47B2-8006-49BBCEA3BB7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCDB5C55-FB32-47B2-8006-49BBCEA3BB7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCDB5C55-FB32-47B2-8006-49BBCEA3BB7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
