@@ -67,12 +67,6 @@
     <None Include="GrammarFiles\ANTLRv4Parser.tokens" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ANTLRStudio.Diagrams\ANTLRStudio.Diagrams.fsproj">
-      <Project>{3E18CBC1-4E96-4141-8728-0571671A315C}</Project>
-      <Name>ANTLRStudio.Diagrams</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="GrammarFiles\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

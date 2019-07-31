@@ -47,11 +47,5 @@
     <None Include="packages.config" />
     <Compile Include="DiagramTest.fs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ANTLRStudio.Diagrams\ANTLRStudio.Diagrams.fsproj">
-      <Project>{3E18CBC1-4E96-4141-8728-0571671A315C}</Project>
-      <Name>ANTLRStudio.Diagrams</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(FSharpTargetsPath)" />
 </Project>

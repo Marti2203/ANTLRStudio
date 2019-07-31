@@ -154,8 +154,6 @@
     <Reference Include="System.ValueTuple">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
     <Reference Include="Avalonia.DesktopRuntime">
@@ -169,12 +167,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models.fs" />
-    <Compile Include="State.fs" />
-    <Compile Include="Utilities.fs" />
-    <Compile Include="AntlrTools.fs" />
-    <Compile Include="FormElements.fs" />
-    <Compile Include="MenuOperations.fs" />
     <Compile Include="AssemblyInfo.fs" />
     <Compile Include="Program.fs" />
     <None Include="packages.config" />
@@ -183,24 +175,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ANTLRStudio.Diagrams\ANTLRStudio.Diagrams.fsproj">
-      <Project>{3E18CBC1-4E96-4141-8728-0571671A315C}</Project>
-      <Name>ANTLRStudio.Diagrams</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ANTLRStudio.Parser\ANTLRStudio.Parser.csproj">
       <Project>{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}</Project>
       <Name>ANTLRStudio.Parser</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ANTLRStudio.TreeLayout\ANTLRStudio.TreeLayout.csproj">
-      <Project>{F632B167-6587-48A6-B8FA-5B9EA4FA2441}</Project>
-      <Name>ANTLRStudio.TreeLayout</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ANTLRStudio.Trees\ANTLRStudio.Trees.csproj">
-      <Project>{DD7ED3F4-BC7A-499E-AB1C-04AE256176FC}</Project>
-      <Name>ANTLRStudio.Trees</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(FSharpTargetsPath)" />
-  <Import Project="..\packages\Eto.Forms.2.5.0-beta.1\build\Eto.Forms.targets" Condition="Exists('..\packages\Eto.Forms.2.5.0-beta.1\build\Eto.Forms.targets')" />
   <Import Project="..\packages\Avalonia.0.8.1\build\Avalonia.targets" Condition="Exists('..\packages\Avalonia.0.8.1\build\Avalonia.targets')" />
 </Project>

@@ -46,12 +46,6 @@
     <Compile Include="TextBoxInTreePane.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ANTLRStudio.TreeLayout\ANTLRStudio.TreeLayout.csproj">
-      <Project>{F632B167-6587-48A6-B8FA-5B9EA4FA2441}</Project>
-      <Name>ANTLRStudio.TreeLayout</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
