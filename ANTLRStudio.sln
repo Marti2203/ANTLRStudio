@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio", "ANTLRStudio.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaEdit", "AvaloniaEdit\src\AvaloniaEdit\AvaloniaEdit.csproj", "{1AF00ECB-469E-4737-BF9E-1B3BE7F61806}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaEdit.Tests", "AvaloniaEdit\test\AvaloniaEdit.Tests\AvaloniaEdit.Tests.csproj", "{105E2B74-137D-45BE-A2C7-F089399C2ED6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,5 +21,9 @@ Global
 		{1AF00ECB-469E-4737-BF9E-1B3BE7F61806}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1AF00ECB-469E-4737-BF9E-1B3BE7F61806}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1AF00ECB-469E-4737-BF9E-1B3BE7F61806}.Release|Any CPU.Build.0 = Release|Any CPU
+		{105E2B74-137D-45BE-A2C7-F089399C2ED6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{105E2B74-137D-45BE-A2C7-F089399C2ED6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{105E2B74-137D-45BE-A2C7-F089399C2ED6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{105E2B74-137D-45BE-A2C7-F089399C2ED6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
