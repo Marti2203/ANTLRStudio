@@ -36,7 +36,6 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Parser.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ListDiagramVisitor.cs" />
     <Compile Include="GrammarFiles\ANTLRv4Lexer.cs" />
     <Compile Include="GrammarFiles\LexBasic.cs" />
