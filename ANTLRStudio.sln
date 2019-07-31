@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio", "ANTLRStudio.csproj", "{FCDB5C55-FB32-47B2-8006-49BBCEA3BB7B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaEdit", "AvaloniaEdit\src\AvaloniaEdit\AvaloniaEdit.csproj", "{1AF00ECB-469E-4737-BF9E-1B3BE7F61806}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,5 +15,9 @@ Global
 		{FCDB5C55-FB32-47B2-8006-49BBCEA3BB7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCDB5C55-FB32-47B2-8006-49BBCEA3BB7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCDB5C55-FB32-47B2-8006-49BBCEA3BB7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AF00ECB-469E-4737-BF9E-1B3BE7F61806}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AF00ECB-469E-4737-BF9E-1B3BE7F61806}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AF00ECB-469E-4737-BF9E-1B3BE7F61806}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AF00ECB-469E-4737-BF9E-1B3BE7F61806}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
