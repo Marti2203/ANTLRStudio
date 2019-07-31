@@ -1,3 +1,6 @@
 [submodule "grammars-v4"]
 	path = grammars-v4
 	url = https://github.com/antlr/grammars-v4
+[submodule "AvaloniaEdit"]
+	path = AvaloniaEdit
+	url = https://github.com/AvaloniaUI/AvaloniaEdit
