@@ -1,11 +1,11 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio", "ANTLRStudio.csproj", "{FCDB5C55-FB32-47B2-8006-49BBCEA3BB7B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio", "ANTLRStudio\ANTLRStudio.csproj", "{7DC9BD30-F005-47A2-ABF7-164696C070D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaEdit", "AvaloniaEdit\src\AvaloniaEdit\AvaloniaEdit.csproj", "{1AF00ECB-469E-4737-BF9E-1B3BE7F61806}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaEdit", "AvaloniaEdit-master\src\AvaloniaEdit\AvaloniaEdit.csproj", "{AB6A9D54-15FA-49C4-877F-E8245F6A51DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaEdit.Tests", "AvaloniaEdit\test\AvaloniaEdit.Tests\AvaloniaEdit.Tests.csproj", "{105E2B74-137D-45BE-A2C7-F089399C2ED6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaEdit.Tests", "AvaloniaEdit-master\test\AvaloniaEdit.Tests\AvaloniaEdit.Tests.csproj", "{2C11CEED-1FC4-4E6C-A8A2-87486406CFCA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,17 +13,17 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{FCDB5C55-FB32-47B2-8006-49BBCEA3BB7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FCDB5C55-FB32-47B2-8006-49BBCEA3BB7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FCDB5C55-FB32-47B2-8006-49BBCEA3BB7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FCDB5C55-FB32-47B2-8006-49BBCEA3BB7B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1AF00ECB-469E-4737-BF9E-1B3BE7F61806}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1AF00ECB-469E-4737-BF9E-1B3BE7F61806}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1AF00ECB-469E-4737-BF9E-1B3BE7F61806}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1AF00ECB-469E-4737-BF9E-1B3BE7F61806}.Release|Any CPU.Build.0 = Release|Any CPU
-		{105E2B74-137D-45BE-A2C7-F089399C2ED6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{105E2B74-137D-45BE-A2C7-F089399C2ED6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{105E2B74-137D-45BE-A2C7-F089399C2ED6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{105E2B74-137D-45BE-A2C7-F089399C2ED6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DC9BD30-F005-47A2-ABF7-164696C070D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DC9BD30-F005-47A2-ABF7-164696C070D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DC9BD30-F005-47A2-ABF7-164696C070D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DC9BD30-F005-47A2-ABF7-164696C070D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB6A9D54-15FA-49C4-877F-E8245F6A51DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB6A9D54-15FA-49C4-877F-E8245F6A51DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB6A9D54-15FA-49C4-877F-E8245F6A51DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB6A9D54-15FA-49C4-877F-E8245F6A51DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C11CEED-1FC4-4E6C-A8A2-87486406CFCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C11CEED-1FC4-4E6C-A8A2-87486406CFCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C11CEED-1FC4-4E6C-A8A2-87486406CFCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C11CEED-1FC4-4E6C-A8A2-87486406CFCA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
