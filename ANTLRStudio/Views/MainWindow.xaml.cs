@@ -14,10 +14,12 @@ namespace ANTLRStudio.Views
         public MainWindow()
         {
             InitializeComponent();
+
             _textEditor = this.FindControl<TextEditor>("Editor");
             _textEditor.Background = Brushes.Aquamarine;
             _textEditor.ShowLineNumbers = true;
             _textEditor.TextArea.Foreground = Brushes.Black;
+            _textEditor.TextArea.IndentationStrategy = new AvaloniaEdit.Indentation.CSharp.CSharpIndentationStrategy();
         }
 
         private void InitializeComponent()
