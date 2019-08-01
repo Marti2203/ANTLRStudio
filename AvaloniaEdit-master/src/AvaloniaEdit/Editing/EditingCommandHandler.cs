@@ -1,4 +1,4 @@
-// Copyright (c) 2014 AlphaSierraPapa for the SharpDevelop Team
+﻿// Copyright (c) 2014 AlphaSierraPapa for the SharpDevelop Team
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this
 // software and associated documentation files (the "Software"), to deal in the Software
@@ -752,6 +752,38 @@ namespace AvaloniaEdit.Editing
                 }
                 textArea.Caret.BringCaretToView();
                 args.Handled = true;
+            }
+        }
+        private static void OnMoveSelectionDown(object target, ExecutedRoutedEventArgs e)
+        {
+            var textArea = GetTextArea(target);
+            var document = textArea.Document;
+            Console.WriteLine("Down");
+        }
+
+        private static void OnMoveSelectionUp(object target, ExecutedRoutedEventArgs e)
+        {
+            var textArea = GetTextArea(target);
+            var document = textArea.Document;
+            Console.WriteLine($"Segments {textArea.Selection.Segments.Count()} ");
+            if (textArea.Selection.Segments.Count() == 1)
+            {
+                int startLine = textArea.Selection.StartPosition.Line;
+                int endLine = textArea.Selection.EndPosition.Line;
+                Console.WriteLine($"{startLine} - {endLine}");
+                if (startLine != 1)
+                {
+                    using (var disposable = document.RunUpdate())
+                    {
+                        var previousLine = document.GetLineByNumber(startLine - 1);
+                        string text = document.GetText(previousLine);
+                        Console.WriteLine($"Text \"{text}\" ");
+                        document.Replace(previousLine, document.GetText(textArea.Selection.SurroundingSegment));
+                        document.Remove(previousLine);
+                        int offset = document.GetOffset(textArea.Selection.EndPosition.Location);
+                        document.Insert(offset + 1, text);
+                    }
+                }
             }
         }
     }

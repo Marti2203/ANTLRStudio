@@ -19,7 +19,7 @@
             <MenuItem Header="_File">
                 <MenuItem Header="_Open Grammar" Command="{Binding OpenGrammar}" CommandParameter="{Binding #Main}">
                 </MenuItem>
-                <MenuItem Header="Close Grammar" Command="{Binding CloseGrammar}" CommandParameter="{Binding #Main}"/>
+                <MenuItem Header="_Close Grammar" Command="{Binding CloseGrammar}" CommandParameter="{Binding #Main}"/>
                 <Separator/>
                 <MenuItem Header="_Exit"/>
             </MenuItem>

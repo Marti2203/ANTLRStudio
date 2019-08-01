@@ -10,14 +10,14 @@ namespace ANTLRStudio.Views
 {
     public class MainWindow : Window
     {
-        public readonly TextEditor TextEditor;
+        public readonly TextEditor _textEditor;
         public MainWindow()
         {
             InitializeComponent();
-            TextEditor = this.FindControl<TextEditor>("Editor");
-            TextEditor.Background = Brushes.Aquamarine;
-            TextEditor.ShowLineNumbers = true;
-            TextEditor.TextArea.Foreground = Brushes.Black;
+            _textEditor = this.FindControl<TextEditor>("Editor");
+            _textEditor.Background = Brushes.Aquamarine;
+            _textEditor.ShowLineNumbers = true;
+            _textEditor.TextArea.Foreground = Brushes.Black;
         }
 
         private void InitializeComponent()

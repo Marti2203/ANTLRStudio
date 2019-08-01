@@ -34,12 +34,12 @@ namespace ANTLRStudio.ViewModels
             {
                 GrammarPath = res[0];
                 GrammarName = GrammarPath.Split(Path.PathSeparator).Last();
-                window.TextEditor.Load(res[0]);
+                window._textEditor.Load(res[0]);
             }
         }
         public async Task CloseGrammar(MainWindow window)
         {
-            await window.TextEditor.SaveAsync(GrammarPath);
+            await window._textEditor.SaveAsync(GrammarPath);
         }
     }
 }
