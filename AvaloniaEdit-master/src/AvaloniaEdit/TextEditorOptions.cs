@@ -355,7 +355,7 @@ namespace AvaloniaEdit
             {
                 if (double.IsNaN(value) || double.IsInfinity(value))
                     throw new ArgumentOutOfRangeException(nameof(value), value, "value must not be NaN/infinity");
-                if (value != _wordWrapIndentation)
+                if (Math.Abs(value - _wordWrapIndentation) > double.Epsilon)
                 {
                     _wordWrapIndentation = value;
                     OnPropertyChanged("WordWrapIndentation");

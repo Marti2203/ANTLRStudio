@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2014 AlphaSierraPapa for the SharpDevelop Team
+// Copyright (c) 2014 AlphaSierraPapa for the SharpDevelop Team
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this
 // software and associated documentation files (the "Software"), to deal in the Software
@@ -25,6 +25,7 @@ using AvaloniaEdit.Document;
 using Avalonia.Input;
 using AvaloniaEdit.Utils;
 using System.Threading.Tasks;
+using Avalonia.Media;
 
 namespace AvaloniaEdit.Editing
 {
@@ -32,7 +33,7 @@ namespace AvaloniaEdit.Editing
     /// We re-use the CommandBinding and InputBinding instances between multiple text areas,
     /// so this class is static.
     /// </summary>
-    internal class EditingCommandHandler
+    internal static class EditingCommandHandler
     {
         /// <summary>
         /// Creates a new <see cref="TextAreaInputHandler"/> for the text area.
@@ -61,7 +62,7 @@ namespace AvaloniaEdit.Editing
         }
 
         static EditingCommandHandler()
-        {            
+        {
             AddBinding(EditingCommands.Delete, InputModifiers.None, Key.Delete, OnDelete(CaretMovementType.CharRight));
             AddBinding(EditingCommands.DeleteNextWord, InputModifiers.Control, Key.Delete,
                 OnDelete(CaretMovementType.WordRight));
@@ -94,7 +95,11 @@ namespace AvaloniaEdit.Editing
             AddBinding(AvaloniaEditCommands.ConvertLeadingTabsToSpaces, OnConvertLeadingTabsToSpaces);
             AddBinding(AvaloniaEditCommands.ConvertLeadingSpacesToTabs, OnConvertLeadingSpacesToTabs);
             AddBinding(AvaloniaEditCommands.IndentSelection, OnIndentSelection);
+
+            AddBinding(AvaloniaEditCommands.MoveSelectionUp, OnMoveSelectionUp);
+            AddBinding(AvaloniaEditCommands.MoveSelectionDown, OnMoveSelectionDown);
         }
+
 
         private static TextArea GetTextArea(object target)
         {
@@ -298,10 +303,7 @@ namespace AvaloniaEdit.Editing
                     if (textArea.Selection.IsEmpty)
                     {
                         var startPos = textArea.Caret.Position;
-                        var enableVirtualSpace = textArea.Options.EnableVirtualSpace;
-                        // When pressing delete; don't move the caret further into virtual space - instead delete the newline
-                        if (caretMovement == CaretMovementType.CharRight)
-                            enableVirtualSpace = false;
+                        var enableVirtualSpace = textArea.Options.EnableVirtualSpace && caretMovement != CaretMovementType.CharRight;
                         var desiredXPos = textArea.Caret.DesiredXPos;
                         var endPos = CaretNavigationCommandHandler.GetNewCaretPosition(
                             textArea.TextView, startPos, caretMovement, enableVirtualSpace, ref desiredXPos);
@@ -412,8 +414,9 @@ namespace AvaloniaEdit.Editing
             {
                 Application.Current.Clipboard.SetTextAsync(text).GetAwaiter().GetResult();
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 // Apparently this exception sometimes happens randomly.
                 // The MS controls just ignore it, so we'll do the same.
             }
@@ -479,7 +482,7 @@ namespace AvaloniaEdit.Editing
                 string text = null;
                 try
                 {
-                     text = await Application.Current.Clipboard.GetTextAsync();
+                    text = await Application.Current.Clipboard.GetTextAsync();
                 }
                 catch (Exception)
                 {
@@ -702,8 +705,7 @@ namespace AvaloniaEdit.Editing
 
         private static void OnConvertToTitleCase(object target, ExecutedRoutedEventArgs args)
         {
-            throw new NotSupportedException();
-            //ConvertCase(CultureInfo.CurrentCulture.TextInfo.ToTitleCase, target, args);
+            ConvertCase(CultureInfo.CurrentCulture.TextInfo.ToTitleCase, target, args);
         }
 
         private static void OnInvertCase(object target, ExecutedRoutedEventArgs args)

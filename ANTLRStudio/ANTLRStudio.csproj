@@ -12,6 +12,7 @@
       <SubType>Designer</SubType>
     </AvaloniaResource>
     <AvaloniaResource Include="Assets\*" />
+    <Folder Include="ANTLR\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.8.1" />
@@ -20,5 +21,8 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AvaloniaEdit-master\src\AvaloniaEdit\AvaloniaEdit.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove=".gitignore" />
   </ItemGroup>
 </Project>

@@ -71,7 +71,7 @@ namespace AvaloniaEdit
         /// </summary>
         protected TextEditor(TextArea textArea) : this(textArea, new TextDocument())
         {
-            
+
         }
 
         protected TextEditor(TextArea textArea, TextDocument document)
@@ -455,8 +455,7 @@ namespace AvaloniaEdit
 
         private static void OnShowLineNumbersChanged(AvaloniaPropertyChangedEventArgs e)
         {
-            var editor = e.Sender as TextEditor;
-            if (editor == null) return;
+            if (!(e.Sender is TextEditor editor)) return;
 
             var leftMargins = editor.TextArea.LeftMargins;
             if ((bool)e.NewValue)
@@ -922,11 +921,10 @@ namespace AvaloniaEdit
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
 
-            // TODO:load
-            //using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
-            //{
-            //    Load(fs);
-            //}
+            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                Load(fs);
+            }
         }
 
         /// <summary>
@@ -975,10 +973,10 @@ namespace AvaloniaEdit
             if (fileName == null)
                 throw new ArgumentNullException(nameof(fileName));
             // TODO: save
-            //using (FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
-            //{
-            //    Save(fs);
-            //}
+            using (FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                Save(fs);
+            }
         }
         #endregion
 

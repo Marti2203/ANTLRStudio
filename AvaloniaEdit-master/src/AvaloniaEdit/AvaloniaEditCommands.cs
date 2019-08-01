@@ -94,6 +94,16 @@ namespace AvaloniaEdit
         /// Runs the IIndentationStrategy on the selected lines (or the whole document if the selection is empty).
         /// </summary>
         public static RoutedCommand IndentSelection { get; } = new RoutedCommand(nameof(IndentSelection), new KeyGesture { Key = Key.I, Modifiers = InputModifiers.Control });
+
+        /// <summary>
+        /// Moves the selected lines upwards by one line
+        /// </summary>
+        public static RoutedCommand MoveSelectionUp { get; } = new RoutedCommand(nameof(MoveSelectionUp), new KeyGesture { Modifiers = InputModifiers.Alt, Key = Key.Up });
+
+        /// <summary>
+        /// Moves the selected lines downwards by one line
+        /// </summary>
+        public static RoutedCommand MoveSelectionDown { get; } = new RoutedCommand(nameof(MoveSelectionDown), new KeyGesture { Modifiers = InputModifiers.Alt, Key = Key.Down });
     }
 
 
