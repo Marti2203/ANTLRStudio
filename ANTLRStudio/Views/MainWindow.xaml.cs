@@ -3,27 +3,21 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using Avalonia.Input;
 using Avalonia.Media;
-using Avalonia.Media.Imaging;
 using AvaloniaEdit;
-using AvaloniaEdit.CodeCompletion;
-using AvaloniaEdit.Document;
-using AvaloniaEdit.Editing;
-using AvaloniaEdit.Highlighting;
-using AvaloniaEdit.Rendering;
+using System;
 
 namespace ANTLRStudio.Views
 {
     public class MainWindow : Window
     {
-        private readonly TextEditor _textEditor;
+        public readonly TextEditor TextEditor;
         public MainWindow()
         {
             InitializeComponent();
-
-            _textEditor = this.FindControl<TextEditor>("Editor");
-            _textEditor.Background = Brushes.Aquamarine;
-            _textEditor.ShowLineNumbers = true;
-            _textEditor.TextArea.Foreground = Brushes.Black;
+            TextEditor = this.FindControl<TextEditor>("Editor");
+            TextEditor.Background = Brushes.Aquamarine;
+            TextEditor.ShowLineNumbers = true;
+            TextEditor.TextArea.Foreground = Brushes.Black;
         }
 
         private void InitializeComponent()

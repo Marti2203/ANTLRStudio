@@ -34,6 +34,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Media;
 using Avalonia.Data;
+using System.Threading.Tasks;
 
 namespace AvaloniaEdit
 {
@@ -916,6 +917,23 @@ namespace AvaloniaEdit
         /// <summary>
         /// Loads the text from the stream, auto-detecting the encoding.
         /// </summary>
+        /// <remarks>
+        /// This method sets <see cref="IsModified"/> to false.
+        /// </remarks>
+        public async Task LoadAsync(Stream stream)
+        {
+            using (var reader = FileReader.OpenStream(stream, Encoding ?? Encoding.UTF8))
+            {
+                Text = await reader.ReadToEndAsync();
+                SetValue(EncodingProperty, (object)reader.CurrentEncoding);
+            }
+            SetValue(IsModifiedProperty, (object)false);
+
+        }
+
+        /// <summary>
+        /// Loads the text from the stream, auto-detecting the encoding.
+        /// </summary>
         public void Load(string fileName)
         {
             if (fileName == null)
@@ -924,6 +942,16 @@ namespace AvaloniaEdit
             using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 Load(fs);
+            }
+        }
+        public async Task LoadAsync(string fileName)
+        {
+            if (fileName == null)
+                throw new ArgumentNullException(nameof(fileName));
+
+            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                await LoadAsync(fs);
             }
         }
 
@@ -965,6 +993,26 @@ namespace AvaloniaEdit
             SetValue(IsModifiedProperty, (object)false);
         }
 
+
+        /// <summary>
+        /// Saves the text to the stream.
+        /// </summary>
+        /// <remarks>
+        /// This method sets <see cref="IsModified"/> to false.
+        /// </remarks>
+        public async Task SaveAsync(Stream stream)
+        {
+            if (stream == null)
+                throw new ArgumentNullException(nameof(stream));
+            var encoding = Encoding;
+            var document = Document;
+            var writer = encoding != null ? new StreamWriter(stream, encoding) : new StreamWriter(stream);
+            document?.WriteTextTo(writer);
+            await writer.FlushAsync();
+            // do not close the stream
+            SetValue(IsModifiedProperty, (object)false);
+        }
+
         /// <summary>
         /// Saves the text to the file.
         /// </summary>
@@ -976,6 +1024,19 @@ namespace AvaloniaEdit
             using (FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 Save(fs);
+            }
+        }
+        /// <summary>
+        /// Saves the text to the file.
+        /// </summary>
+        public async Task SaveAsync(string fileName)
+        {
+            if (fileName == null)
+                throw new ArgumentNullException(nameof(fileName));
+            // TODO: save
+            using (FileStream fs = new FileStream(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                await SaveAsync(fs);
             }
         }
         #endregion

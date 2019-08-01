@@ -132,30 +132,32 @@ namespace AvaloniaEdit.Document
 
         private Thread ownerThread = Thread.CurrentThread;
 
-		/// <summary>
-		/// Transfers ownership of the document to another thread. 
-		/// </summary>
-		/// <remarks>
-		/// <para>
-		/// The owner can be set to null, which means that no thread can access the document. But, if the document
-		/// has no owner thread, any thread may take ownership by calling <see cref="SetOwnerThread"/>.
-		/// </para>
-		/// </remarks>
-		public void SetOwnerThread(Thread newOwner)
-		{
+        /// <summary>
+        /// Transfers ownership of the document to another thread. 
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// The owner can be set to null, which means that no thread can access the document. But, if the document
+        /// has no owner thread, any thread may take ownership by calling <see cref="SetOwnerThread"/>.
+        /// </para>
+        /// </remarks>
+        public void SetOwnerThread(Thread newOwner)
+        {
             // We need to lock here to ensure that in the null owner case,
-			// only one thread succeeds in taking ownership.
-			lock (_lockObject) {
-				if (ownerThread != null) {
-					VerifyAccess();
-				}
-				ownerThread = newOwner;
-			}
-		}	
+            // only one thread succeeds in taking ownership.
+            lock (_lockObject)
+            {
+                if (ownerThread != null)
+                {
+                    VerifyAccess();
+                }
+                ownerThread = newOwner;
+            }
+        }
 
         private void VerifyAccess()
         {
-            if(Thread.CurrentThread != ownerThread)
+            if (Thread.CurrentThread != ownerThread)
             {
                 throw new InvalidOperationException("Call from invalid thread.");
             }
@@ -223,8 +225,7 @@ namespace AvaloniaEdit.Document
             get
             {
                 VerifyAccess();
-                var completeText = _cachedText?.Target as string;
-                if (completeText == null)
+                if (!(_cachedText?.Target is string completeText))
                 {
                     completeText = _rope.ToString();
                     _cachedText = new WeakReference(completeText);
@@ -1042,7 +1043,7 @@ namespace AvaloniaEdit.Document
                 if (value != _undoStack)
                 {
                     _undoStack.ClearAll(); // first clear old undo stack, so that it can't be used to perform unexpected changes on this document
-                                          // ClearAll() will also throw an exception when it's not safe to replace the undo stack (e.g. update is currently in progress)
+                                           // ClearAll() will also throw an exception when it's not safe to replace the undo stack (e.g. update is currently in progress)
                     _undoStack = value;
                     OnPropertyChanged("UndoStack");
                 }
