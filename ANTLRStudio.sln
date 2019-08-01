@@ -1,12 +1,16 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio", "ANTLRStudio\ANTLRStudio.csproj", "{7DC9BD30-F005-47A2-ABF7-164696C070D5}"
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.452
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ANTLRStudio", "ANTLRStudio\ANTLRStudio.csproj", "{7DC9BD30-F005-47A2-ABF7-164696C070D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaEdit", "AvaloniaEdit-master\src\AvaloniaEdit\AvaloniaEdit.csproj", "{AB6A9D54-15FA-49C4-877F-E8245F6A51DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaloniaEdit", "AvaloniaEdit-master\src\AvaloniaEdit\AvaloniaEdit.csproj", "{AB6A9D54-15FA-49C4-877F-E8245F6A51DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvaloniaEdit.Tests", "AvaloniaEdit-master\test\AvaloniaEdit.Tests\AvaloniaEdit.Tests.csproj", "{2C11CEED-1FC4-4E6C-A8A2-87486406CFCA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaloniaEdit.Tests", "AvaloniaEdit-master\test\AvaloniaEdit.Tests\AvaloniaEdit.Tests.csproj", "{2C11CEED-1FC4-4E6C-A8A2-87486406CFCA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio.Parser", "ANTLRStudio.Parser\ANTLRStudio.Parser.csproj", "{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaloniaEdit.Demo", "AvaloniaEdit-master\src\AvaloniaEdit.Demo\AvaloniaEdit.Demo.csproj", "{6DEB4832-9837-418E-97C0-D24347D0EB49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,5 +34,15 @@ Global
 		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C0E67D1-0016-4974-A58C-C28CBE1D4EFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DEB4832-9837-418E-97C0-D24347D0EB49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DEB4832-9837-418E-97C0-D24347D0EB49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DEB4832-9837-418E-97C0-D24347D0EB49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DEB4832-9837-418E-97C0-D24347D0EB49}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F01340B6-8197-4F7A-9A7E-FF5F8996BEDA}
 	EndGlobalSection
 EndGlobal
