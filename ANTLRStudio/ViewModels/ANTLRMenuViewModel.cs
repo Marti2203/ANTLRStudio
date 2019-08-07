@@ -17,6 +17,7 @@ namespace ANTLRStudio.ViewModels
 {
     public class ANTLRMenuViewModel : ViewModelBase
     {
+        #region Events and Delegates
         public delegate void GrammarOpenedHandler(GrammarOpenedEventArgs e);
         public delegate void GrammarClosedHandler(GrammarClosedEventArgs e);
         public delegate void GrammarGenerationLanguageHandler(GrammarGenerationLanguageEventArgs e);
@@ -24,12 +25,24 @@ namespace ANTLRStudio.ViewModels
         public static event GrammarOpenedHandler GrammarOpened;
         public static event GrammarClosedHandler GrammarClosed;
         public static event GrammarGenerationLanguageHandler GrammarGenerationLanguageChanged;
+        #endregion
 
+        #region Public Properties
         public string LanguageFlag { get; set; }
         public string GrammarPath { get; private set; }
         public string GrammarName { get; private set; }
         public bool HasGrammarOpen => GrammarName != null;
 
+        public IReadOnlyList<MenuItemViewModel> MenuItems { get; set; }
+        public ReactiveCommand<Unit, Unit> OpenCommand { get; set; }
+        public ReactiveCommand<Unit, Unit> CloseCommand { get; set; }
+        public ReactiveCommand<Unit, Unit> GenerateFromGrammarCommand { get; set; }
+        public ReactiveCommand<Unit, Unit> ExitCommand { get; set; }
+        public ReactiveCommand<CompilerOption, Unit> OptionClickedCommand { get; set; }
+        public ReactiveCommand<(string, string), Unit> LanguageSelectedCommand { get; set; }
+        #endregion
+
+        #region Static and Read Only Data
         private static readonly FileDialogFilter g4Filter = new FileDialogFilter
         {
             Name = "Antlr4 files (.g4)",
@@ -44,6 +57,19 @@ namespace ANTLRStudio.ViewModels
             Filters = new List<FileDialogFilter> { g4Filter }
         };
 
+        private readonly MenuItemViewModel GrammarMenu;
+        private readonly MenuItemViewModel LanguagesMenu;
+        private readonly MenuItemViewModel OptionsMenu;
+
+        private MenuItemViewModel GenerateFromGrammarMenu => new MenuItemViewModel
+        {
+            Header = "Generate From Grammar",
+            Command = GenerateFromGrammarCommand,
+        };
+
+        #endregion
+
+        #region Methods
         public async Task OpenGrammar()
         {
             var res = await grammarDialog.ShowAsync(Application.Current.MainWindow);
@@ -80,6 +106,10 @@ namespace ANTLRStudio.ViewModels
             Tooling.GenerateFiles(GrammarPath, LanguageFlag, Data.CompilerOptions.Concat(options));
         }
 
+        public void Exit()
+        {
+            Application.Current.Exit();
+        }
 
         public void LanguageSelected((string, string) languageTuple)
         {
@@ -92,10 +122,37 @@ namespace ANTLRStudio.ViewModels
             GrammarGenerationLanguageChanged?.Invoke(new GrammarGenerationLanguageEventArgs(flag));
         }
 
-        public void Exit()
+        private void OptionClicked(CompilerOption option)
         {
-            Application.Current.Exit();
+            option.InverseValue();
+            var checkbox = OptionsMenu.Items.First(x => x.Header == option.Name).Icon as CheckBox;
+            checkbox.IsChecked = !checkbox.IsChecked;
         }
+
+        private void OnGrammarClosed(GrammarClosedEventArgs e)
+        {
+            MenuItems = new List<MenuItemViewModel>
+            {
+                GrammarMenu
+            }.AsReadOnly();
+
+            this.RaisePropertyChanged(nameof(MenuItems));
+        }
+
+        public void OnGrammarOpened(GrammarOpenedEventArgs e)
+        {
+            MenuItems = new List<MenuItemViewModel>
+            {
+                GrammarMenu,
+                OptionsMenu,
+                LanguagesMenu,
+                GenerateFromGrammarMenu
+            }.AsReadOnly();
+            this.RaisePropertyChanged(nameof(MenuItems));
+        }
+        #endregion
+
+        #region Constructor
         public ANTLRMenuViewModel()
         {
             GenerateFromGrammarCommand = ReactiveCommand.CreateFromTask(GenerateFromGrammar);
@@ -166,51 +223,7 @@ namespace ANTLRStudio.ViewModels
             GrammarClosed += OnGrammarClosed;
         }
 
-        private void OptionClicked(CompilerOption option)
-        {
-            option.InverseValue();
-            var checkbox = OptionsMenu.Items.First(x => x.Header == option.Name).Icon as CheckBox;
-            checkbox.IsChecked = !checkbox.IsChecked;
-        }
+        #endregion
 
-        private void OnGrammarClosed(GrammarClosedEventArgs e)
-        {
-            MenuItems = new List<MenuItemViewModel>
-            {
-                GrammarMenu
-            }.AsReadOnly();
-
-            this.RaisePropertyChanged(nameof(MenuItems));
-        }
-
-        public void OnGrammarOpened(GrammarOpenedEventArgs e)
-        {
-            MenuItems = new List<MenuItemViewModel>
-            {
-                GrammarMenu,
-                OptionsMenu,
-                LanguagesMenu,
-                GenerateFromGrammarMenu
-            }.AsReadOnly();
-            this.RaisePropertyChanged(nameof(MenuItems));
-        }
-
-        private readonly MenuItemViewModel GrammarMenu;
-        private readonly MenuItemViewModel LanguagesMenu;
-        private readonly MenuItemViewModel OptionsMenu;
-
-        private MenuItemViewModel GenerateFromGrammarMenu => new MenuItemViewModel
-        {
-            Header = "Generate From Grammar",
-            Command = GenerateFromGrammarCommand,
-        };
-
-        public IReadOnlyList<MenuItemViewModel> MenuItems { get; set; }
-        public ReactiveCommand<Unit, Unit> OpenCommand { get; set; }
-        public ReactiveCommand<Unit, Unit> CloseCommand { get; set; }
-        public ReactiveCommand<Unit, Unit> GenerateFromGrammarCommand { get; set; }
-        public ReactiveCommand<Unit, Unit> ExitCommand { get; set; }
-        public ReactiveCommand<CompilerOption, Unit> OptionClickedCommand { get; set; }
-        public ReactiveCommand<(string, string), Unit> LanguageSelectedCommand { get; set; }
     }
 }
