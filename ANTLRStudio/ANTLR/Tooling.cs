@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Diagnostics;
 using Antlr4.Runtime;
-using CompilerOptions = System.Collections.Generic.IEnumerable<(string Name, bool Value, string ActiveFlag, string InactiveFlag)>;
+using CompilerOptions = System.Collections.Generic.IEnumerable<ANTLRStudio.Models.CompilerOption>;
 using Antlr4.Runtime.Tree;
 using Microsoft.CSharp;
 using System.CodeDom.Compiler;
 using System.Reflection;
+using ANTLRStudio.Models;
 
 namespace ANTLRStudio.ANTLR
 {
@@ -17,7 +18,7 @@ namespace ANTLRStudio.ANTLR
         public static string CreateArguments(string file, string language, CompilerOptions options)
         {
             var flags = options.Select(option => option.Value ? option.ActiveFlag : option.InactiveFlag);
-            string[] strings = { $"{file}\"", language != null ? $"-Dlanguage={language}" : string.Empty };
+            string[] strings = { $"\"{file}\"", language != null ? $"-Dlanguage={language}" : string.Empty };
             return string.Join(" ", strings.Concat(flags));
         }
 
@@ -49,7 +50,7 @@ namespace ANTLRStudio.ANTLR
             }
         }
 
-        public static DirectoryInfo GenerateTemporaryDirectory()
+        private static DirectoryInfo GenerateTemporaryDirectory()
         {
             var tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName().Split('.')[0]);
             return Directory.CreateDirectory(tempDirectory);
@@ -59,12 +60,11 @@ namespace ANTLRStudio.ANTLR
 
             var directory = GenerateTemporaryDirectory();
 
-            CompilerOptions directoryOption = new (string Name, bool Value, string ActiveFlag, string InactiveFlag)[]{
-
-                (Name: "Output Directory Flag", Value: true, ActiveFlag: "-o", InactiveFlag: String.Empty),
-                (Name: "Output Directory Location", Value: true, ActiveFlag: $"\"{directory.FullName}\"", InactiveFlag: String.Empty),
-                (Name: "Package Flag", Value: true, ActiveFlag: "-package", InactiveFlag: String.Empty),
-                (Name: "Package Name", Value: true, ActiveFlag: "RandomAssembly", InactiveFlag: String.Empty),
+            CompilerOptions directoryOption = new[] {
+                new CompilerOption("Output Directory Flag", true, "-o"),
+                new CompilerOption("Output Directory Location", true, $"\"{directory.FullName}\""),
+                new CompilerOption("Package Flag",true, "-package"),
+                new CompilerOption("Package Name", true, "RandomAssembly"),
             };
             GenerateFiles(file, "CSharp", directoryOption);
             using (var provider = new CSharpCodeProvider())

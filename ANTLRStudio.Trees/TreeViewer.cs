@@ -11,22 +11,26 @@ using Antlr4.Runtime.Tree;
 using ANTLRStudio.TreeLayout;
 using ANTLRStudio.TreeLayout.Interfaces;
 using ANTLRStudio.TreeLayout.Utilities;
-using Eto.Drawing;
-using Eto.Forms;
 using Tree = Antlr4.Runtime.Tree.ITree;
+using Avalonia.Controls;
+using Avalonia.Media;
+using Avalonia.Media.Fonts;
+using Avalonia;
 
 namespace ANTLRStudio.Trees
 {
-    public class TreeViewer : Drawable
+    public class TreeViewer : UserControl
     {
-        public static readonly Color LIGHT_RED = new Color(244, 213, 211);
+        public static readonly ISolidColorBrush LIGHT_RED = Brushes.IndianRed; // new Color(255, 244, 213, 211);
 
         protected TreeLayout<Tree> treeLayout;
         protected List<Tree> highlightedNodes;
 
-        protected FontStyle fontStyle = FontStyle.None;
+        protected FontStyle fontStyle = FontStyle.Normal;
         protected int fontSize = 11;
-        public Font font = Fonts.Monospace(11);
+        public static readonly FontFamily fontFamily = FontFamily.Parse("Monospace");
+        protected Typeface font = new Typeface(fontFamily, 12);
+
 
         protected float gapBetweenLevels = 17.0F;
         protected float gapBetweenNodes = 7.0F;
@@ -36,10 +40,10 @@ namespace ANTLRStudio.Trees
 
         protected float scale = 1.0F;
 
-        protected Color boxColor = Colors.Transparent;     // set to a color to make it draw background
+        protected ISolidColorBrush boxColor = Brushes.Transparent;     // set to a color to make it draw background
 
-        protected Color highlightedBoxColor = Colors.LightGrey;
-        protected Color borderColor = Colors.Black;
+        protected ISolidColorBrush highlightedBoxColor = Brushes.LightGray;
+        protected ISolidColorBrush borderColor = Brushes.Black;
 
         public TreeViewer(List<string> ruleNames, Tree tree)
         {
@@ -52,13 +56,12 @@ namespace ANTLRStudio.Trees
 
         private void UpdatePreferredSize()
         {
-            Size = new Size(ScaledTreeSize().Size);
-            Invalidate();
-            if (Parent != null)
-            {
-                Parent.Invalidate();
-            }
-            Invalidate();
+            //this.DesiredSize = new Size(ScaledTreeSize().Size);
+            //Invalidate();
+            //if (Parent != null)
+            //{
+            //    Parent?.Invalidate();
+            //}
         }
 
         // ---------------- PAINT -----------------------------------------------
@@ -66,31 +69,28 @@ namespace ANTLRStudio.Trees
         public bool UseCurvedEdges { get; set; }
 
 
-        protected void PaintEdges(Graphics g, Tree parent)
+
+        protected void PaintEdges(DrawingContext g, Tree parent)
         {
             if (!Tree.IsLeaf(parent))
             {
-                Pen stroke = new Pen(Colors.Black, 1.0f)
-                {
-                    LineCap = PenLineCap.Round,
-                    LineJoin = PenLineJoin.Round
-                };
+                Pen stroke = new Pen(Brushes.Black, 1.0f, null, PenLineCap.Round, PenLineCap.Round, PenLineCap.Round, PenLineJoin.Round);
 
                 var parentBounds = BoundsOfNode(parent);
-                float x1 = parentBounds.Center.X;
-                float y1 = parentBounds.TopLeft.Y;
+                double x1 = parentBounds.Center.X;
+                double y1 = parentBounds.TopLeft.Y;
                 foreach (Tree child in Tree.Children(parent))
                 {
                     var childBounds = BoundsOfNode(child);
-                    float x2 = childBounds.Center.X;
-                    float y2 = childBounds.TopLeft.Y;
+                    double x2 = childBounds.Center.X;
+                    double y2 = childBounds.TopLeft.Y;
                     //if (UseCurvedEdges)
                     //{
                     //    CubicCurve2D c = new CubicCurve2D.Double();
-                    //    float ctrlx1 = x1;
-                    //    float ctrly1 = (y1 + y2) / 2;
-                    //    float ctrlx2 = x2;
-                    //    float ctrly2 = y1;
+                    //    double ctrlx1 = x1;
+                    //    double ctrly1 = (y1 + y2) / 2;
+                    //    double ctrlx2 = x2;
+                    //    double ctrly2 = y1;
                     //    c.setCurve(x1, y1, ctrlx1, ctrly1, ctrlx2, ctrly2, x2, y2);
                     //    g.DrawArc(stroke,);
                     //}
@@ -98,14 +98,14 @@ namespace ANTLRStudio.Trees
                     //{
                     System.Console.WriteLine($"{x1},{y1},{x2},{y2}");
 
-                    g.DrawLine(stroke, x1, y1, x2, y2);
+                    g.DrawLine(stroke, new Point(x1, y1), new Point(x2, y2));
                     //}
                     PaintEdges(g, child);
                 }
             }
         }
 
-        protected void PaintBox(Graphics g, Tree tree)
+        protected void PaintBox(DrawingContext g, Tree tree)
         {
             var box = BoundsOfNode(tree);
             // draw the box in the background
@@ -119,7 +119,8 @@ namespace ANTLRStudio.Trees
                 var color = boxColor;
                 if (IsHighlighted(tree)) color = highlightedBoxColor;
                 if (tree is IErrorNode || ruleFailedAndMatchedNothing) color = LIGHT_RED;
-                g.FillRectangle(color, box.Center.X, box.BottomLeft.Y, box.Width - 1, box.Height - 1);
+                var rect = new Rect(new Point(box.Center.X, box.BottomLeft.Y), new Point(box.Width - 1, box.Height - 1));
+                g.FillRectangle(color, rect);
             }
             //g.DrawRectangle(borderColor, box.X, box.Y, box.Width - 1, box.Height - 1);
 
@@ -127,43 +128,46 @@ namespace ANTLRStudio.Trees
             // draw the text on top of the box (possibly multiple lines)
             string s = TreeTextProvider.Text(tree);
             string[] lines = s.Split('\n');
-            float x = box.X + arcSize / 2 + nodeWidthPadding;
-            float y = box.BottomLeft.Y + font.Ascent + font.Leading + 1 + nodeHeightPadding;
+            double x = box.X + arcSize / 2 + nodeWidthPadding;
+            //TODO FIX THIS WHEN AVALONIA GETS UPDATED
+            //double y = box.BottomLeft.Y + font.Ascent + font.Leading + 1 + nodeHeightPadding;
+            double y = box.BottomLeft.Y + fontSize + 1 + nodeWidthPadding;
             for (int i = 0; i < lines.Length; i++)
             {
-                Text(g, lines[i], new PointF(x, y));
-                y += font.LineHeight;
+                Text(g, lines[i], new Point(x, y));
+                y += fontSize; //fontFamily.LineHeight;
             }
         }
 
-        public void Text(Graphics g, string s, PointF location)
+        public void Text(DrawingContext g, string s, Point location)
         {
             //      System.out.println("drawing '"+s+"' @ "+x+","+y);
             s = Utils.EscapeWhitespace(s, true);
-            g.DrawText(font, Colors.Black, location, s);
+            var text = new FormattedText { Text = s };
+            text.Typeface = new Typeface(fontFamily, fontSize);
+            g.DrawText(Brushes.Black, location, text);
         }
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
 
+        public override void Render(DrawingContext context)
+        {
+            base.Render(context);
             if (treeLayout == null)
             {
                 return;
             }
 
-            Graphics graphics = e.Graphics;
-            graphics.AntiAlias = true;
+            context.FillRectangle(Brushes.White, new Rect(this.DesiredSize));
 
-            graphics.FillRectangle(Colors.White, new Rectangle(Size));
+            using (var transform = context.PushPreTransform(Matrix.CreateScale(scale, scale)))
+            {
 
-
-            graphics.ScaleTransform(scale);
-            PaintEdges(graphics, Tree.Root);
+            }
+            PaintEdges(context, Tree.Root);
 
             // paint the boxes
             foreach (Tree tree in treeLayout.NodeBounds.Keys)
             {
-                PaintBox(graphics, tree);
+                PaintBox(context, tree);
             }
         }
 
@@ -172,14 +176,14 @@ namespace ANTLRStudio.Trees
             if (!Tree.IsLeaf(parent))
             {
                 var b1 = BoundsOfNode(parent);
-                float x1 = b1.Center.X;
-                float y1 = b1.Center.Y;
+                double x1 = b1.Center.X;
+                double y1 = b1.Center.Y;
 
                 foreach (Tree child in Tree.Children(parent))
                 {
                     var childbounds = BoundsOfNode(child);
-                    float x2 = childbounds.Center.X;
-                    float y2 = childbounds.BottomLeft.Y;
+                    double x2 = childbounds.Center.X;
+                    double y2 = childbounds.BottomLeft.Y;
                     writer.WriteLine(Line("" + x1, "" + y1, "" + x2, "" + y2,
                                         "stroke:black; stroke-width:1px;"));
                     GenerateEdges(writer, child);
@@ -249,12 +253,12 @@ namespace ANTLRStudio.Trees
         //// ----------------------------------------------------------------------
 
 
-        private static readonly string DIALOG_WIDTH_PREFS_KEY = "dialog_width";
-        private static readonly string DIALOG_HEIGHT_PREFS_KEY = "dialog_height";
-        private static readonly string DIALOG_X_PREFS_KEY = "dialog_x";
-        private static readonly string DIALOG_Y_PREFS_KEY = "dialog_y";
-        private static readonly string DIALOG_DIVIDER_LOC_PREFS_KEY = "dialog_divider_location";
-        private static readonly string DIALOG_VIEWER_SCALE_PREFS_KEY = "dialog_viewer_scale";
+        //private static readonly string DIALOG_WIDTH_PREFS_KEY = "dialog_width";
+        //private static readonly string DIALOG_HEIGHT_PREFS_KEY = "dialog_height";
+        //private static readonly string DIALOG_X_PREFS_KEY = "dialog_x";
+        //private static readonly string DIALOG_Y_PREFS_KEY = "dialog_y";
+        //private static readonly string DIALOG_DIVIDER_LOC_PREFS_KEY = "dialog_divider_location";
+        //private static readonly string DIALOG_VIEWER_SCALE_PREFS_KEY = "dialog_viewer_scale";
 
         //protected static JFrame showInDialog(readonly TreeViewer viewer)
         //{
@@ -586,13 +590,13 @@ namespace ANTLRStudio.Trees
         //    }
         //}
 
-        private RectangleF ScaledTreeSize() => treeLayout.Bounds * scale;
+        private Rect ScaledTreeSize() => treeLayout.Bounds.Inflate(scale);
 
 
 
         //// ---------------------------------------------------
 
-        protected RectangleF BoundsOfNode(Tree node) => treeLayout.NodeBounds[node];
+        protected Rect BoundsOfNode(Tree node) => treeLayout.NodeBounds[node];
 
 
         protected string GetText(Tree tree)
@@ -607,7 +611,6 @@ namespace ANTLRStudio.Trees
         public void SetFontSize(int sz)
         {
             fontSize = sz;
-            font = Fonts.Serif(sz, fontStyle);
         }
 
 
@@ -656,7 +659,6 @@ namespace ANTLRStudio.Trees
             else
             {
                 treeLayout = null;
-                Invalidate();
             }
         }
 

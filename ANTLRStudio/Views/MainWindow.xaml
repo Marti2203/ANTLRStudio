@@ -1,6 +1,7 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:ANTLRStudio.ViewModels;assembly=ANTLRStudio"
+        xmlns:vs="clr-namespace:ANTLRStudio.Views;assembly=ANTLRStudio"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:AvalonEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
@@ -13,28 +14,19 @@
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-    <StackPanel>
+    
     <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Header="_Open Grammar" Command="{Binding OpenGrammar}" CommandParameter="{Binding #Main}">
-                </MenuItem>
-                <MenuItem Header="_Close Grammar" Command="{Binding CloseGrammar}" CommandParameter="{Binding #Main}"/>
-                <Separator/>
-                <MenuItem Header="_Exit"/>
-            </MenuItem>
-        </Menu>
+    <vs:ANTLRMenuView DockPanel.Dock="Top"/>
+        <StackPanel>
+                <AvalonEdit:TextEditor
+                  Name="Editor"
+                  Margin="30"
+                  MaxHeight="400"
+                  SyntaxHighlighting="C#"
+                  HorizontalScrollBarVisibility="Auto"
+                  VerticalScrollBarVisibility="Visible"
+                  TextBlock.FontSize="16">
+                </AvalonEdit:TextEditor>
+        </StackPanel>
     </DockPanel>
-  <DockPanel>
-    <AvalonEdit:TextEditor
-      Name="Editor"
-      Margin="30"
-      SyntaxHighlighting="C#"
-      HorizontalScrollBarVisibility="Auto"
-      VerticalScrollBarVisibility="Visible"
-      TextBlock.FontSize="16">
-      
-    </AvalonEdit:TextEditor>
-  </DockPanel>
-  </StackPanel>
 </Window>

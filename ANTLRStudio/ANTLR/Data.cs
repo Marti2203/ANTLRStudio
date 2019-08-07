@@ -1,11 +1,12 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using ANTLRStudio.Models;
 namespace ANTLRStudio.ANTLR
 {
     public static class Data
     {
-        public static (string, string)[] Languages = {
+        public static (string Name, string Flag)[] Languages = {
                                             ("Java", null),
                                             ("C#", "CSharp"),
                                             ("JavaScript", "JavaScript"),
@@ -13,17 +14,17 @@ namespace ANTLRStudio.ANTLR
                                             ("C++", "Cpp"),
                                             ("Swift", "Swift"),
                     };
-        public static (string Name, bool Value, string ActiveFlag, string InactiveFlag)[] CompilerOptions = {
-        (Name : "ATN", Value:false ,ActiveFlag:"-atn",InactiveFlag:string.Empty ),
-        (Name:"Long Messages", Value: false , ActiveFlag: "-long-messages",InactiveFlag: string.Empty),
-        (Name:"Listener", Value: true , ActiveFlag: "-listener",InactiveFlag:"-no-listener"),
-        (Name:"Visitor", Value: false , ActiveFlag: "-visitor",InactiveFlag: "-no-visitor"),
-        (Name:"Generate Dependencies", Value: false, ActiveFlag: "-depend",InactiveFlag: string.Empty),
-        (Name:"Treat Errors as warnings", Value:false, ActiveFlag:"-Werror",InactiveFlag: string.Empty),
-        (Name:"Launch stringTemplate visualizer", Value:false , ActiveFlag: "-XdbgST",InactiveFlag: string.Empty),
-        (Name:"Wait stringTemplate visualizer before contiunuing", Value:false, ActiveFlag:"-XdbgSTWait",InactiveFlag:string.Empty),
-        (Name:"Force ATN Simulation", Value:false, ActiveFlag:"-Xforce-atn",InactiveFlag: string.Empty),
-        (Name:"Dump loggin info", Value: false, ActiveFlag:"-Xlog",InactiveFlag:string.Empty),
+        public static CompilerOption[] CompilerOptions = {
+        new CompilerOption("ATN", false ,"-atn",string.Empty ),
+        new CompilerOption("Long Messages",  false ,  "-long-messages", string.Empty),
+        new CompilerOption("Listener",  true ,  "-listener","-no-listener"),
+        new CompilerOption("Visitor",  false ,  "-visitor","-no-visitor"),
+        new CompilerOption("Generate Dependencies",  false,  "-depend",string.Empty),
+        new CompilerOption("Treat Errors as warnings", false, "-Werror",string.Empty),
+        new CompilerOption("Launch stringTemplate visualizer", false ,  "-XdbgST",string.Empty),
+        new CompilerOption("Wait stringTemplate visualizer before contiunuing", false, "-XdbgSTWait",string.Empty),
+        new CompilerOption("Force ATN Simulation", false, "-Xforce-atn",string.Empty),
+        new CompilerOption("Dump loggin info",  false, "-Xlog",string.Empty),
         };
         public static string CurrentWorkingDirectory = Directory.GetCurrentDirectory();
         public static string CurrentAntlr = Directory.GetFiles(CurrentWorkingDirectory)

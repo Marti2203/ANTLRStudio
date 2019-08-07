@@ -4,8 +4,8 @@ using System.IO;
 using System.Text;
 using ANTLRStudio.TreeLayout.Interfaces;
 using ANTLRStudio.TreeLayout.Utilities.Internal;
-using Eto.Drawing;
 using System.Linq;
+using Avalonia;
 
 namespace ANTLRStudio.TreeLayout
 {
@@ -140,7 +140,7 @@ namespace ANTLRStudio.TreeLayout
          * 
          * @return the bounds of the tree layout
          */
-        public RectangleF Bounds => new RectangleF(0, 0, boundsRight - boundsLeft, boundsBottom - boundsTop);
+        public Rect Bounds => new Rect(0, 0, boundsRight - boundsLeft, boundsBottom - boundsTop);
 
 
         // ------------------------------------------------------------------------
@@ -674,7 +674,7 @@ namespace ANTLRStudio.TreeLayout
         // ------------------------------------------------------------------------
         // nodeBounds
 
-        private Dictionary<TreeNode, RectangleF> nodeBounds;
+        private Dictionary<TreeNode, Rect> nodeBounds;
 
         /**
          * Returns the layout of the tree nodes by mapping each node of the tree to
@@ -685,7 +685,7 @@ namespace ANTLRStudio.TreeLayout
          * 
          * @return maps each node of the tree to its bounds (position and size).
          */
-        public Dictionary<TreeNode, RectangleF> NodeBounds
+        public Dictionary<TreeNode, Rect> NodeBounds
         {
             get
             {
@@ -698,7 +698,7 @@ namespace ANTLRStudio.TreeLayout
                         float h = NodeHeight(treeNode);
                         float x = pos.X - w / 2;
                         float y = pos.Y - h / 2;
-                        return new RectangleF(x, y, w, h);
+                        return new Rect(x, y, w, h);
                     });
 
                     //foreach (TreeNode treeNode in positions.Keys)

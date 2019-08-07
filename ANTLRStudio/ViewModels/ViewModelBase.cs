@@ -7,5 +7,6 @@ namespace ANTLRStudio.ViewModels
 {
     public class ViewModelBase : ReactiveObject
     {
+
     }
 }

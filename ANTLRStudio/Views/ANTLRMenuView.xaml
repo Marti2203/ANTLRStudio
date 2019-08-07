@@ -7,16 +7,24 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              Name="Menu"
              x:Class="ANTLRStudio.Views.ANTLRMenuView">
-    <Design.DataContext>
-        <vm:ANTLRMenuViewModel/>
-    </Design.DataContext>
-    <Menu DockPanel.Dock="Top">
-        <MenuItem Header="_File">
-            <MenuItem Header="_Open Grammar" Command="{Binding MenuViewModel.OpenGrammar}" CommandParameter="{Binding #Menu}">
-            </MenuItem>
-            <MenuItem Header="_Close Grammar" Command="{Binding MenuViewModel.CloseGrammar}" CommandParameter="{Binding #Menu}"/>
-            <Separator/>
-            <MenuItem Header="_Exit" Command="{Binding MenuViewModel.Exit}"/>
-        </MenuItem>
+    <UserControl.DataTemplates>
+    <DataTemplate DataType="{x:Type vm:MenuItemViewModel}">
+      <MenuItem Header="{Binding Header}" 
+                Items="{Binding Items}" 
+                Command ="{Binding Command}"
+                CommandParameter="{Binding CommandParameter}"
+                Icon="{Binding Icon}" />
+    </DataTemplate>
+  </UserControl.DataTemplates>
+    <Menu Items="{Binding MenuViewModel.MenuItems}">
+        <Menu.Styles>
+            <Style Selector="MenuItem">
+                <Setter Property="Header" Value="{Binding Header}"/>
+                <Setter Property="Items" Value="{Binding Items}"/>
+                <Setter Property="Command" Value="{Binding Command}"/>
+                <Setter Property="CommandParameter" Value="{Binding CommandParameter}"/>
+                <Setter Property="Icon" Value="{Binding Icon}"/>
+            </Style>
+        </Menu.Styles>
     </Menu>
 </UserControl>
