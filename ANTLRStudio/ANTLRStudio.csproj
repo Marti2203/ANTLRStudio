@@ -1,12 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Models\" />
     <Compile Update="**\*.xaml.cs">
-      <DependentUpon>%(Filename)</DependentUpon>
     </Compile>
     <AvaloniaResource Include="**\*.xaml">
       <SubType>Designer</SubType>
@@ -18,6 +19,11 @@
     <PackageReference Include="Avalonia" Version="0.8.1" />
     <PackageReference Include="Avalonia.Desktop" Version="0.8.1" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.8.1" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+    <PackageReference Include="Antlr4.Runtime.Standard" Version="4.7.2" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+    <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="2.0.1" />
+    <PackageReference Include="System.CodeDom" Version="4.5.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ANTLRStudio.Drawing\ANTLRStudio.Drawing.csproj" />
@@ -26,5 +32,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove=".gitignore" />
+    <None Remove="antlr-4.7.2-complete.jar" />
+  </ItemGroup>
+  <ItemGroup>
+    <AvaloniaResource Remove="Views\ANTLRMenu.xaml" />
+    <AvaloniaResource Remove="Views\ANTLRMenu.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="antlr-4.7.2-complete.jar">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="antlr-4.7.2-complete.jar">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>

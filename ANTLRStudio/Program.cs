@@ -25,7 +25,7 @@ namespace ANTLRStudio
         {
             var window = new MainWindow
             {
-                DataContext = new MainWindowViewModel(),
+                DataContext = new MainWindowViewModel()
             };
 
             app.Run(window);

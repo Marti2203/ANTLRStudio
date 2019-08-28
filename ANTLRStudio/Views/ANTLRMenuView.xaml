@@ -1,0 +1,30 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:ANTLRStudio.ViewModels;assembly=ANTLRStudio"
+             xmlns:vs="clr-namespace:ANTLRStudio.Views;assembly=ANTLRStudio"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             Name="Menu"
+             x:Class="ANTLRStudio.Views.ANTLRMenuView">
+    <UserControl.DataTemplates>
+    <DataTemplate DataType="{x:Type vm:MenuItemViewModel}">
+      <MenuItem Header="{Binding Header}" 
+                Items="{Binding Items}" 
+                Command ="{Binding Command}"
+                CommandParameter="{Binding CommandParameter}"
+                Icon="{Binding Icon}" />
+    </DataTemplate>
+  </UserControl.DataTemplates>
+    <Menu Items="{Binding MenuViewModel.MenuItems}">
+        <Menu.Styles>
+            <Style Selector="MenuItem">
+                <Setter Property="Header" Value="{Binding Header}"/>
+                <Setter Property="Items" Value="{Binding Items}"/>
+                <Setter Property="Command" Value="{Binding Command}"/>
+                <Setter Property="CommandParameter" Value="{Binding CommandParameter}"/>
+                <Setter Property="Icon" Value="{Binding Icon}"/>
+            </Style>
+        </Menu.Styles>
+    </Menu>
+</UserControl>

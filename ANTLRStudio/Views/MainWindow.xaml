@@ -15,31 +15,22 @@
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-    <StackPanel>
+    
     <DockPanel>
       <Diagram:Diagram
         Items="{Binding TextContainers}">
       </Diagram:Diagram>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
-                <MenuItem Header="_Open Grammar" Command="{Binding OpenGrammar}" CommandParameter="{Binding #Main}">
-                </MenuItem>
-                <MenuItem Header="_Close Grammar" Command="{Binding CloseGrammar}" CommandParameter="{Binding #Main}"/>
-                <Separator/>
-                <MenuItem Header="_Exit"/>
-            </MenuItem>
-        </Menu>
+    <vs:ANTLRMenuView DockPanel.Dock="Top"/>
+        <StackPanel>
+                <AvalonEdit:TextEditor
+                  Name="Editor"
+                  Margin="30"
+                  MaxHeight="400"
+                  SyntaxHighlighting="C#"
+                  HorizontalScrollBarVisibility="Auto"
+                  VerticalScrollBarVisibility="Visible"
+                  TextBlock.FontSize="16">
+                </AvalonEdit:TextEditor>
+        </StackPanel>
     </DockPanel>
-  <DockPanel>
-    <AvalonEdit:TextEditor
-      Name="Editor"
-      Margin="30"
-      SyntaxHighlighting="C#"
-      HorizontalScrollBarVisibility="Auto"
-      VerticalScrollBarVisibility="Visible"
-      TextBlock.FontSize="16">
-      
-    </AvalonEdit:TextEditor>
-  </DockPanel>
-  </StackPanel>
 </Window>
