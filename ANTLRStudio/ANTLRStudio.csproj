@@ -20,7 +20,9 @@
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.8.1" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ANTLRStudio.Drawing\ANTLRStudio.Drawing.csproj" />
     <ProjectReference Include="..\AvaloniaEdit-master\src\AvaloniaEdit\AvaloniaEdit.csproj" />
+    <ProjectReference Include="..\Diagram\ANTLRStudio.Diagram.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Remove=".gitignore" />

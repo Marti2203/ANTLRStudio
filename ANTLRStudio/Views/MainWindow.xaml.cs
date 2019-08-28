@@ -5,6 +5,7 @@ using Avalonia.Input;
 using Avalonia.Media;
 using AvaloniaEdit;
 using System;
+using ANTLRStudio.Diagram;
 
 namespace ANTLRStudio.Views
 {
@@ -20,6 +21,8 @@ namespace ANTLRStudio.Views
             _textEditor.ShowLineNumbers = true;
             _textEditor.TextArea.Foreground = Brushes.Black;
             _textEditor.TextArea.IndentationStrategy = new AvaloniaEdit.Indentation.CSharp.CSharpIndentationStrategy();
+
+            _textEditor.TextArea.MaxHeight = 300;
         }
 
         private void InitializeComponent()

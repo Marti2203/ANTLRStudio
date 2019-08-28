@@ -12,6 +12,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio.Parser", "ANTLR
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvaloniaEdit.Demo", "AvaloniaEdit-master\src\AvaloniaEdit.Demo\AvaloniaEdit.Demo.csproj", "{6DEB4832-9837-418E-97C0-D24347D0EB49}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ANTLRStudio.Diagram", "Diagram\ANTLRStudio.Diagram.csproj", "{540FF2E2-746E-45CE-9749-5601F9E6DBB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ANTLRStudio.Drawing", "ANTLRStudio.Drawing\ANTLRStudio.Drawing.csproj", "{D2B1CA4C-A5B2-458C-88F1-AC48D08FA25F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +42,14 @@ Global
 		{6DEB4832-9837-418E-97C0-D24347D0EB49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DEB4832-9837-418E-97C0-D24347D0EB49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DEB4832-9837-418E-97C0-D24347D0EB49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{540FF2E2-746E-45CE-9749-5601F9E6DBB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{540FF2E2-746E-45CE-9749-5601F9E6DBB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{540FF2E2-746E-45CE-9749-5601F9E6DBB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{540FF2E2-746E-45CE-9749-5601F9E6DBB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2B1CA4C-A5B2-458C-88F1-AC48D08FA25F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2B1CA4C-A5B2-458C-88F1-AC48D08FA25F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2B1CA4C-A5B2-458C-88F1-AC48D08FA25F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2B1CA4C-A5B2-458C-88F1-AC48D08FA25F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

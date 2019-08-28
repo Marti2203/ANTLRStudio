@@ -1,9 +1,11 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:ANTLRStudio.ViewModels;assembly=ANTLRStudio"
+        xmlns:vs="clr-namespace:ANTLRStudio.Views;assembly=ANTLRStudio"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:AvalonEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
+        xmlns:Diagram="clr-namespace:ANTLRStudio.Diagram;assembly=ANTLRStudio.Diagram"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="ANTLRStudio.Views.MainWindow"
         Name="Main"
@@ -15,6 +17,9 @@
     </Design.DataContext>
     <StackPanel>
     <DockPanel>
+      <Diagram:Diagram
+        Items="{Binding TextContainers}">
+      </Diagram:Diagram>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
                 <MenuItem Header="_Open Grammar" Command="{Binding OpenGrammar}" CommandParameter="{Binding #Main}">

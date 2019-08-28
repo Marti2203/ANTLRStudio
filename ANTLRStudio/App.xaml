@@ -10,5 +10,7 @@
         <StyleInclude Source="avares://Avalonia.Themes.Default/DefaultTheme.xaml"/>
         <StyleInclude Source="avares://Avalonia.Themes.Default/Accents/BaseLight.xaml"/>
         <StyleInclude Source="resm:AvaloniaEdit.AvaloniaEdit.xaml?assembly=AvaloniaEdit" />
+        <StyleInclude Source="resm:ANTLRStudio.Diagram.Diagram.xaml?assembly=ANTLRStudio.Diagram" />
+        <StyleInclude Source="resm:ANTLRStudio.Drawing.TextContainer.xaml?assembly=ANTLRStudio.Drawing" />
     </Application.Styles>
 </Application>

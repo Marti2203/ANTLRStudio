@@ -7,10 +7,15 @@ using Avalonia.Controls;
 using ANTLRStudio.Views;
 using System.IO;
 using System.Linq;
+using ANTLRStudio.Diagram;
+
 namespace ANTLRStudio.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        public List<string> TextContainers { get; set; } = 
+            new List<string> { "ListItemblahblahblahblahblah", "Listy2", "ThisItem" };
+
         public string GrammarPath { get; private set; }
         public string GrammarName { get; private set; }
         public async Task OpenGrammar(MainWindow window)
