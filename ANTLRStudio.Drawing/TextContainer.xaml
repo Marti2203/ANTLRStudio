@@ -1,0 +1,6 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:local="clr-namespace:ANTLRStudio.Drawing">
+  <Style Selector="local|TextContainer">
+   
+  </Style>
+</Styles>

@@ -7,6 +7,7 @@ using AvaloniaEdit;
 using ANTLRStudio.ViewModels;
 using ANTLRStudio.Models;
 using System;
+using ANTLRStudio.Diagram;
 
 namespace ANTLRStudio.Views
 {

@@ -1,0 +1,12 @@
+﻿<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:local="clr-namespace:ANTLRStudio.Diagram"
+        xmlns:drawing="clr-namespace:ANTLRStudio.Drawing;assembly=ANTLRStudio.Drawing">
+  <Style Selector="local|Diagram">
+    
+    <Setter Property="ItemTemplate">
+      <DataTemplate>
+        <drawing:TextContainer Text="{Binding}"></drawing:TextContainer>
+      </DataTemplate>
+    </Setter>
+  </Style>
+</Styles>

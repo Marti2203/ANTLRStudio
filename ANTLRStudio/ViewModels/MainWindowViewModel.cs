@@ -8,11 +8,15 @@ using ANTLRStudio.Views;
 using System.IO;
 using System.Linq;
 using ReactiveUI;
+using ANTLRStudio.Diagram;
+
 namespace ANTLRStudio.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
         public ANTLRMenuViewModel MenuViewModel { get; private set; } = new ANTLRMenuViewModel();
 
+        public List<string> TextContainers { get; set; } = 
+            new List<string> { "ListItemblahblahblahblahblah", "Listy2", "ThisItem" };
     }
 }

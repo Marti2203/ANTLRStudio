@@ -13,7 +13,7 @@
             <Button Name="clearControlBtn" Content="Clear Buttons" />
         </StackPanel>
         <AvalonEdit:TextEditor Name="Editor"
-                               Margin="30"
+                               Height="200"
                                SyntaxHighlighting="XML"
                                HorizontalScrollBarVisibility="Auto"
                                VerticalScrollBarVisibility="Visible"
