@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using ANTLRStudio.Views;
 using Avalonia.Controls;
 using Avalonia;
-using Avalonia.LogicalTree;
 using ReactiveUI;
 using System.Reactive;
 using ANTLRStudio.ANTLR;
 using ANTLRStudio.Models;
-using DynamicData;
 
 namespace ANTLRStudio.ViewModels
 {
@@ -40,6 +37,7 @@ namespace ANTLRStudio.ViewModels
         public ReactiveCommand<Unit, Unit> ExitCommand { get; set; }
         public ReactiveCommand<CompilerOption, Unit> OptionClickedCommand { get; set; }
         public ReactiveCommand<(string, string), Unit> LanguageSelectedCommand { get; set; }
+        public ReactiveCommand<string, Unit> TestTreeCommand { get; set; }
         #endregion
 
         #region Static and Read Only Data
@@ -94,12 +92,13 @@ namespace ANTLRStudio.ViewModels
             if (!HasGrammarOpen) return;
             var folderDialog = new OpenFolderDialog
             {
-                Title = $"Select Folder For File generation. Current Language {LanguageFlag ?? "Java"}",
+                Title = $"Select Folder For File generation. Current Language is {LanguageFlag ?? "Java"}",
                 DefaultDirectory = Directory.CreateDirectory(Path.Combine(desktop, $"{GrammarName}_{LanguageFlag}")).FullName,
                 InitialDirectory = desktop
             };
             var dialogResult = await folderDialog.ShowAsync(Application.Current.MainWindow);
-            var options = new[] {
+            var options = new[]
+            {
             new CompilerOption(name: "Output Directory Flag", value: true, activeFlag: "-o", inactiveFlag: String.Empty),
             new CompilerOption(name: "Output Directory Location", value: true, activeFlag: dialogResult, inactiveFlag: String.Empty)
             };
@@ -146,7 +145,14 @@ namespace ANTLRStudio.ViewModels
                 GrammarMenu,
                 OptionsMenu,
                 LanguagesMenu,
-                GenerateFromGrammarMenu
+                GenerateFromGrammarMenu,
+                //new MenuItemViewModel
+                //{
+
+                //    Header = "Test Trees",
+                //    Command = ,
+                //    CommandParameter = "...++",
+                //}
             }.AsReadOnly();
             this.RaisePropertyChanged(nameof(MenuItems));
         }

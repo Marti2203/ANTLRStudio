@@ -29,6 +29,7 @@
     <ProjectReference Include="..\ANTLRStudio.Drawing\ANTLRStudio.Drawing.csproj" />
     <ProjectReference Include="..\AvaloniaEdit-master\src\AvaloniaEdit\AvaloniaEdit.csproj" />
     <ProjectReference Include="..\Diagram\ANTLRStudio.Diagram.csproj" />
+    <ProjectReference Include="..\ANTLRStudio.Trees\ANTLRStudio.Trees.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Remove=".gitignore" />

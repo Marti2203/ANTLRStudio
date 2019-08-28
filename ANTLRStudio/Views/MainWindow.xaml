@@ -4,6 +4,7 @@
         xmlns:vs="clr-namespace:ANTLRStudio.Views;assembly=ANTLRStudio"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Trees="clr-namespace:ANTLRStudio.Trees;assembly=ANTLRStudio.Trees"
         xmlns:AvalonEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
         xmlns:Diagram="clr-namespace:ANTLRStudio.Diagram;assembly=ANTLRStudio.Diagram"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -27,10 +28,14 @@
                   Margin="30"
                   MaxHeight="400"
                   SyntaxHighlighting="C#"
+                  ShowLineNumbers="true"
                   HorizontalScrollBarVisibility="Auto"
                   VerticalScrollBarVisibility="Visible"
+                  Background = "{Binding EditorBackground}"
+                  Foreground = "{Binding EditorForeground}"
                   TextBlock.FontSize="16">
                 </AvalonEdit:TextEditor>
+                <Trees:TreeViewer/>
         </StackPanel>
     </DockPanel>
 </Window>
