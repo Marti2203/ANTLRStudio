@@ -19,14 +19,14 @@ namespace ANTLRStudio.Trees
         public float Width(Tree tree)
         {
             string s = viewer.TreeTextProvider.Text(tree);
-            float w = /* viewer.FontFamily.MeasureString(s).Width */ 11 + viewer.nodeWidthPadding * 2;
+            float w = /* viewer.FontFamily.MeasureString(s).Width */ 11 + viewer.NodeWidthPadding * 2;
             return w;
         }
 
         public float Height(Tree tree)
         {
             string s = viewer.TreeTextProvider.Text(tree);
-            float h = /* viewer.FontFamily.MeasureString(s).Height */ 11 + viewer.nodeHeightPadding * 2;
+            float h = /* viewer.FontFamily.MeasureString(s).Height */ 11 + viewer.NodeHeightPadding * 2;
             string[] lines = s.Split('\n');
             return h * lines.Length;
         }

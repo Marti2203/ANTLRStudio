@@ -22,13 +22,16 @@
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
     <PackageReference Include="Antlr4.Runtime.Standard" Version="4.7.2" />
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
-    <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="2.0.1" />
     <PackageReference Include="System.CodeDom" Version="4.5.0" />
+    <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
+    <PackageReference Include="System.Runtime" Version="4.3.1" />
+    <PackageReference Include="System.IO" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ANTLRStudio.Drawing\ANTLRStudio.Drawing.csproj" />
     <ProjectReference Include="..\AvaloniaEdit-master\src\AvaloniaEdit\AvaloniaEdit.csproj" />
     <ProjectReference Include="..\Diagram\ANTLRStudio.Diagram.csproj" />
+    <ProjectReference Include="..\ANTLRStudio.Trees\ANTLRStudio.Trees.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Remove=".gitignore" />

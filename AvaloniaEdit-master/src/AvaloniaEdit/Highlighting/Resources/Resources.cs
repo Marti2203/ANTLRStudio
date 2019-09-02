@@ -60,7 +60,7 @@ namespace AvaloniaEdit.Highlighting
                                      "XML-Mode.xshd");
             hlm.RegisterHighlighting("XAML", new[] { ".xaml", ".paml" }, "XML-Mode.xshd");
             hlm.RegisterHighlighting("MarkDown", new[] { ".md" }, "MarkDown-Mode.xshd");
-            //hlm.RegisterHighlighting("Antlr4", new[] { ".g4" }, "ANTLR-Mode.xshd");
+            hlm.RegisterHighlighting("ANTLR4", new[] { ".g4" }, "ANTLR4-Mode.xshd");
         }
     }
 }

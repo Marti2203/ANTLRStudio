@@ -37,5 +37,6 @@ namespace ANTLRStudio.ANTLR
         /// <value>The path for the JRE.</value>
         public static string JavaRuntimeEnvironmentPath => Environment.OSVersion.Platform != PlatformID.Win32NT ? "java"
                                    : @"C:\Program Files (x86)\Common Files\Oracle\Java\javapath\java.exe";
+        public static string CSharpCompilerPath => "csc";
     }
 }
