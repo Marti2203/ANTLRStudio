@@ -25,26 +25,29 @@ namespace ANTLRStudio.Trees
         public static readonly ISolidColorBrush LIGHT_RED = Brushes.IndianRed; // new Color(255, 244, 213, 211);
         public static readonly FontFamily fontFamily = FontFamily.Parse("Monospace");
         public static readonly Pen LinePen = new Pen(Brushes.Black, 1.0f, null, PenLineCap.Round, PenLineCap.Round, PenLineCap.Round, PenLineJoin.Round);
-        public static AvaloniaProperty<float> GapBetweenLevelsProperty = AvaloniaProperty.Register<TreeViewer, float>(nameof(GapBetweenLevels));
-        public static AvaloniaProperty<float> GapBetweenNodesProperty = AvaloniaProperty.Register<TreeViewer, float>(nameof(GapBetweenNodes));
-        public static AvaloniaProperty<float> NodeWidthPaddingProperty = AvaloniaProperty.Register<TreeViewer, float>(nameof(NodeWidthPadding));
-        public static AvaloniaProperty<float> NodeHeightPaddingProperty = AvaloniaProperty.Register<TreeViewer, float>(nameof(NodeHeightPadding));
-        public static AvaloniaProperty<int> ArcSizeProperty = AvaloniaProperty.Register<TreeViewer, int>(nameof(ArcSize));
-        public static AvaloniaProperty<int> ScaleProperty = AvaloniaProperty.Register<TreeViewer, int>(nameof(Scale));
-        public static AvaloniaProperty<IList<string>> RuleNamesProperty = AvaloniaProperty.Register<TreeViewer, IList<string>>(nameof(RuleNames));
-        public static AvaloniaProperty<bool> UseCurvedEdgesProperty = AvaloniaProperty.Register<TreeViewer, bool>(nameof(UseCurvedEdges));
-        public static AvaloniaProperty<ISolidColorBrush> BoxColorProperty = AvaloniaProperty.Register<TreeViewer, ISolidColorBrush>(nameof(BoxColor));
-        public static AvaloniaProperty<ISolidColorBrush> BorerColorProperty = AvaloniaProperty.Register<TreeViewer, ISolidColorBrush>(nameof(BorderColor));
-        public static AvaloniaProperty<ISolidColorBrush> TextColorProperty = AvaloniaProperty.Register<TreeViewer, ISolidColorBrush>(nameof(TextColor));
-        public static AvaloniaProperty<ITreeTextProvider> TreeTextProviderProperty = AvaloniaProperty.Register<TreeViewer, ITreeTextProvider>(nameof(TreeTextProvider));
-        public static AvaloniaProperty<Tree> TreeProperty = AvaloniaProperty.Register<TreeViewer, Tree>(nameof(Tree));
+        #region Avalonia Properties
+        public static readonly AvaloniaProperty<float> GapBetweenLevelsProperty = AvaloniaProperty.Register<TreeViewer, float>(nameof(GapBetweenLevels));
+        public static readonly AvaloniaProperty<float> GapBetweenNodesProperty = AvaloniaProperty.Register<TreeViewer, float>(nameof(GapBetweenNodes));
+        public static readonly AvaloniaProperty<int> NodeWidthPaddingProperty = AvaloniaProperty.Register<TreeViewer, int>(nameof(NodeWidthPadding));
+        public static readonly AvaloniaProperty<int> NodeHeightPaddingProperty = AvaloniaProperty.Register<TreeViewer, int>(nameof(NodeHeightPadding));
+        public static readonly AvaloniaProperty<int> ArcSizeProperty = AvaloniaProperty.Register<TreeViewer, int>(nameof(ArcSize));
+        public static readonly AvaloniaProperty<int> ScaleProperty = AvaloniaProperty.Register<TreeViewer, int>(nameof(Scale));
+        public static readonly AvaloniaProperty<IList<string>> RuleNamesProperty = AvaloniaProperty.Register<TreeViewer, IList<string>>(nameof(RuleNames));
+        public static readonly AvaloniaProperty<bool> UseCurvedEdgesProperty = AvaloniaProperty.Register<TreeViewer, bool>(nameof(UseCurvedEdges));
+        public static readonly AvaloniaProperty<ISolidColorBrush> BoxColorProperty = AvaloniaProperty.Register<TreeViewer, ISolidColorBrush>(nameof(BoxColor));
+        public static readonly AvaloniaProperty<ISolidColorBrush> BorderColorProperty = AvaloniaProperty.Register<TreeViewer, ISolidColorBrush>(nameof(BorderColor));
+        public static readonly AvaloniaProperty<ISolidColorBrush> HighlightedBoxColorProperty = AvaloniaProperty.Register<TreeViewer, ISolidColorBrush>(nameof(HighlightedBoxColor));
+        public static readonly AvaloniaProperty<Color> TextColorProperty = AvaloniaProperty.Register<TreeViewer, Color>(nameof(TextColor));
+        public static readonly AvaloniaProperty<ITreeTextProvider> TreeTextProviderProperty = AvaloniaProperty.Register<TreeViewer, ITreeTextProvider>(nameof(TreeTextProvider));
+        public static readonly AvaloniaProperty<Tree> TreeProperty = AvaloniaProperty.Register<TreeViewer, Tree>(nameof(Tree));
         #endregion
-        private Tree tree;
+        #endregion
         public Tree Tree
         {
-            get => tree;
+            get => GetValue(TreeProperty);
             set
             {
+                Console.WriteLine("TREE IS SETTING!!");
                 if (value != null)
                 {
                     TreeLayout =
@@ -57,62 +60,117 @@ namespace ANTLRStudio.Trees
                 {
                     TreeLayout = null;
                 }
-                tree = value;
+                SetValue(TreeProperty, value);
             }
         }
+
         public ITreeForTreeLayout<Tree> LayoutOfTree => TreeLayout.Tree;
         public TreeLayout<Tree> TreeLayout { get; private set; }
         protected List<Tree> highlightedNodes;
+
         [DefaultValue(17.0)]
-        public float GapBetweenLevels { get; set; }
+        public float GapBetweenLevels
+        {
+            get => GetValue(GapBetweenLevelsProperty);
+            set => SetValue(GapBetweenLevelsProperty, value);
+        }
         [DefaultValue(7.0)]
-        public float GapBetweenNodes { get; set; }
+        public float GapBetweenNodes
+        {
+            get => GetValue(GapBetweenNodesProperty);
+            set => SetValue(GapBetweenNodesProperty, value);
+        }
         [DefaultValue(2)]
-        public int NodeWidthPadding { get; set; } // added to left/right
+        // added to left/right
+        public int NodeWidthPadding
+        {
+            get => GetValue(NodeWidthPaddingProperty);
+            set => SetValue(NodeWidthPaddingProperty, value);
+        }
         [DefaultValue(0)]
-        public int NodeHeightPadding { get; set; } // added above/below
-        public int ArcSize { get; set; }           // make an arc in node outline?
-        private float scale = 1.0F;
+        // added above/below
+        public int NodeHeightPadding
+        {
+            get => GetValue(NodeHeightPaddingProperty);
+            set => SetValue(NodeHeightPaddingProperty, value);
+        }
+        // make an arc in node outline?
+        public int ArcSize
+        {
+            get => GetValue(ArcSizeProperty);
+            set => SetValue(ArcSizeProperty, value);
+        }
+
         [DefaultValue(1.0)]
         public float Scale
         {
-            get => scale;
+            get => GetValue(ScaleProperty);
             set
             {
                 if (value <= 0)
                 {
                     value = 1;
                 }
-                scale = value;
+                SetValue(ScaleProperty, value);
             }
         }
-        private IList<string> ruleNames;
         public IList<string> RuleNames
         {
-            get => ruleNames; set
+            get => GetValue(RuleNamesProperty);
+            set
             {
-
                 TreeTextProvider = new DefaultTreeTextProvider(value);
-                ruleNames = value;
+                SetValue(RuleNamesProperty, value);
             }
         }
-        public bool UseCurvedEdges { get; set; }
-        public ISolidColorBrush BoxColor { get; set; } = Brushes.Transparent;     // set to a color to make it draw background
-        public ISolidColorBrush HighlightedBoxColor { get; set; } = Brushes.LightGray;
-        public ISolidColorBrush BorderColor { get; set; } = Brushes.Black;
-        public Color TextColor { get; set; } = Colors.Black;
-        public ITreeTextProvider TreeTextProvider { get; set; }
-
-        public TreeViewer() { }
-
-        public TreeViewer(List<string> ruleNames, Tree tree)
+        public bool UseCurvedEdges
         {
-            RuleNames = ruleNames;
-            if (tree != null)
-            {
-                Tree = tree;
-            }
+            get => GetValue(UseCurvedEdgesProperty);
+            set => SetValue(UseCurvedEdgesProperty, value);
         }
+        // set to a color to make it draw background
+        public ISolidColorBrush BoxColor
+        {
+            get => GetValue(BoxColorProperty);
+            set => SetValue(BoxColorProperty, value);
+        }
+        public ISolidColorBrush HighlightedBoxColor
+        {
+            get => GetValue(HighlightedBoxColorProperty);
+            set => SetValue(HighlightedBoxColorProperty, value);
+        }
+        public ISolidColorBrush BorderColor
+        {
+            get => GetValue(BorderColorProperty);
+            set => SetValue(BorderColorProperty, value);
+        }
+        public Color TextColor
+        {
+            get => GetValue(TextColorProperty);
+            set => SetValue(TextColorProperty, value);
+        }
+        public ITreeTextProvider TreeTextProvider
+        {
+            get => GetValue(TreeTextProviderProperty);
+            set => SetValue(TreeTextProviderProperty, value);
+        }
+
+        public TreeViewer()
+        {
+            TextColor = Colors.Black;
+            BorderColor = Brushes.Black;
+            BoxColor = Brushes.Transparent;
+            HighlightedBoxColor = Brushes.LightGray;
+        }
+
+        //public TreeViewer(List<string> ruleNames, Tree tree)
+        //{
+        //    RuleNames = ruleNames;
+        //    if (tree != null)
+        //    {
+        //        Tree = tree;
+        //    }
+        //}
 
         // ---------------- PAINT -----------------------------------------------
 
@@ -162,7 +220,6 @@ namespace ANTLRStudio.Trees
                 g.DrawText(Brushes.Black, location, text);
             }
 
-
             var box = BoundsOfNode(tree);
             // draw the box in the background
             bool ruleFailedAndMatchedNothing = false;
@@ -181,16 +238,14 @@ namespace ANTLRStudio.Trees
             g.DrawRectangle(new Pen(BorderColor), new Rect(box.X, box.Y, box.Width - 1, box.Height - 1));
 
 
-            // draw the text on top of the box (possibly multiple lines)
-            string s = TreeTextProvider.Text(tree);
-            string[] lines = s.Split('\n');
             double x = box.X + ArcSize / 2 + NodeWidthPadding;
             //TODO FIX THIS WHEN AVALONIA GETS UPDATED
             //double y = box.BottomLeft.Y + font.Ascent + font.Leading + 1 + nodeHeightPadding;
             double y = box.BottomLeft.Y + this.FontSize + 1 + NodeWidthPadding;
-            for (int i = 0; i < lines.Length; i++)
+            // draw the text on top of the box (possibly multiple lines)
+            foreach (string line in TreeTextProvider.Text(tree).Split('\n'))
             {
-                Text(lines[i], new Point(x, y));
+                Text(line, new Point(x, y));
                 y += this.FontSize; //fontFamily.LineHeight;
             }
         }
@@ -199,6 +254,7 @@ namespace ANTLRStudio.Trees
         public override void Render(DrawingContext context)
         {
             base.Render(context);
+            Console.WriteLine(TreeLayout is null);
 
             if (TreeLayout == null)
             {
@@ -207,7 +263,7 @@ namespace ANTLRStudio.Trees
 
             context.FillRectangle(Brushes.White, new Rect(DesiredSize));
 
-            using (var transform = context.PushPreTransform(Matrix.CreateScale(scale, scale)))
+            using (var transform = context.PushPreTransform(Matrix.CreateScale(Scale, Scale)))
             {
                 PaintEdges(context, LayoutOfTree.Root);
 
@@ -219,7 +275,7 @@ namespace ANTLRStudio.Trees
             }
         }
 
-        private Rect ScaledTreeSize() => TreeLayout.Bounds.Inflate(scale);
+        private Rect ScaledTreeSize() => TreeLayout.Bounds.Inflate(Scale);
         protected Rect BoundsOfNode(Tree node) => TreeLayout.NodeBounds[node];
         protected string GetText(Tree tree)
         {

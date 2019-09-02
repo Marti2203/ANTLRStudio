@@ -27,15 +27,18 @@
                   Name="Editor"
                   Margin="30"
                   MaxHeight="400"
-                  SyntaxHighlighting="C#"
+                  SyntaxHighlighting="ANTLR4"
                   ShowLineNumbers="true"
                   HorizontalScrollBarVisibility="Auto"
                   VerticalScrollBarVisibility="Visible"
                   Background = "{Binding EditorBackground}"
                   Foreground = "{Binding EditorForeground}"
+                  Document = "{Binding EditorDocument}"
                   TextBlock.FontSize="16">
                 </AvalonEdit:TextEditor>
-                <Trees:TreeViewer/>
+                <Button Content="Test Trees"  Command="{Binding TestTrees}"/>
+                <Trees:TreeViewer RuleNames="{Binding RuleNames}" Tree="{Binding Tree}"/>
+                <ComboBox Name="Rules" SelectedItem="{Binding SelectedRule}" Items="{Binding RuleNames}" />
         </StackPanel>
     </DockPanel>
 </Window>

@@ -224,19 +224,18 @@ namespace AvaloniaEdit
         /// </summary>
         public string Text
         {
-            get
-            {
-                var document = Document;
-                return document != null ? document.Text : string.Empty;
-            }
+            get => Document?.Text ?? string.Empty;
             set
             {
+
                 var document = GetDocument();
+                var text = document.Text;
                 document.Text = value ?? string.Empty;
                 // after replacing the full text, the caret is positioned at the end of the document
                 // - reset it to the beginning.
                 CaretOffset = 0;
                 document.UndoStack.ClearAll();
+                RaisePropertyChanged(TextProperty, text, document.Text);
             }
         }
 
@@ -256,10 +255,7 @@ namespace AvaloniaEdit
         /// <summary>
         /// Raises the <see cref="TextChanged"/> event.
         /// </summary>
-        protected virtual void OnTextChanged(EventArgs e)
-        {
-            TextChanged?.Invoke(this, e);
-        }
+        protected virtual void OnTextChanged(EventArgs e) => TextChanged?.Invoke(this, e);
         #endregion
 
         #region TextArea / ScrollViewer properties
@@ -304,9 +300,7 @@ namespace AvaloniaEdit
         private IVisualLineTransformer _colorizer;
 
         private static void OnSyntaxHighlightingChanged(AvaloniaPropertyChangedEventArgs e)
-        {
-            (e.Sender as TextEditor)?.OnSyntaxHighlightingChanged(e.NewValue as IHighlightingDefinition);
-        }
+        => (e.Sender as TextEditor)?.OnSyntaxHighlightingChanged(e.NewValue as IHighlightingDefinition);
 
         private void OnSyntaxHighlightingChanged(IHighlightingDefinition newValue)
         {
@@ -390,12 +384,20 @@ namespace AvaloniaEdit
         }
         #endregion
 
+
+        #region Text
+
+        public static readonly AvaloniaProperty<string> TextProperty =
+            AvaloniaProperty.Register<TextEditor, string>(nameof(Text));
+
+        #endregion
+
         #region IsModified
         /// <summary>
         /// Dependency property for <see cref="IsModified"/>
         /// </summary>
         public static readonly AvaloniaProperty<bool> IsModifiedProperty =
-            AvaloniaProperty.Register<TextEditor, bool>("IsModified");
+            AvaloniaProperty.Register<TextEditor, bool>(nameof(IsModified));
 
         /// <summary>
         /// Gets/Sets the 'modified' flag.

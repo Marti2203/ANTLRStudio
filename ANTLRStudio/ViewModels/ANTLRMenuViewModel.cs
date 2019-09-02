@@ -9,7 +9,6 @@ using ReactiveUI;
 using System.Reactive;
 using ANTLRStudio.ANTLR;
 using ANTLRStudio.Models;
-
 namespace ANTLRStudio.ViewModels
 {
     public class ANTLRMenuViewModel : ViewModelBase
@@ -37,7 +36,6 @@ namespace ANTLRStudio.ViewModels
         public ReactiveCommand<Unit, Unit> ExitCommand { get; set; }
         public ReactiveCommand<CompilerOption, Unit> OptionClickedCommand { get; set; }
         public ReactiveCommand<(string, string), Unit> LanguageSelectedCommand { get; set; }
-        public ReactiveCommand<string, Unit> TestTreeCommand { get; set; }
         #endregion
 
         #region Static and Read Only Data
@@ -138,6 +136,7 @@ namespace ANTLRStudio.ViewModels
             this.RaisePropertyChanged(nameof(MenuItems));
         }
 
+
         public void OnGrammarOpened(GrammarOpenedEventArgs e)
         {
             MenuItems = new List<MenuItemViewModel>
@@ -146,13 +145,7 @@ namespace ANTLRStudio.ViewModels
                 OptionsMenu,
                 LanguagesMenu,
                 GenerateFromGrammarMenu,
-                //new MenuItemViewModel
-                //{
 
-                //    Header = "Test Trees",
-                //    Command = ,
-                //    CommandParameter = "...++",
-                //}
             }.AsReadOnly();
             this.RaisePropertyChanged(nameof(MenuItems));
         }
@@ -220,7 +213,7 @@ namespace ANTLRStudio.ViewModels
             };
 
 
-            MenuItems = new List<MenuItemViewModel>()
+            MenuItems = new List<MenuItemViewModel>
             {
                 GrammarMenu
             }.AsReadOnly();
