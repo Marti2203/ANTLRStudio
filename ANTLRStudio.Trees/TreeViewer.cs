@@ -55,6 +55,7 @@ namespace ANTLRStudio.Trees
                                              new VariableExtentProvide(this),
                                              new DefaultConfiguration<Tree>(GapBetweenLevels,
                                                                             GapBetweenNodes));
+                    this.InvalidateVisual();
                 }
                 else
                 {
@@ -74,6 +75,12 @@ namespace ANTLRStudio.Trees
             get => GetValue(GapBetweenLevelsProperty);
             set => SetValue(GapBetweenLevelsProperty, value);
         }
+
+        //protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs e)
+        //{
+        //    base.OnPropertyChanged(e);
+        //}
+
         [DefaultValue(7.0)]
         public float GapBetweenNodes
         {
@@ -161,6 +168,7 @@ namespace ANTLRStudio.Trees
             BorderColor = Brushes.Black;
             BoxColor = Brushes.Transparent;
             HighlightedBoxColor = Brushes.LightGray;
+            TreeProperty.Changed.Subscribe(e => { Tree = (e.NewValue as Tree); });
         }
 
         //public TreeViewer(List<string> ruleNames, Tree tree)
@@ -254,13 +262,14 @@ namespace ANTLRStudio.Trees
         public override void Render(DrawingContext context)
         {
             base.Render(context);
-            Console.WriteLine(TreeLayout is null);
 
+            Console.WriteLine(TreeLayout is null);
+            Console.WriteLine("TEST");
             if (TreeLayout == null)
             {
                 return;
             }
-
+            Console.WriteLine("RENDER TIME!");
             context.FillRectangle(Brushes.White, new Rect(DesiredSize));
 
             using (var transform = context.PushPreTransform(Matrix.CreateScale(Scale, Scale)))

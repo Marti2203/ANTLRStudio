@@ -38,7 +38,7 @@
                   TextBlock.FontSize="16">
                 </AvalonEdit:TextEditor>
                 <Button Content="Test Trees"  Command="{Binding TestTrees}"/>
-                <Trees:TreeViewer RuleNames="{Binding RuleNames}" Tree="{Binding Tree}"/>
+                <Trees:TreeViewer MaxHeight="200" Height="200" Width="400" MaxWidth="200"  RuleNames="{Binding RuleNames}" Tree="{Binding Tree}"/>
                 <ComboBox Name="Rules" SelectedItem="{Binding SelectedRule}" Items="{Binding RuleNames}" />
         </StackPanel>
     </DockPanel>
