@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
 using Avalonia.Controls.Primitives;
@@ -6,16 +7,17 @@ using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
 using Avalonia.Markup.Xaml.Templates;
 using Avalonia.Metadata;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 
 namespace ANTLRStudio.Diagram
 {
-    public class Diagram : ItemsPresenterBase, IItemsPresenter
+    public class Diagram : ItemsPresenterBase
     {
         public Diagram()
         {
-            
+
         }
 
         private void InitializeComponent()
@@ -23,10 +25,9 @@ namespace ANTLRStudio.Diagram
             AvaloniaXamlLoader.Load(this);
         }
 
-
         protected override void ItemsChanged(NotifyCollectionChangedEventArgs e)
         {
-            List<string> items = (List<string>)this.Items;
+            AvaloniaList<string> items = (AvaloniaList<string>)this.Items;
             ItemSync.ItemsChanged(this, items, e);
         }
     }

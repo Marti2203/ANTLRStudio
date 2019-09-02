@@ -20,6 +20,7 @@
       <Diagram:Diagram
         Items="{Binding TextContainers}">
       </Diagram:Diagram>
+      <Button Command="{Binding $parent[Window].DataContext.RemoveItem}">Remove</Button>
     <vs:ANTLRMenuView DockPanel.Dock="Top"/>
         <StackPanel>
                 <AvalonEdit:TextEditor

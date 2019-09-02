@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using ReactiveUI;
 using ANTLRStudio.Diagram;
+using Avalonia.Collections;
 
 namespace ANTLRStudio.ViewModels
 {
@@ -16,7 +17,12 @@ namespace ANTLRStudio.ViewModels
     {
         public ANTLRMenuViewModel MenuViewModel { get; private set; } = new ANTLRMenuViewModel();
 
-        public List<string> TextContainers { get; set; } = 
-            new List<string> { "ListItemblahblahblahblahblah", "Listy2", "ThisItem" };
+        public AvaloniaList<string> TextContainers { get; set; }
+            = new AvaloniaList<string> { "ListItemblahblahblahblahblah", "Listy2", "ThisItem" };
+
+        public void RemoveItem()
+        {
+            TextContainers.Add("New Item");
+        }
     }
 }
