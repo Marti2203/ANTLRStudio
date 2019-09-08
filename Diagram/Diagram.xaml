@@ -8,5 +8,10 @@
         <drawing:TextContainer Text="{Binding}"></drawing:TextContainer>
       </DataTemplate>
     </Setter>
+    <Setter Property="ItemsPanel">
+      <ItemsPanelTemplate>
+        <drawing:StructuredCanvas></drawing:StructuredCanvas>
+      </ItemsPanelTemplate>
+    </Setter>
   </Style>
 </Styles>
