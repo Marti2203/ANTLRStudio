@@ -71,7 +71,9 @@ namespace ANTLRStudio.ANTLR
 
         public static (Parser parser, Lexer lexer, Assembly resultingAssembly, CompilerErrorCollection errors) GenerateParserLexerInMemory(string filePath)
         {
+            Console.WriteLine(Directory.GetCurrentDirectory());
             var directory = GenerateTemporaryDirectory();
+            string generationDependenciesFolder = Path.Combine(Directory.GetCurrentDirectory(), "GenerationDependencies");
             string grammarName = Path.GetFileNameWithoutExtension(filePath);
             string resultName = Path.Combine(directory.FullName, $"{grammarName}.dll");
 
@@ -83,15 +85,14 @@ namespace ANTLRStudio.ANTLR
             };
 
             GenerateFiles(filePath, "CSharp", directoryOption);
-
+            
             string[] referenceAssemblies = {
-                // TODO MAKE THIS BETTER
                 "mscorlib.dll",
                 "System.dll",
                 "System.Core.dll",
-                Path.Combine(Path.GetDirectoryName(Data.CurrentWorkingDirectory), "packages/Antlr4.Runtime.Standard.4.7.2/lib/netstandard1.3/Antlr4.Runtime.Standard.dll"),
-                Path.Combine(Path.GetDirectoryName(Data.CurrentWorkingDirectory), "packages/","System.IO.dll"),
-                Path.Combine(Path.GetDirectoryName(Data.CurrentWorkingDirectory), "packages/", "System.Runtime.dll"),
+                Path.Combine(generationDependenciesFolder,"Antlr4.Runtime.Standard.dll"),
+                Path.Combine(generationDependenciesFolder,"System.IO.dll"),
+                Path.Combine(generationDependenciesFolder, "System.Runtime.dll"),
             };
 
             using (var compilerProcess = StartCSharpCompiler(grammarName, directory.FullName, referenceAssemblies))
@@ -127,7 +128,8 @@ namespace ANTLRStudio.ANTLR
                 //    generatedFile.Delete();
                 //directory.Delete();
 
-                File.Delete(Path.Combine(Path.GetDirectoryName(filePath), resultName));
+                /// WINDOWS DOES NOT LIKE A DLL TO BE DELETED
+                //directory.Delete(true);
                 var lexerClass = compiledAssembly
                                         .GetTypes()
                                         .First(t => t.IsSubclassOf(typeof(Lexer)));
