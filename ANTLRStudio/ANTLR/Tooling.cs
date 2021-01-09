@@ -101,8 +101,10 @@ namespace ANTLRStudio.ANTLR
                 string processOutput = compilerProcess.StandardOutput.ReadToEnd();
                 Console.WriteLine(processOutput);
                 var errors = processOutput.Split('\n');
+                CompilerErrorCollection compilerErrors =
+                    new CompilerErrorCollection(errors.Select(x => new CompilerError(null, 0, 0, null, x)).ToArray());
                 if (errors.Any(x => x.Contains("error", StringComparison.InvariantCultureIgnoreCase)))
-                    return (null, null, null, new CompilerErrorCollection());
+                    return (null, null, null, compilerErrors);
                 //using (var provider = new CSharpCodeProvider())
                 //{
 
@@ -140,7 +142,7 @@ namespace ANTLRStudio.ANTLR
                                          .First(t => t.IsSubclassOf(typeof(Parser)));
                 var parserInstance = parserClass.GetConstructor(new[] { typeof(ITokenStream) })
                                                 .Invoke(new object[] { null }) as Parser;
-                return (parserInstance, lexerInstance, compiledAssembly, new CompilerErrorCollection());
+                return (parserInstance, lexerInstance, compiledAssembly, compilerErrors);
             }
 
         }
